@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
-import FrontendLayout from '../../../layouts/frontend-layout';
+import { Home as HomeIcon, RotateCcw, Search, SlidersHorizontal } from 'lucide-react';
+import React, { useState } from 'react';
 import FlatCard, { FlatType } from '../../../components/flat-card';
 import TourBookingModal from '../../../components/tour-booking-modal';
-import { 
-    Search, 
-    SlidersHorizontal, 
-    RotateCcw, 
-    Home as HomeIcon, 
-    Check, 
-    ArrowUpDown,
-    ChevronLeft,
-    ChevronRight
-} from 'lucide-react';
+import FrontendLayout from '../../../layouts/frontend-layout';
 
 interface PaginationLink {
     url: string | null;
@@ -57,17 +48,21 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
 
     const handleApplyFilters = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/flats', {
-            search,
-            bedrooms,
-            floor,
-            min_rent: minRent,
-            max_rent: maxRent,
-            sort,
-        }, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            '/flats',
+            {
+                search,
+                bedrooms,
+                floor,
+                min_rent: minRent,
+                max_rent: maxRent,
+                sort,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleReset = () => {
@@ -90,32 +85,32 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
             <Head title="Available Rental Flats & Apartments - Skyline Heights" />
 
             {/* Header Banner */}
-            <div className="bg-slate-900 border-b border-slate-800 py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-8">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="border-b border-slate-800 bg-slate-900 py-12">
+                <div className="mx-auto max-w-7xl px-4 sm:px-8">
+                    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                         <div>
-                            <div className="flex items-center gap-2 text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-2">
-                                <Link href="/" className="hover:underline text-slate-400">Home</Link>
+                            <div className="mb-2 flex items-center gap-2 text-xs font-semibold tracking-wider text-emerald-400 uppercase">
+                                <Link href="/" className="text-slate-400 hover:underline">
+                                    Home
+                                </Link>
                                 <span className="text-slate-600">/</span>
                                 <span>Flats Catalog</span>
                             </div>
-                            <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                                Available Rental Flats & Penthouses
-                            </h1>
-                            <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                            <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl">Available Rental Flats & Penthouses</h1>
+                            <p className="mt-1 text-xs text-slate-400 sm:text-sm">
                                 Showing verified vacant units ready for leasing in Banani, Dhaka.
                             </p>
                         </div>
 
-                        <div className="px-4 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 flex items-center gap-3">
+                        <div className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-950/80 px-4 py-2.5 text-xs text-slate-300">
                             <div>
-                                <span className="text-slate-500 block text-[10px] uppercase">Available Now</span>
-                                <strong className="text-emerald-400 font-bold text-sm">{flats.total} Units</strong>
+                                <span className="block text-[10px] text-slate-500 uppercase">Available Now</span>
+                                <strong className="text-sm font-bold text-emerald-400">{flats.total} Units</strong>
                             </div>
-                            <div className="w-px h-8 bg-slate-800" />
+                            <div className="h-8 w-px bg-slate-800" />
                             <div>
-                                <span className="text-slate-500 block text-[10px] uppercase">Rent Range</span>
-                                <strong className="text-white font-semibold text-xs">
+                                <span className="block text-[10px] text-slate-500 uppercase">Rent Range</span>
+                                <strong className="text-xs font-semibold text-white">
                                     ৳{Number(stats.min_rent).toLocaleString()} – ৳{Number(stats.max_rent).toLocaleString()}
                                 </strong>
                             </div>
@@ -125,22 +120,22 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
             </div>
 
             {/* Main Content: Filters + Listing Grid */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-8">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
                     {/* Filters Sidebar */}
                     <div className="lg:col-span-3">
-                        <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 sticky top-28 space-y-6">
-                            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+                        <div className="sticky top-28 space-y-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                                 <div className="flex items-center gap-2 text-sm font-bold text-white">
-                                    <SlidersHorizontal className="w-4 h-4 text-emerald-400" />
+                                    <SlidersHorizontal className="h-4 w-4 text-emerald-400" />
                                     <span>Filter Properties</span>
                                 </div>
                                 <button
                                     onClick={handleReset}
-                                    className="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+                                    className="flex cursor-pointer items-center gap-1 text-xs text-slate-400 transition-colors hover:text-white"
                                     title="Reset all filters"
                                 >
-                                    <RotateCcw className="w-3 h-3" />
+                                    <RotateCcw className="h-3 w-3" />
                                     <span>Reset</span>
                                 </button>
                             </div>
@@ -148,36 +143,32 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
                             <form onSubmit={handleApplyFilters} className="space-y-5">
                                 {/* Keyword search */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                                        Search by Keyword
-                                    </label>
+                                    <label className="mb-1.5 block text-xs font-semibold text-slate-300">Search by Keyword</label>
                                     <div className="relative">
                                         <input
                                             type="text"
                                             value={search}
                                             onChange={(e) => setSearch(e.target.value)}
                                             placeholder="Unit no, floor, features..."
-                                            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-emerald-500"
+                                            className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2.5 pr-3 pl-9 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                                         />
-                                        <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+                                        <Search className="absolute top-3 left-3 h-4 w-4 text-slate-500" />
                                     </div>
                                 </div>
 
                                 {/* Bedrooms */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                                        Bedrooms
-                                    </label>
+                                    <label className="mb-1.5 block text-xs font-semibold text-slate-300">Bedrooms</label>
                                     <div className="grid grid-cols-4 gap-1.5">
                                         {['', '2', '3', '4'].map((val) => (
                                             <button
                                                 key={val}
                                                 type="button"
                                                 onClick={() => setBedrooms(val)}
-                                                className={`py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                                                className={`cursor-pointer rounded-lg border py-2 text-xs font-semibold transition-all ${
                                                     bedrooms === val
-                                                        ? 'bg-emerald-600 border-emerald-500 text-white'
-                                                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                                                        ? 'border-emerald-500 bg-emerald-600 text-white'
+                                                        : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
                                                 }`}
                                             >
                                                 {val === '' ? 'All' : `${val} BHK`}
@@ -188,13 +179,11 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
 
                                 {/* Floor */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                                        Floor
-                                    </label>
+                                    <label className="mb-1.5 block text-xs font-semibold text-slate-300">Floor</label>
                                     <select
                                         value={floor}
                                         onChange={(e) => setFloor(e.target.value)}
-                                        className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-emerald-500"
+                                        className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-xs text-white focus:border-emerald-500 focus:outline-none"
                                     >
                                         <option value="">Any Floor Level</option>
                                         <option value="1st">1st Floor</option>
@@ -207,9 +196,7 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
 
                                 {/* Budget Range */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                                        Monthly Budget (BDT)
-                                    </label>
+                                    <label className="mb-1.5 block text-xs font-semibold text-slate-300">Monthly Budget (BDT)</label>
                                     <div className="grid grid-cols-2 gap-2">
                                         <input
                                             type="number"
@@ -217,7 +204,7 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
                                             value={minRent}
                                             onChange={(e) => setMinRent(e.target.value)}
                                             placeholder="Min ৳"
-                                            className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-emerald-500"
+                                            className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                                         />
                                         <input
                                             type="number"
@@ -225,20 +212,18 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
                                             value={maxRent}
                                             onChange={(e) => setMaxRent(e.target.value)}
                                             placeholder="Max ৳"
-                                            className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-emerald-500"
+                                            className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Sorting */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                                        Sort By
-                                    </label>
+                                    <label className="mb-1.5 block text-xs font-semibold text-slate-300">Sort By</label>
                                     <select
                                         value={sort}
                                         onChange={(e) => setSort(e.target.value)}
-                                        className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-emerald-500"
+                                        className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-xs text-white focus:border-emerald-500 focus:outline-none"
                                     >
                                         <option value="latest">Latest Added</option>
                                         <option value="price_asc">Price: Low to High</option>
@@ -249,7 +234,7 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
 
                                 <button
                                     type="submit"
-                                    className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+                                    className="w-full cursor-pointer rounded-xl bg-emerald-600 py-3 text-xs font-bold text-white shadow-md transition-all hover:bg-emerald-500"
                                 >
                                     Apply Filter Criteria
                                 </button>
@@ -258,28 +243,21 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
                     </div>
 
                     {/* Listing Column */}
-                    <div className="lg:col-span-9 space-y-8">
+                    <div className="space-y-8 lg:col-span-9">
                         {flats.data.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                                 {flats.data.map((flat) => (
-                                    <FlatCard
-                                        key={flat.id}
-                                        flat={flat}
-                                        onBookTour={handleOpenBooking}
-                                    />
+                                    <FlatCard key={flat.id} flat={flat} onBookTour={handleOpenBooking} />
                                 ))}
                             </div>
                         ) : (
-                            <div className="py-20 text-center bg-slate-900/60 rounded-3xl border border-slate-800 p-8">
-                                <HomeIcon className="w-14 h-14 text-slate-600 mx-auto mb-3" />
-                                <h3 className="text-xl font-bold text-white mb-2">No Matching Flats Found</h3>
-                                <p className="text-xs text-slate-400 max-w-sm mx-auto mb-6">
+                            <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 py-20 text-center">
+                                <HomeIcon className="mx-auto mb-3 h-14 w-14 text-slate-600" />
+                                <h3 className="mb-2 text-xl font-bold text-white">No Matching Flats Found</h3>
+                                <p className="mx-auto mb-6 max-w-sm text-xs text-slate-400">
                                     Try loosening your search filters or budget range to see more available apartments in the building.
                                 </p>
-                                <button
-                                    onClick={handleReset}
-                                    className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-semibold"
-                                >
+                                <button onClick={handleReset} className="rounded-xl bg-emerald-600 px-6 py-2.5 text-xs font-semibold text-white">
                                     Reset All Filters
                                 </button>
                             </div>
@@ -287,14 +265,14 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
 
                         {/* Pagination */}
                         {flats.links && flats.links.length > 3 && (
-                            <div className="flex items-center justify-center gap-1.5 pt-6 border-t border-slate-800">
+                            <div className="flex items-center justify-center gap-1.5 border-t border-slate-800 pt-6">
                                 {flats.links.map((link, idx) => {
                                     if (!link.url) {
                                         return (
                                             <span
                                                 key={idx}
                                                 dangerouslySetInnerHTML={{ __html: link.label }}
-                                                className="px-3.5 py-2 rounded-xl text-xs text-slate-600 border border-slate-800/60 pointer-events-none"
+                                                className="pointer-events-none rounded-xl border border-slate-800/60 px-3.5 py-2 text-xs text-slate-600"
                                             />
                                         );
                                     }
@@ -303,10 +281,10 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
                                             key={idx}
                                             href={link.url}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
-                                            className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
+                                            className={`rounded-xl border px-3.5 py-2 text-xs font-semibold transition-all ${
                                                 link.active
-                                                    ? 'bg-emerald-600 border-emerald-500 text-white shadow-sm'
-                                                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                                                    ? 'border-emerald-500 bg-emerald-600 text-white shadow-sm'
+                                                    : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white'
                                             }`}
                                         />
                                     );
@@ -317,11 +295,7 @@ export default function FlatsIndex({ flats, filters, stats }: Props) {
                 </div>
             </div>
 
-            <TourBookingModal
-                isOpen={isBookingModalOpen}
-                onClose={() => setIsBookingModalOpen(false)}
-                flat={selectedFlat}
-            />
+            <TourBookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} flat={selectedFlat} />
         </FrontendLayout>
     );
 }

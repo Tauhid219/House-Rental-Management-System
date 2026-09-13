@@ -1,8 +1,8 @@
-import React from 'react';
-import { Head, Link, useForm, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import { Coins, ArrowLeft, Save, FileText, ExternalLink } from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router, useForm } from '@inertiajs/react';
+import { ArrowLeft, Coins, ExternalLink, FileText, Save } from 'lucide-react';
+import React from 'react';
 
 interface Expense {
     id: number;
@@ -46,7 +46,7 @@ export default function ExpenseEdit({ expense }: Props) {
         <AdminLayout title="Edit Operational Expense" breadcrumbs={breadcrumbs}>
             <Head title={`Edit Expense: ${expense.title} - AdminLTE Management`} />
 
-            <div className="max-w-3xl mx-auto">
+            <div className="mx-auto max-w-3xl">
                 <div className="mb-4">
                     <Link
                         href="/admin/expenses"
@@ -61,13 +61,13 @@ export default function ExpenseEdit({ expense }: Props) {
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Expense Category <span className="text-rose-500">*</span>
                                 </label>
                                 <select
                                     required
                                     value={data.category}
-                                    onChange={(e) => setData('category', e.target.value as any)}
+                                    onChange={(e) => setData('category', e.target.value as 'utility' | 'salary' | 'maintenance' | 'tax' | 'others')}
                                     className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                                 >
                                     <option value="utility">Utility (Electricity, Gas, Fuel)</option>
@@ -80,7 +80,7 @@ export default function ExpenseEdit({ expense }: Props) {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Expense Date <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -96,7 +96,7 @@ export default function ExpenseEdit({ expense }: Props) {
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                             <div className="sm:col-span-2">
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Expense Title / Particulars <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -110,7 +110,7 @@ export default function ExpenseEdit({ expense }: Props) {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Amount (BDT) <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -127,7 +127,7 @@ export default function ExpenseEdit({ expense }: Props) {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                            <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                 Replace Receipt / Voucher Document
                             </label>
                             {expense.voucher_path && (
@@ -149,25 +149,25 @@ export default function ExpenseEdit({ expense }: Props) {
                                 type="file"
                                 accept=".jpg,.jpeg,.png,.pdf"
                                 onChange={(e) => setData('voucher_file', e.target.files ? e.target.files[0] : null)}
-                                className="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 dark:file:bg-slate-800 dark:file:text-slate-300"
+                                className="w-full text-xs text-slate-500 file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-slate-700 hover:file:bg-slate-200 dark:file:bg-slate-800 dark:file:text-slate-300"
                             />
                             {errors.voucher_file && <p className="mt-1 text-xs text-rose-500">{errors.voucher_file}</p>}
                         </div>
 
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                            <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                 Notes / Vendor Details
                             </label>
                             <textarea
                                 rows={3}
                                 value={data.notes}
                                 onChange={(e) => setData('notes', e.target.value)}
-                                className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 resize-none"
+                                className="w-full resize-none rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                             />
                             {errors.notes && <p className="mt-1 text-xs text-rose-500">{errors.notes}</p>}
                         </div>
 
-                        <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end gap-3">
+                        <div className="flex items-center justify-end gap-3 border-t border-slate-200 pt-4 dark:border-slate-800">
                             <Link
                                 href="/admin/expenses"
                                 className="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -177,7 +177,7 @@ export default function ExpenseEdit({ expense }: Props) {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm disabled:opacity-50"
+                                className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
                             >
                                 <Save size={14} />
                                 <span>{processing ? 'Saving...' : 'Save Changes'}</span>

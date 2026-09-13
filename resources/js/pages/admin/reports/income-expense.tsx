@@ -1,24 +1,9 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
 import AdminSmallBox from '@/components/admin/admin-small-box';
-import { 
-    BarChart3, 
-    ArrowLeft, 
-    Printer, 
-    Download, 
-    TrendingUp, 
-    TrendingDown, 
-    Coins, 
-    CreditCard, 
-    Calendar,
-    Users,
-    Zap,
-    Wrench,
-    Building2,
-    Shield
-} from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router } from '@inertiajs/react';
+import { ArrowLeft, BarChart3, Calendar, Coins, Download, Printer, TrendingDown, TrendingUp } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface MonthlyTrendItem {
     month: string;
@@ -51,13 +36,17 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
 
     const handleFilter = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/admin/reports/income-expense', {
-            start_date: startDate,
-            end_date: endDate,
-        }, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            '/admin/reports/income-expense',
+            {
+                start_date: startDate,
+                end_date: endDate,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleQuickPreset = (type: 'this_year' | 'this_month' | 'last_month') => {
@@ -110,9 +99,7 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
         document.body.removeChild(link);
     };
 
-    const expenseRatio = summary.total_income > 0
-        ? ((summary.total_expenses / summary.total_income) * 100).toFixed(1)
-        : '0.0';
+    const expenseRatio = summary.total_income > 0 ? ((summary.total_expenses / summary.total_income) * 100).toFixed(1) : '0.0';
 
     const breadcrumbs = [
         { title: 'Dashboard', href: '/dashboard' },
@@ -125,7 +112,7 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
             <Head title="Income vs. Expense Statement - Skyline Heights" />
 
             {/* Top Toolbar (Hidden on print) */}
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
+            <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center print:hidden">
                 <Link
                     href="/admin/reports"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
@@ -138,7 +125,7 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                     <button
                         type="button"
                         onClick={handleExportCSV}
-                        className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                        className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                     >
                         <Download size={13} />
                         <span>Export CSV</span>
@@ -146,7 +133,7 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                     <button
                         type="button"
                         onClick={() => window.print()}
-                        className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm"
+                        className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-blue-700"
                     >
                         <Printer size={13} />
                         <span>Print Statement</span>
@@ -155,22 +142,17 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
             </div>
 
             {/* Printable Statement Header */}
-            <div className="hidden print:block mb-6 border-b border-slate-300 pb-4 text-center">
+            <div className="mb-6 hidden border-b border-slate-300 pb-4 text-center print:block">
                 <h2 className="text-xl font-black text-slate-900">SKYLINE HEIGHTS RESIDENCY</h2>
                 <p className="text-xs text-slate-600">House 42, Road 11, Block D, Banani, Dhaka-1213 · Property Accounts Office</p>
-                <h3 className="text-sm font-bold text-blue-800 mt-2 uppercase tracking-wide">
+                <h3 className="mt-2 text-sm font-bold tracking-wide text-blue-800 uppercase">
                     Income vs. Operating Expenses Statement ({startDate} to {endDate})
                 </h3>
             </div>
 
             {/* Metrics Row */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
-                <AdminSmallBox
-                    variant="success"
-                    value={`৳ ${summary.total_income.toLocaleString()}`}
-                    label="Gross Rent Inflows"
-                    icon={TrendingUp}
-                />
+            <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <AdminSmallBox variant="success" value={`৳ ${summary.total_income.toLocaleString()}`} label="Gross Rent Inflows" icon={TrendingUp} />
                 <AdminSmallBox
                     variant="danger"
                     value={`৳ ${summary.total_expenses.toLocaleString()}`}
@@ -183,19 +165,14 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                     label="Net Operating Cash Flow"
                     icon={Coins}
                 />
-                <AdminSmallBox
-                    variant="primary"
-                    value={`${expenseRatio}%`}
-                    label="Expense-to-Income Ratio"
-                    icon={BarChart3}
-                />
+                <AdminSmallBox variant="primary" value={`${expenseRatio}%`} label="Expense-to-Income Ratio" icon={BarChart3} />
             </div>
 
             {/* Filters Bar (Hidden on print) */}
-            <div className="mb-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm print:hidden">
-                <form onSubmit={handleFilter} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+            <div className="mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 print:hidden">
+                <form onSubmit={handleFilter} className="grid grid-cols-1 items-end gap-3 sm:grid-cols-12">
                     <div className="sm:col-span-5">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
+                        <label className="mb-1 block text-xs font-bold tracking-wider text-slate-600 uppercase dark:text-slate-400">
                             Accounting Start Date
                         </label>
                         <input
@@ -207,7 +184,7 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                     </div>
 
                     <div className="sm:col-span-5">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
+                        <label className="mb-1 block text-xs font-bold tracking-wider text-slate-600 uppercase dark:text-slate-400">
                             Accounting End Date
                         </label>
                         <input
@@ -221,7 +198,7 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                     <div className="sm:col-span-2">
                         <button
                             type="submit"
-                            className="w-full rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm"
+                            className="w-full rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700"
                         >
                             Filter Statement
                         </button>
@@ -229,26 +206,26 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                 </form>
 
                 {/* Quick Presets */}
-                <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 text-xs text-slate-500">
+                <div className="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-slate-800">
                     <span>Quick Range:</span>
                     <button
                         type="button"
                         onClick={() => handleQuickPreset('this_year')}
-                        className="rounded bg-slate-100 px-2 py-0.5 font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px]"
+                        className="rounded bg-slate-100 px-2 py-0.5 text-[11px] font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                     >
                         Current Fiscal Year
                     </button>
                     <button
                         type="button"
                         onClick={() => handleQuickPreset('this_month')}
-                        className="rounded bg-slate-100 px-2 py-0.5 font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px]"
+                        className="rounded bg-slate-100 px-2 py-0.5 text-[11px] font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                     >
                         This Month
                     </button>
                     <button
                         type="button"
                         onClick={() => handleQuickPreset('last_month')}
-                        className="rounded bg-slate-100 px-2 py-0.5 font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px]"
+                        className="rounded bg-slate-100 px-2 py-0.5 text-[11px] font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                     >
                         Last Month
                     </button>
@@ -256,11 +233,11 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
             </div>
 
             {/* Income & Expense Breakdown Table */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+            <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-12">
                 <div className="lg:col-span-7">
                     <AdminCard title={`Categorized Financial Statement (${startDate} to ${endDate})`} icon={BarChart3}>
                         <table className="w-full text-left text-xs">
-                            <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                            <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold tracking-wider text-slate-600 uppercase dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
                                 <tr>
                                     <th className="px-4 py-3">Account Particulars</th>
                                     <th className="px-4 py-3 text-right">Amount (BDT)</th>
@@ -268,79 +245,55 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                             </thead>
                             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                                 {/* Income Header */}
-                                <tr className="bg-emerald-50/50 dark:bg-emerald-950/20 font-bold">
-                                    <td className="px-4 py-2.5 text-emerald-800 dark:text-emerald-300">
-                                        A. OPERATING REVENUE (INCOME)
-                                    </td>
+                                <tr className="bg-emerald-50/50 font-bold dark:bg-emerald-950/20">
+                                    <td className="px-4 py-2.5 text-emerald-800 dark:text-emerald-300">A. OPERATING REVENUE (INCOME)</td>
                                     <td className="px-4 py-2.5 text-right text-emerald-700 dark:text-emerald-400">
                                         ৳ {summary.total_income.toLocaleString()}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">
-                                        Residential Apartment Rents Collected
-                                    </td>
-                                    <td className="px-4 py-2 text-right font-medium">
-                                        ৳ {summary.total_income.toLocaleString()}
-                                    </td>
+                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">Residential Apartment Rents Collected</td>
+                                    <td className="px-4 py-2 text-right font-medium">৳ {summary.total_income.toLocaleString()}</td>
                                 </tr>
 
                                 {/* Expense Header */}
-                                <tr className="bg-rose-50/50 dark:bg-rose-950/20 font-bold">
-                                    <td className="px-4 py-2.5 text-rose-800 dark:text-rose-300">
-                                        B. OPERATIONAL EXPENDITURES (OVERHEADS)
-                                    </td>
+                                <tr className="bg-rose-50/50 font-bold dark:bg-rose-950/20">
+                                    <td className="px-4 py-2.5 text-rose-800 dark:text-rose-300">B. OPERATIONAL EXPENDITURES (OVERHEADS)</td>
                                     <td className="px-4 py-2.5 text-right text-rose-700 dark:text-rose-400">
                                         ৳ {summary.total_expenses.toLocaleString()}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">
-                                        Staff Salaries (Guards, Cleaners, Caretaker)
-                                    </td>
-                                    <td className="px-4 py-2 text-right font-medium">
-                                        ৳ {summary.salary.toLocaleString()}
-                                    </td>
+                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">Staff Salaries (Guards, Cleaners, Caretaker)</td>
+                                    <td className="px-4 py-2 text-right font-medium">৳ {summary.salary.toLocaleString()}</td>
                                 </tr>
                                 <tr>
                                     <td className="px-8 py-2 text-slate-600 dark:text-slate-300">
                                         Common Utilities (Electricity & Generator Diesel)
                                     </td>
-                                    <td className="px-4 py-2 text-right font-medium">
-                                        ৳ {summary.utility.toLocaleString()}
-                                    </td>
+                                    <td className="px-4 py-2 text-right font-medium">৳ {summary.utility.toLocaleString()}</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">
-                                        Building Repairs & Unit Maintenance
-                                    </td>
-                                    <td className="px-4 py-2 text-right font-medium">
-                                        ৳ {summary.maintenance.toLocaleString()}
-                                    </td>
+                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">Building Repairs & Unit Maintenance</td>
+                                    <td className="px-4 py-2 text-right font-medium">৳ {summary.maintenance.toLocaleString()}</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">
-                                        Taxes, Municipal Fees & Levies
-                                    </td>
-                                    <td className="px-4 py-2 text-right font-medium">
-                                        ৳ {summary.tax.toLocaleString()}
-                                    </td>
+                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">Taxes, Municipal Fees & Levies</td>
+                                    <td className="px-4 py-2 text-right font-medium">৳ {summary.tax.toLocaleString()}</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">
-                                        Other Building Expenses (Pest Control, Hardware)
-                                    </td>
-                                    <td className="px-4 py-2 text-right font-medium">
-                                        ৳ {summary.others.toLocaleString()}
-                                    </td>
+                                    <td className="px-8 py-2 text-slate-600 dark:text-slate-300">Other Building Expenses (Pest Control, Hardware)</td>
+                                    <td className="px-4 py-2 text-right font-medium">৳ {summary.others.toLocaleString()}</td>
                                 </tr>
                             </tbody>
-                            <tfoot className="border-t-2 border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 font-bold text-sm">
+                            <tfoot className="border-t-2 border-slate-300 bg-slate-100 text-sm font-bold dark:border-slate-700 dark:bg-slate-900">
                                 <tr>
-                                    <td className="px-4 py-3 uppercase tracking-wider text-slate-900 dark:text-white">
+                                    <td className="px-4 py-3 tracking-wider text-slate-900 uppercase dark:text-white">
                                         NET OPERATING CASH FLOW (A - B):
                                     </td>
-                                    <td className={`px-4 py-3 text-right font-black ${summary.net_income >= 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'}`}>
+                                    <td
+                                        className={`px-4 py-3 text-right font-black ${summary.net_income >= 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'}`}
+                                    >
                                         ৳ {summary.net_income.toLocaleString()}
                                     </td>
                                 </tr>
@@ -359,10 +312,15 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                                 const expWidth = Math.min(100, Math.round((m.expense / maxVal) * 100));
 
                                 return (
-                                    <div key={idx} className="p-3 rounded-lg border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/40 text-xs">
-                                        <div className="flex items-center justify-between mb-1.5">
+                                    <div
+                                        key={idx}
+                                        className="rounded-lg border border-slate-100 bg-slate-50/50 p-3 text-xs dark:border-slate-800 dark:bg-slate-950/40"
+                                    >
+                                        <div className="mb-1.5 flex items-center justify-between">
                                             <span className="font-bold text-slate-900 dark:text-white">{m.month}</span>
-                                            <span className={`font-mono font-bold ${m.net >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                                            <span
+                                                className={`font-mono font-bold ${m.net >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}
+                                            >
                                                 Net: ৳{m.net.toLocaleString()}
                                             </span>
                                         </div>
@@ -371,11 +329,8 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                                             {/* Income bar */}
                                             <div className="flex items-center gap-2">
                                                 <span className="w-12 text-[10px] text-slate-400">In:</span>
-                                                <div className="flex-1 bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                                                    <div
-                                                        className="bg-emerald-500 h-full rounded-full"
-                                                        style={{ width: `${incWidth}%` }}
-                                                    />
+                                                <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+                                                    <div className="h-full rounded-full bg-emerald-500" style={{ width: `${incWidth}%` }} />
                                                 </div>
                                                 <span className="w-16 text-right font-mono text-[10px] text-slate-700 dark:text-slate-300">
                                                     ৳{m.income > 0 ? (m.income / 1000).toFixed(0) + 'k' : '0'}
@@ -385,11 +340,8 @@ export default function ReportIncomeExpense({ filters, summary, monthlyTrend }: 
                                             {/* Expense bar */}
                                             <div className="flex items-center gap-2">
                                                 <span className="w-12 text-[10px] text-slate-400">Out:</span>
-                                                <div className="flex-1 bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-                                                    <div
-                                                        className="bg-rose-500 h-full rounded-full"
-                                                        style={{ width: `${expWidth}%` }}
-                                                    />
+                                                <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+                                                    <div className="h-full rounded-full bg-rose-500" style={{ width: `${expWidth}%` }} />
                                                 </div>
                                                 <span className="w-16 text-right font-mono text-[10px] text-slate-700 dark:text-slate-300">
                                                     ৳{m.expense > 0 ? (m.expense / 1000).toFixed(0) + 'k' : '0'}

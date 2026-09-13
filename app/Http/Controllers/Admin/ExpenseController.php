@@ -71,7 +71,7 @@ class ExpenseController extends Controller
 
         if ($request->hasFile('voucher_file')) {
             $path = $request->file('voucher_file')->store('vouchers', 'public');
-            $data['voucher_path'] = '/storage/' . $path;
+            $data['voucher_path'] = '/storage/'.$path;
         }
 
         unset($data['voucher_file']);
@@ -101,7 +101,7 @@ class ExpenseController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('voucher_file')->store('vouchers', 'public');
-            $data['voucher_path'] = '/storage/' . $path;
+            $data['voucher_path'] = '/storage/'.$path;
         }
 
         unset($data['voucher_file']);

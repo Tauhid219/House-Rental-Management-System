@@ -1,24 +1,9 @@
-import React from 'react';
-import { Head, Link } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
-import AdminSmallBox from '@/components/admin/admin-small-box';
 import AdminCard from '@/components/admin/admin-card';
-import {
-    Building2,
-    Users,
-    Key,
-    DollarSign,
-    Mail,
-    PlusCircle,
-    ArrowUpRight,
-    CheckCircle2,
-    Clock,
-    AlertCircle,
-    Layers,
-    PhoneCall,
-    ExternalLink
-} from 'lucide-react';
+import AdminSmallBox from '@/components/admin/admin-small-box';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link } from '@inertiajs/react';
+import { Building2, Clock, ExternalLink, Key, Layers, Mail, PlusCircle, Users } from 'lucide-react';
 
 interface LeaseItem {
     id: number;
@@ -122,21 +107,21 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
             <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Link
                     href="/admin/flats/create"
-                    className="inline-flex items-center gap-2 rounded bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center gap-2 rounded bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
                 >
                     <PlusCircle size={15} />
                     <span>Add New Flat Unit</span>
                 </Link>
                 <Link
                     href="/admin/tenants/create"
-                    className="inline-flex items-center gap-2 rounded bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors"
+                    className="inline-flex items-center gap-2 rounded bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
                 >
                     <Users size={15} />
                     <span>Register New Tenant</span>
                 </Link>
                 <Link
                     href="/admin/leases/create"
-                    className="inline-flex items-center gap-2 rounded bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700 transition-colors"
+                    className="inline-flex items-center gap-2 rounded bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700"
                 >
                     <Key size={15} />
                     <span>Create Lease Agreement</span>
@@ -144,7 +129,7 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                 <Link
                     href="/flats"
                     target="_blank"
-                    className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                    className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
                     <ExternalLink size={15} />
                     <span>View Public Showcase</span>
@@ -164,10 +149,7 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                             </div>
                         }
                         tools={
-                            <Link
-                                href="/admin/leases"
-                                className="text-xs font-semibold text-blue-600 hover:underline"
-                            >
+                            <Link href="/admin/leases" className="text-xs font-semibold text-blue-600 hover:underline">
                                 View All Leases &rarr;
                             </Link>
                         }
@@ -176,7 +158,7 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                     >
                         <div className="overflow-x-auto">
                             <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-                                <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold text-slate-500 uppercase tracking-wider dark:border-slate-800 dark:bg-slate-800/60">
+                                <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60">
                                     <tr>
                                         <th className="px-5 py-3">Flat Unit</th>
                                         <th className="px-5 py-3">Resident / Tenant</th>
@@ -197,27 +179,21 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                                             <tr key={lease.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                                                 <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-slate-100">
                                                     Flat {lease.flat?.flat_number || 'N/A'}
-                                                    <span className="block text-[11px] font-normal text-slate-400">
-                                                        {lease.flat?.floor}
-                                                    </span>
+                                                    <span className="block text-[11px] font-normal text-slate-400">{lease.flat?.floor}</span>
                                                 </td>
                                                 <td className="px-5 py-3.5">
                                                     <span className="font-medium text-slate-800 dark:text-slate-200">
                                                         {lease.tenant?.name || 'Unassigned'}
                                                     </span>
-                                                    <span className="block text-[11px] text-slate-400">
-                                                        {lease.tenant?.phone}
-                                                    </span>
+                                                    <span className="block text-[11px] text-slate-400">{lease.tenant?.phone}</span>
                                                 </td>
                                                 <td className="px-5 py-3.5 font-bold text-slate-800 dark:text-slate-200">
                                                     ৳{Number(lease.agreed_monthly_rent).toLocaleString()}
                                                 </td>
-                                                <td className="px-5 py-3.5 text-slate-500 dark:text-slate-400">
-                                                    {lease.start_date}
-                                                </td>
+                                                <td className="px-5 py-3.5 text-slate-500 dark:text-slate-400">{lease.start_date}</td>
                                                 <td className="px-5 py-3.5 text-right">
                                                     <span
-                                                        className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                                                        className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
                                                             lease.status === 'active'
                                                                 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                                                                 : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
@@ -250,18 +226,12 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                                     key={idx}
                                     className="rounded border border-slate-100 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-800/40"
                                 >
-                                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
-                                        {floorItem.floor}
-                                    </div>
+                                    <div className="text-xs font-semibold tracking-wide text-slate-500 uppercase">{floorItem.floor}</div>
                                     <div className="mt-1 flex items-baseline justify-between">
-                                        <span className="text-xl font-bold text-slate-900 dark:text-white">
-                                            {floorItem.total} Units
-                                        </span>
+                                        <span className="text-xl font-bold text-slate-900 dark:text-white">{floorItem.total} Units</span>
                                         <span
                                             className={`text-[11px] font-semibold ${
-                                                Number(floorItem.vacant_count) > 0
-                                                    ? 'text-emerald-600 dark:text-emerald-400'
-                                                    : 'text-slate-400'
+                                                Number(floorItem.vacant_count) > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'
                                             }`}
                                         >
                                             {floorItem.vacant_count} vacant
@@ -283,10 +253,7 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                             </div>
                         }
                         tools={
-                            <Link
-                                href="/admin/contacts"
-                                className="text-xs font-semibold text-rose-600 hover:underline"
-                            >
+                            <Link href="/admin/contacts" className="text-xs font-semibold text-rose-600 hover:underline">
                                 All Inquiries &rarr;
                             </Link>
                         }
@@ -295,28 +262,22 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                     >
                         <div className="divide-y divide-slate-100 dark:divide-slate-800">
                             {recentContacts.length === 0 ? (
-                                <div className="p-6 text-center text-xs text-slate-400">
-                                    No website tour inquiries submitted yet.
-                                </div>
+                                <div className="p-6 text-center text-xs text-slate-400">No website tour inquiries submitted yet.</div>
                             ) : (
                                 recentContacts.map((contact) => (
                                     <div key={contact.id} className="p-4 hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                                         <div className="flex items-start justify-between">
                                             <div>
-                                                <div className="text-xs font-bold text-slate-900 dark:text-slate-100">
-                                                    {contact.name}
-                                                </div>
-                                                <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                                                    {contact.phone}
-                                                </div>
+                                                <div className="text-xs font-bold text-slate-900 dark:text-slate-100">{contact.name}</div>
+                                                <div className="text-[11px] text-slate-500 dark:text-slate-400">{contact.phone}</div>
                                             </div>
                                             <span
-                                                className={`rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
+                                                className={`rounded px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase ${
                                                     contact.status === 'new'
                                                         ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300'
                                                         : contact.status === 'contacted'
-                                                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
-                                                        : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
+                                                          : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                                                 }`}
                                             >
                                                 {contact.status}
@@ -343,20 +304,12 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
 
                     {/* Operational Rent Summary Box */}
                     <div className="rounded-md border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                        <h4 className="text-xs font-bold tracking-wider text-slate-400 uppercase">
-                            Monthly Rent Commitment
-                        </h4>
-                        <div className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
-                            ৳{stats.monthly_rent_expected.toLocaleString()}
-                        </div>
-                        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            Based on {stats.active_leases} active lease agreements.
-                        </p>
-                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold">
+                        <h4 className="text-xs font-bold tracking-wider text-slate-400 uppercase">Monthly Rent Commitment</h4>
+                        <div className="mt-2 text-2xl font-black text-slate-900 dark:text-white">৳{stats.monthly_rent_expected.toLocaleString()}</div>
+                        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Based on {stats.active_leases} active lease agreements.</p>
+                        <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-xs font-semibold dark:border-slate-800">
                             <span className="text-slate-500">Collected Payments:</span>
-                            <span className="text-emerald-600 dark:text-emerald-400">
-                                ৳{stats.paid_invoices_sum.toLocaleString()}
-                            </span>
+                            <span className="text-emerald-600 dark:text-emerald-400">৳{stats.paid_invoices_sum.toLocaleString()}</span>
                         </div>
                     </div>
                 </div>

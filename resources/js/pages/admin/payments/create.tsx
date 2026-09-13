@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import { CreditCard, ArrowLeft, Save, AlertCircle, CheckCircle } from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link, useForm } from '@inertiajs/react';
+import { ArrowLeft, CheckCircle, CreditCard, Save } from 'lucide-react';
+import React from 'react';
 
 interface DueInvoice {
     id: number;
@@ -42,8 +42,8 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
         preselectedInvoiceId && dueInvoices.some((i) => i.id === preselectedInvoiceId)
             ? dueInvoices.find((i) => i.id === preselectedInvoiceId)!
             : dueInvoices.length > 0
-            ? dueInvoices[0]
-            : null;
+              ? dueInvoices[0]
+              : null;
 
     const { data, setData, post, processing, errors } = useForm({
         invoice_id: defaultInvoice ? defaultInvoice.id : '',
@@ -75,7 +75,7 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
             <div className="max-w-3xl">
                 {dueInvoices.length === 0 ? (
                     <div className="rounded-md border border-emerald-200 bg-emerald-50 p-6 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-200">
-                        <div className="flex items-center gap-2 font-bold text-sm">
+                        <div className="flex items-center gap-2 text-sm font-bold">
                             <CheckCircle size={18} className="text-emerald-600" />
                             <span>All Invoices Fully Paid!</span>
                         </div>
@@ -120,7 +120,7 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                             <div className="space-y-5">
                                 {/* Invoice Selection */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Select Due Invoice to Collect Against *
                                     </label>
                                     <select
@@ -131,34 +131,33 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                     >
                                         {dueInvoices.map((inv) => (
                                             <option key={inv.id} value={inv.id}>
-                                                {inv.invoice_no} ({inv.billing_month}) - {inv.tenant?.name} [Flat {inv.lease?.flat?.flat_number}] — Due: ৳{inv.due_amount.toLocaleString()}
+                                                {inv.invoice_no} ({inv.billing_month}) - {inv.tenant?.name} [Flat {inv.lease?.flat?.flat_number}] —
+                                                Due: ৳{inv.due_amount.toLocaleString()}
                                             </option>
                                         ))}
                                     </select>
-                                    {errors.invoice_id && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.invoice_id}</p>
-                                    )}
+                                    {errors.invoice_id && <p className="mt-1 text-[11px] text-rose-600">{errors.invoice_id}</p>}
                                 </div>
 
                                 {/* Selected Invoice Overview Banner */}
                                 {selectedInvoice && (
-                                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/40 text-xs">
-                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-slate-700 dark:text-slate-300">
+                                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4 text-xs dark:border-slate-800 dark:bg-slate-800/40">
+                                        <div className="grid grid-cols-2 gap-3 text-slate-700 sm:grid-cols-4 dark:text-slate-300">
                                             <div>
-                                                <span className="text-[10px] text-slate-400 uppercase block">Resident</span>
+                                                <span className="block text-[10px] text-slate-400 uppercase">Resident</span>
                                                 <strong>{selectedInvoice.tenant?.name}</strong>
                                             </div>
                                             <div>
-                                                <span className="text-[10px] text-slate-400 uppercase block">Flat Unit</span>
+                                                <span className="block text-[10px] text-slate-400 uppercase">Flat Unit</span>
                                                 <strong>Flat {selectedInvoice.lease?.flat?.flat_number}</strong>
                                             </div>
                                             <div>
-                                                <span className="text-[10px] text-slate-400 uppercase block">Total Invoiced</span>
+                                                <span className="block text-[10px] text-slate-400 uppercase">Total Invoiced</span>
                                                 <span>৳{Number(selectedInvoice.total_payable).toLocaleString()}</span>
                                             </div>
                                             <div>
-                                                <span className="text-[10px] text-rose-500 uppercase block font-bold">Outstanding Due</span>
-                                                <span className="font-extrabold text-rose-600 dark:text-rose-400 text-sm">
+                                                <span className="block text-[10px] font-bold text-rose-500 uppercase">Outstanding Due</span>
+                                                <span className="text-sm font-extrabold text-rose-600 dark:text-rose-400">
                                                     ৳{selectedInvoice.due_amount.toLocaleString()}
                                                 </span>
                                             </div>
@@ -169,7 +168,7 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                 {/* Row 2: Amount & Date */}
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Collection Amount (৳ BDT) *
                                         </label>
                                         <input
@@ -181,13 +180,11 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                             className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                             required
                                         />
-                                        {errors.amount_paid && (
-                                            <p className="mt-1 text-[11px] text-rose-600">{errors.amount_paid}</p>
-                                        )}
+                                        {errors.amount_paid && <p className="mt-1 text-[11px] text-rose-600">{errors.amount_paid}</p>}
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Collection / Received Date *
                                         </label>
                                         <input
@@ -197,16 +194,14 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                             className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                             required
                                         />
-                                        {errors.payment_date && (
-                                            <p className="mt-1 text-[11px] text-rose-600">{errors.payment_date}</p>
-                                        )}
+                                        {errors.payment_date && <p className="mt-1 text-[11px] text-rose-600">{errors.payment_date}</p>}
                                     </div>
                                 </div>
 
                                 {/* Row 3: Method & Transaction ID */}
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Payment Method *
                                         </label>
                                         <select
@@ -223,7 +218,7 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Transaction ID / Bank Reference #
                                         </label>
                                         <input
@@ -231,14 +226,14 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                             placeholder="e.g. 9J4K28192 or Bank Slip #..."
                                             value={data.transaction_id}
                                             onChange={(e) => setData('transaction_id', e.target.value)}
-                                            className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs font-mono text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                            className="w-full rounded border border-slate-300 bg-white px-3 py-2 font-mono text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Notes */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Receipt Notes / Remarks
                                     </label>
                                     <textarea
@@ -255,14 +250,14 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                             <div className="mt-8 flex items-center justify-end gap-3 border-t border-slate-100 pt-5 dark:border-slate-800">
                                 <Link
                                     href="/admin/payments"
-                                    className="rounded border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                                    className="rounded border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
                                 >
                                     Cancel
                                 </Link>
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="inline-flex items-center gap-2 rounded bg-emerald-600 px-5 py-2 text-xs font-bold text-white shadow-sm hover:bg-emerald-700 transition-colors disabled:opacity-50"
+                                    className="inline-flex items-center gap-2 rounded bg-emerald-600 px-5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-700 disabled:opacity-50"
                                 >
                                     <Save size={15} />
                                     <span>{processing ? 'Recording Payment...' : 'Record Payment Receipt'}</span>

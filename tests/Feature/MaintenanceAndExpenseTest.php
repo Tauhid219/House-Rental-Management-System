@@ -2,11 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Expense;
 use App\Models\Flat;
-use App\Models\Maintenance;
 use App\Models\Payment;
-use App\Models\RentInvoice;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

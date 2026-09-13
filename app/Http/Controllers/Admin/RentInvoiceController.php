@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\BatchGenerateInvoiceRequest;
 use App\Http\Requests\Admin\StoreRentInvoiceRequest;
 use App\Models\Lease;
 use App\Models\RentInvoice;
-use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -108,7 +107,7 @@ class RentInvoiceController extends Controller
 
         $monthStr = str_replace('-', '', $data['billing_month']);
         $nextNum = RentInvoice::where('billing_month', $data['billing_month'])->count() + 1;
-        $invoiceNo = 'INV-' . $monthStr . '-' . str_pad((string)$nextNum, 4, '0', STR_PAD_LEFT);
+        $invoiceNo = 'INV-'.$monthStr.'-'.str_pad((string) $nextNum, 4, '0', STR_PAD_LEFT);
 
         RentInvoice::create([
             'invoice_no' => $invoiceNo,
@@ -167,7 +166,7 @@ class RentInvoiceController extends Controller
                 }
 
                 $currentCount++;
-                $invoiceNo = 'INV-' . $monthStr . '-' . str_pad((string)$currentCount, 4, '0', STR_PAD_LEFT);
+                $invoiceNo = 'INV-'.$monthStr.'-'.str_pad((string) $currentCount, 4, '0', STR_PAD_LEFT);
 
                 $rent = (float) $lease->agreed_monthly_rent;
                 $totalPayable = max(0, $rent + $utility + $other);

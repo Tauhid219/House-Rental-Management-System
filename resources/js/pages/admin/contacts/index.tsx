@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import {
-    Mail,
-    Phone,
-    Calendar,
-    Clock,
-    CheckCircle,
-    XCircle,
-    Trash2,
-    Search,
-    MessageSquare,
-    User
-} from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link, router } from '@inertiajs/react';
+import { Calendar, Mail, Phone, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface ContactItem {
     id: number;
@@ -65,16 +54,24 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
 
     const handleFilterSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/admin/contacts', {
-            search,
-            status,
-        }, { preserveState: true });
+        router.get(
+            '/admin/contacts',
+            {
+                search,
+                status,
+            },
+            { preserveState: true },
+        );
     };
 
     const handleStatusChange = (contactId: number, newStatus: 'new' | 'contacted' | 'closed') => {
-        router.patch(`/admin/contacts/${contactId}/status`, {
-            status: newStatus,
-        }, { preserveScroll: true });
+        router.patch(
+            `/admin/contacts/${contactId}/status`,
+            {
+                status: newStatus,
+            },
+            { preserveScroll: true },
+        );
     };
 
     const handleDelete = (contact: ContactItem) => {
@@ -86,30 +83,30 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
     return (
         <AdminLayout title="Tour Leads & Website Inquiries • Skyline Heights" breadcrumbs={breadcrumbs}>
             {/* Quick Stat Pill Widgets */}
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 mb-6">
+            <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 <div className="rounded-md border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                    <div className="text-xs font-semibold uppercase text-slate-400">Total Leads</div>
+                    <div className="text-xs font-semibold text-slate-400 uppercase">Total Leads</div>
                     <div className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">{stats.total}</div>
                 </div>
                 <div className="rounded-md border border-rose-200 bg-rose-50/50 p-4 shadow-sm dark:border-rose-950 dark:bg-rose-950/20">
-                    <div className="text-xs font-semibold uppercase text-rose-600 dark:text-rose-400">New / Uncontacted</div>
+                    <div className="text-xs font-semibold text-rose-600 uppercase dark:text-rose-400">New / Uncontacted</div>
                     <div className="mt-1 text-2xl font-bold text-rose-700 dark:text-rose-300">{stats.new}</div>
                 </div>
                 <div className="rounded-md border border-amber-200 bg-amber-50/50 p-4 shadow-sm dark:border-amber-950 dark:bg-amber-950/20">
-                    <div className="text-xs font-semibold uppercase text-amber-600 dark:text-amber-400">Contacted / Scheduled</div>
+                    <div className="text-xs font-semibold text-amber-600 uppercase dark:text-amber-400">Contacted / Scheduled</div>
                     <div className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">{stats.contacted}</div>
                 </div>
                 <div className="rounded-md border border-emerald-200 bg-emerald-50/50 p-4 shadow-sm dark:border-emerald-950 dark:bg-emerald-950/20">
-                    <div className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">Closed / Completed</div>
+                    <div className="text-xs font-semibold text-emerald-600 uppercase dark:text-emerald-400">Closed / Completed</div>
                     <div className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{stats.closed}</div>
                 </div>
             </div>
 
             {/* Filter Card */}
             <AdminCard variant="default" className="mb-6">
-                <form onSubmit={handleFilterSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-3 items-end">
+                <form onSubmit={handleFilterSubmit} className="grid grid-cols-1 items-end gap-3 sm:grid-cols-3">
                     <div className="sm:col-span-2">
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Search Leads
                         </label>
                         <input
@@ -122,7 +119,7 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
                     </div>
 
                     <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Filter by Status
                         </label>
                         <div className="flex gap-2">
@@ -138,7 +135,7 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
                             </select>
                             <button
                                 type="submit"
-                                className="rounded bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                                className="rounded bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
                             >
                                 Filter
                             </button>
@@ -160,7 +157,7 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
             >
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-                        <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-800/60">
+                        <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60">
                             <tr>
                                 <th className="px-5 py-3.5">Prospective Tenant</th>
                                 <th className="px-5 py-3.5">Unit Interest</th>
@@ -181,9 +178,7 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
                                 contacts.data.map((contact) => (
                                     <tr key={contact.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                                         <td className="px-5 py-3.5">
-                                            <div className="font-bold text-slate-900 dark:text-white">
-                                                {contact.name}
-                                            </div>
+                                            <div className="font-bold text-slate-900 dark:text-white">{contact.name}</div>
                                             <div className="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
                                                 <Phone size={11} className="text-slate-400" />
                                                 <span>{contact.phone}</span>
@@ -208,7 +203,7 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
                                                 <span className="text-slate-400 italic">Immediate / Flexible</span>
                                             )}
                                         </td>
-                                        <td className="px-5 py-3.5 max-w-xs">
+                                        <td className="max-w-xs px-5 py-3.5">
                                             <p className="line-clamp-2 text-[11px] text-slate-500 dark:text-slate-400">
                                                 {contact.message || 'No additional note provided.'}
                                             </p>
@@ -216,13 +211,13 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
                                         <td className="px-5 py-3.5 text-center">
                                             <select
                                                 value={contact.status}
-                                                onChange={(e) => handleStatusChange(contact.id, e.target.value as any)}
-                                                className={`rounded px-2 py-1 text-[10px] font-bold uppercase tracking-wider border-0 cursor-pointer focus:ring-1 focus:ring-blue-500 ${
+                                                onChange={(e) => handleStatusChange(contact.id, e.target.value as 'new' | 'contacted' | 'closed')}
+                                                className={`cursor-pointer rounded border-0 px-2 py-1 text-[10px] font-bold tracking-wider uppercase focus:ring-1 focus:ring-blue-500 ${
                                                     contact.status === 'new'
                                                         ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300'
                                                         : contact.status === 'contacted'
-                                                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
-                                                        : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
+                                                          : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                                                 }`}
                                             >
                                                 <option value="new">New</option>
@@ -262,8 +257,8 @@ export default function ContactsIndex({ contacts, filters, stats }: ContactsInde
                                         link.active
                                             ? 'bg-blue-600 font-bold text-white'
                                             : link.url
-                                            ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-                                            : 'pointer-events-none text-slate-300 dark:text-slate-600'
+                                              ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                              : 'pointer-events-none text-slate-300 dark:text-slate-600'
                                     }`}
                                 />
                             ))}

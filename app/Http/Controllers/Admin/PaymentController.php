@@ -69,7 +69,7 @@ class PaymentController extends Controller
 
         return Inertia::render('admin/payments/create', [
             'dueInvoices' => $dueInvoices,
-            'preselectedInvoiceId' => $preselectedInvoiceId ? (int)$preselectedInvoiceId : null,
+            'preselectedInvoiceId' => $preselectedInvoiceId ? (int) $preselectedInvoiceId : null,
             'today' => now()->toDateString(),
         ]);
     }
@@ -84,7 +84,7 @@ class PaymentController extends Controller
 
             $monthStr = now()->format('Ym');
             $nextCount = Payment::count() + 1;
-            $paymentNo = 'PAY-' . $monthStr . '-' . str_pad((string)$nextCount, 5, '0', STR_PAD_LEFT);
+            $paymentNo = 'PAY-'.$monthStr.'-'.str_pad((string) $nextCount, 5, '0', STR_PAD_LEFT);
 
             $payment = Payment::create([
                 'payment_no' => $paymentNo,

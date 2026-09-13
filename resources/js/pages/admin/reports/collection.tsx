@@ -1,19 +1,9 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
 import AdminSmallBox from '@/components/admin/admin-small-box';
-import { 
-    CreditCard, 
-    ArrowLeft, 
-    Printer, 
-    Download, 
-    Filter, 
-    Calendar,
-    Coins,
-    Building2,
-    DollarSign
-} from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router } from '@inertiajs/react';
+import { ArrowLeft, Building2, Coins, CreditCard, DollarSign, Download, Printer } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface PaymentItem {
     id: number;
@@ -61,14 +51,18 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
 
     const handleFilter = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/admin/reports/collection', {
-            start_date: startDate,
-            end_date: endDate,
-            payment_method: method,
-        }, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            '/admin/reports/collection',
+            {
+                start_date: startDate,
+                end_date: endDate,
+                payment_method: method,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleQuickPreset = (type: 'this_month' | 'last_month' | 'this_year') => {
@@ -133,7 +127,7 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
             <Head title="Rent Collection Report - Skyline Heights" />
 
             {/* Top Toolbar (Hidden on print) */}
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
+            <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center print:hidden">
                 <Link
                     href="/admin/reports"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
@@ -146,7 +140,7 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
                     <button
                         type="button"
                         onClick={handleExportCSV}
-                        className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                        className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                     >
                         <Download size={13} />
                         <span>Export CSV</span>
@@ -154,7 +148,7 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
                     <button
                         type="button"
                         onClick={() => window.print()}
-                        className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 shadow-sm"
+                        className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
                     >
                         <Printer size={13} />
                         <span>Print Report</span>
@@ -163,49 +157,32 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
             </div>
 
             {/* Printable Report Header */}
-            <div className="hidden print:block mb-6 border-b border-slate-300 pb-4 text-center">
+            <div className="mb-6 hidden border-b border-slate-300 pb-4 text-center print:block">
                 <h2 className="text-xl font-black text-slate-900">SKYLINE HEIGHTS RESIDENCY</h2>
                 <p className="text-xs text-slate-600">House 42, Road 11, Block D, Banani, Dhaka-1213 · Property Accounts Office</p>
-                <h3 className="text-sm font-bold text-emerald-800 mt-2 uppercase tracking-wide">
+                <h3 className="mt-2 text-sm font-bold tracking-wide text-emerald-800 uppercase">
                     Rent Collection Statement ({startDate} to {endDate})
                 </h3>
             </div>
 
             {/* Metrics Row */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+            <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <AdminSmallBox
                     variant="success"
                     value={`৳ ${summary.total_collected.toLocaleString()}`}
                     label={`Total Collected (${summary.count} Txns)`}
                     icon={CreditCard}
                 />
-                <AdminSmallBox
-                    variant="info"
-                    value={`৳ ${summary.cash_total.toLocaleString()}`}
-                    label="Cash Collections"
-                    icon={Coins}
-                />
-                <AdminSmallBox
-                    variant="primary"
-                    value={`৳ ${summary.bank_total.toLocaleString()}`}
-                    label="Bank Wire Transfers"
-                    icon={Building2}
-                />
-                <AdminSmallBox
-                    variant="warning"
-                    value={`৳ ${summary.digital_total.toLocaleString()}`}
-                    label="bKash & Nagad"
-                    icon={DollarSign}
-                />
+                <AdminSmallBox variant="info" value={`৳ ${summary.cash_total.toLocaleString()}`} label="Cash Collections" icon={Coins} />
+                <AdminSmallBox variant="primary" value={`৳ ${summary.bank_total.toLocaleString()}`} label="Bank Wire Transfers" icon={Building2} />
+                <AdminSmallBox variant="warning" value={`৳ ${summary.digital_total.toLocaleString()}`} label="bKash & Nagad" icon={DollarSign} />
             </div>
 
             {/* Filters Bar (Hidden on print) */}
-            <div className="mb-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm print:hidden">
-                <form onSubmit={handleFilter} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+            <div className="mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 print:hidden">
+                <form onSubmit={handleFilter} className="grid grid-cols-1 items-end gap-3 sm:grid-cols-12">
                     <div className="sm:col-span-3">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
-                            Start Date
-                        </label>
+                        <label className="mb-1 block text-xs font-bold tracking-wider text-slate-600 uppercase dark:text-slate-400">Start Date</label>
                         <input
                             type="date"
                             value={startDate}
@@ -215,9 +192,7 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
                     </div>
 
                     <div className="sm:col-span-3">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
-                            End Date
-                        </label>
+                        <label className="mb-1 block text-xs font-bold tracking-wider text-slate-600 uppercase dark:text-slate-400">End Date</label>
                         <input
                             type="date"
                             value={endDate}
@@ -227,9 +202,7 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
                     </div>
 
                     <div className="sm:col-span-3">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
-                            Method
-                        </label>
+                        <label className="mb-1 block text-xs font-bold tracking-wider text-slate-600 uppercase dark:text-slate-400">Method</label>
                         <select
                             value={method}
                             onChange={(e) => setMethod(e.target.value)}
@@ -243,10 +216,10 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
                         </select>
                     </div>
 
-                    <div className="sm:col-span-3 flex items-center gap-2">
+                    <div className="flex items-center gap-2 sm:col-span-3">
                         <button
                             type="submit"
-                            className="w-full rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm"
+                            className="w-full rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700"
                         >
                             Filter Date Range
                         </button>
@@ -254,26 +227,26 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
                 </form>
 
                 {/* Quick Presets */}
-                <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 text-xs text-slate-500">
+                <div className="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-slate-800">
                     <span>Quick Range:</span>
                     <button
                         type="button"
                         onClick={() => handleQuickPreset('this_month')}
-                        className="rounded bg-slate-100 px-2 py-0.5 font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px]"
+                        className="rounded bg-slate-100 px-2 py-0.5 text-[11px] font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                     >
                         This Month
                     </button>
                     <button
                         type="button"
                         onClick={() => handleQuickPreset('last_month')}
-                        className="rounded bg-slate-100 px-2 py-0.5 font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px]"
+                        className="rounded bg-slate-100 px-2 py-0.5 text-[11px] font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                     >
                         Last Month
                     </button>
                     <button
                         type="button"
                         onClick={() => handleQuickPreset('this_year')}
-                        className="rounded bg-slate-100 px-2 py-0.5 font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px]"
+                        className="rounded bg-slate-100 px-2 py-0.5 text-[11px] font-medium hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                     >
                         Year to Date
                     </button>
@@ -284,7 +257,7 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
             <AdminCard title={`Collection Records (${startDate} to ${endDate})`} icon={CreditCard}>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-700 dark:text-slate-200">
-                        <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                        <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold tracking-wider text-slate-600 uppercase dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
                             <tr>
                                 <th className="px-4 py-3">Receipt No</th>
                                 <th className="px-4 py-3">Date</th>
@@ -306,40 +279,34 @@ export default function ReportCollection({ payments, filters, summary }: Props) 
                             ) : (
                                 payments.map((p) => (
                                     <tr key={p.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
-                                        <td className="px-4 py-3 whitespace-nowrap font-mono font-bold text-slate-900 dark:text-white">
+                                        <td className="px-4 py-3 font-mono font-bold whitespace-nowrap text-slate-900 dark:text-white">
                                             {p.payment_no}
                                         </td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-slate-500">
-                                            {p.payment_date}
-                                        </td>
+                                        <td className="px-4 py-3 whitespace-nowrap text-slate-500">{p.payment_date}</td>
                                         <td className="px-4 py-3 whitespace-nowrap">
-                                            <span className="font-semibold text-slate-900 dark:text-white block">
+                                            <span className="block font-semibold text-slate-900 dark:text-white">
                                                 {p.invoice?.tenant?.name || 'Resident'}
                                             </span>
                                             <span className="text-[10px] text-slate-400">{p.invoice?.tenant?.phone}</span>
                                         </td>
-                                        <td className="px-4 py-3 whitespace-nowrap">
-                                            Unit {p.lease?.flat?.flat_number || 'N/A'}
-                                        </td>
-                                        <td className="px-4 py-3 whitespace-nowrap font-mono text-blue-600 dark:text-blue-400">
+                                        <td className="px-4 py-3 whitespace-nowrap">Unit {p.lease?.flat?.flat_number || 'N/A'}</td>
+                                        <td className="px-4 py-3 font-mono whitespace-nowrap text-blue-600 dark:text-blue-400">
                                             {p.invoice?.invoice_no || 'N/A'}
                                         </td>
-                                        <td className="px-4 py-3 whitespace-nowrap uppercase font-semibold text-[11px]">
-                                            {p.payment_method}
-                                        </td>
-                                        <td className="px-4 py-3 whitespace-nowrap font-mono text-slate-500 text-[11px]">
+                                        <td className="px-4 py-3 text-[11px] font-semibold whitespace-nowrap uppercase">{p.payment_method}</td>
+                                        <td className="px-4 py-3 font-mono text-[11px] whitespace-nowrap text-slate-500">
                                             {p.transaction_id || '-'}
                                         </td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-right font-bold text-emerald-600 dark:text-emerald-400">
+                                        <td className="px-4 py-3 text-right font-bold whitespace-nowrap text-emerald-600 dark:text-emerald-400">
                                             ৳ {Number(p.amount_paid).toLocaleString()}
                                         </td>
                                     </tr>
                                 ))
                             )}
                         </tbody>
-                        <tfoot className="border-t-2 border-slate-300 dark:border-slate-700 bg-slate-50/75 dark:bg-slate-900/60 font-bold">
+                        <tfoot className="border-t-2 border-slate-300 bg-slate-50/75 font-bold dark:border-slate-700 dark:bg-slate-900/60">
                             <tr>
-                                <td colSpan={7} className="px-4 py-3 text-right uppercase tracking-wider text-xs">
+                                <td colSpan={7} className="px-4 py-3 text-right text-xs tracking-wider uppercase">
                                     Grand Total Collected:
                                 </td>
                                 <td className="px-4 py-3 text-right text-sm text-emerald-600 dark:text-emerald-400">

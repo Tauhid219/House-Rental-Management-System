@@ -16,8 +16,11 @@ class BillingAndPaymentTest extends TestCase
     use RefreshDatabase;
 
     protected User $adminUser;
+
     protected Flat $flat;
+
     protected Tenant $tenant;
+
     protected Lease $lease;
 
     protected function setUp(): void

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import { Users, ArrowLeft, Save } from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link, useForm } from '@inertiajs/react';
+import { ArrowLeft, Save, Users } from 'lucide-react';
+import React from 'react';
 
 interface TenantData {
     id: number;
@@ -72,9 +72,7 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
                             {/* Row 1: Full Name & NID */}
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Full Name *
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Full Name *</label>
                                     <input
                                         type="text"
                                         value={data.name}
@@ -82,13 +80,11 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {errors.name && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.name}</p>
-                                    )}
+                                    {errors.name && <p className="mt-1 text-[11px] text-rose-600">{errors.name}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         National ID (NID) / Passport *
                                     </label>
                                     <input
@@ -98,16 +94,14 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {errors.nid_passport && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.nid_passport}</p>
-                                    )}
+                                    {errors.nid_passport && <p className="mt-1 text-[11px] text-rose-600">{errors.nid_passport}</p>}
                                 </div>
                             </div>
 
                             {/* Row 2: Phone & Email */}
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Primary Phone Number *
                                     </label>
                                     <input
@@ -117,31 +111,25 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {errors.phone && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.phone}</p>
-                                    )}
+                                    {errors.phone && <p className="mt-1 text-[11px] text-rose-600">{errors.phone}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Email Address
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
                                     <input
                                         type="email"
                                         value={data.email}
                                         onChange={(e) => setData('email', e.target.value)}
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                     />
-                                    {errors.email && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.email}</p>
-                                    )}
+                                    {errors.email && <p className="mt-1 text-[11px] text-rose-600">{errors.email}</p>}
                                 </div>
                             </div>
 
                             {/* Row 3: Emergency Contact & Occupation & Family Members */}
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Emergency Contact Phone
                                     </label>
                                     <input
@@ -153,7 +141,7 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Occupation / Organization
                                     </label>
                                     <input
@@ -165,7 +153,7 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Family Members Count *
                                     </label>
                                     <input
@@ -182,9 +170,7 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
 
                             {/* Permanent Address */}
                             <div>
-                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                    Permanent Home Address
-                                </label>
+                                <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Permanent Home Address</label>
                                 <textarea
                                     rows={2}
                                     value={data.permanent_address}
@@ -195,13 +181,11 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
 
                             {/* Status */}
                             <div>
-                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                    Resident Status *
-                                </label>
+                                <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Resident Status *</label>
                                 <select
                                     value={data.status}
-                                    onChange={(e) => setData('status', e.target.value as any)}
-                                    className="w-full sm:w-1/2 rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                    onChange={(e) => setData('status', e.target.value as 'active' | 'past')}
+                                    className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none sm:w-1/2 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                 >
                                     <option value="active">Active Resident</option>
                                     <option value="past">Past / Archived Resident</option>
@@ -213,14 +197,14 @@ export default function TenantEdit({ tenant }: EditTenantProps) {
                         <div className="mt-8 flex items-center justify-end gap-3 border-t border-slate-100 pt-5 dark:border-slate-800">
                             <Link
                                 href="/admin/tenants"
-                                className="rounded border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                                className="rounded border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
                             >
                                 Cancel
                             </Link>
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="inline-flex items-center gap-2 rounded bg-blue-600 px-5 py-2 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                className="inline-flex items-center gap-2 rounded bg-blue-600 px-5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:opacity-50"
                             >
                                 <Save size={15} />
                                 <span>{processing ? 'Saving Changes...' : 'Update Profile'}</span>

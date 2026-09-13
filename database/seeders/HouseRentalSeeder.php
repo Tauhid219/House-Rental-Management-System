@@ -113,7 +113,7 @@ class HouseRentalSeeder extends Seeder
                 'images' => [
                     'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
                     'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -129,7 +129,7 @@ class HouseRentalSeeder extends Seeder
                 'amenities' => ['24/7 Security', 'Backup Generator', 'CCTV Surveillance'],
                 'images' => [
                     'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -146,7 +146,7 @@ class HouseRentalSeeder extends Seeder
                 'images' => [
                     'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
                     'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -162,7 +162,7 @@ class HouseRentalSeeder extends Seeder
                 'amenities' => ['24/7 Security', 'Elevator', 'Backup Generator', 'CCTV', 'Rooftop Garden'],
                 'images' => [
                     'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -178,7 +178,7 @@ class HouseRentalSeeder extends Seeder
                 'amenities' => ['24/7 Security', 'Elevator', 'Dedicated Parking', 'Backup Generator', 'Servant Room', 'Intercom System'],
                 'images' => [
                     'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -194,7 +194,7 @@ class HouseRentalSeeder extends Seeder
                 'amenities' => ['24/7 Security', 'Elevator', 'Backup Generator', 'Water Filtration'],
                 'images' => [
                     'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -210,7 +210,7 @@ class HouseRentalSeeder extends Seeder
                 'amenities' => ['24/7 Security', 'High-Speed Elevator', 'Dedicated Parking', 'Full Power Backup', 'Fire Safety', 'Gym Access'],
                 'images' => [
                     'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -226,7 +226,7 @@ class HouseRentalSeeder extends Seeder
                 'amenities' => ['24/7 Security', 'Elevator', 'Backup Generator', 'Rooftop Community Hall'],
                 'images' => [
                     'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -243,7 +243,7 @@ class HouseRentalSeeder extends Seeder
                 'images' => [
                     'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80',
                     'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
             [
@@ -258,7 +258,7 @@ class HouseRentalSeeder extends Seeder
                 'description' => 'Upper floor 2-bedroom unit currently undergoing comprehensive plumbing renovation and modern paint refresh.',
                 'amenities' => ['24/7 Security', 'Elevator', 'Backup Generator', 'Balcony View'],
                 'images' => [
-                    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80'
+                    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80',
                 ],
             ],
         ];
@@ -402,7 +402,7 @@ class HouseRentalSeeder extends Seeder
         // Invoices for Last Month
         // Invoice 1: Lease 1 - Paid in full
         $inv1 = RentInvoice::updateOrCreate(
-            ['invoice_no' => 'INV-' . $lastMonth . '-001'],
+            ['invoice_no' => 'INV-'.$lastMonth.'-001'],
             [
                 'lease_id' => $lease1->id,
                 'tenant_id' => $tenants[0]->id,
@@ -413,20 +413,20 @@ class HouseRentalSeeder extends Seeder
                 'discount' => 0.00,
                 'total_payable' => 35000.00,
                 'paid_amount' => 35000.00,
-                'due_date' => Carbon::parse($lastMonth . '-10'),
+                'due_date' => Carbon::parse($lastMonth.'-10'),
                 'status' => 'paid',
             ]
         );
 
         Payment::updateOrCreate(
-            ['payment_no' => 'REC-' . $lastMonth . '-001'],
+            ['payment_no' => 'REC-'.$lastMonth.'-001'],
             [
                 'invoice_id' => $inv1->id,
                 'lease_id' => $lease1->id,
                 'amount_paid' => 35000.00,
                 'payment_method' => 'bank',
                 'transaction_id' => 'EBL-TXN-8829102',
-                'payment_date' => Carbon::parse($lastMonth . '-07'),
+                'payment_date' => Carbon::parse($lastMonth.'-07'),
                 'received_by_user_id' => $admin->id,
                 'notes' => 'Received via Eastern Bank transfer.',
             ]
@@ -434,7 +434,7 @@ class HouseRentalSeeder extends Seeder
 
         // Invoice 2: Lease 2 - Paid in full
         $inv2 = RentInvoice::updateOrCreate(
-            ['invoice_no' => 'INV-' . $lastMonth . '-002'],
+            ['invoice_no' => 'INV-'.$lastMonth.'-002'],
             [
                 'lease_id' => $lease2->id,
                 'tenant_id' => $tenants[1]->id,
@@ -445,20 +445,20 @@ class HouseRentalSeeder extends Seeder
                 'discount' => 0.00,
                 'total_payable' => 38000.00,
                 'paid_amount' => 38000.00,
-                'due_date' => Carbon::parse($lastMonth . '-10'),
+                'due_date' => Carbon::parse($lastMonth.'-10'),
                 'status' => 'paid',
             ]
         );
 
         Payment::updateOrCreate(
-            ['payment_no' => 'REC-' . $lastMonth . '-002'],
+            ['payment_no' => 'REC-'.$lastMonth.'-002'],
             [
                 'invoice_id' => $inv2->id,
                 'lease_id' => $lease2->id,
                 'amount_paid' => 38000.00,
                 'payment_method' => 'bkash',
                 'transaction_id' => 'BKS892716382',
-                'payment_date' => Carbon::parse($lastMonth . '-08'),
+                'payment_date' => Carbon::parse($lastMonth.'-08'),
                 'received_by_user_id' => $manager->id,
                 'notes' => 'Received via bKash Merchant.',
             ]
@@ -467,7 +467,7 @@ class HouseRentalSeeder extends Seeder
         // Invoices for Current Month
         // Current month Invoice 1 (Lease 1): Paid
         $invCurrent1 = RentInvoice::updateOrCreate(
-            ['invoice_no' => 'INV-' . $currentMonth . '-001'],
+            ['invoice_no' => 'INV-'.$currentMonth.'-001'],
             [
                 'lease_id' => $lease1->id,
                 'tenant_id' => $tenants[0]->id,
@@ -478,20 +478,20 @@ class HouseRentalSeeder extends Seeder
                 'discount' => 0.00,
                 'total_payable' => 34500.00,
                 'paid_amount' => 34500.00,
-                'due_date' => Carbon::parse($currentMonth . '-10'),
+                'due_date' => Carbon::parse($currentMonth.'-10'),
                 'status' => 'paid',
             ]
         );
 
         Payment::updateOrCreate(
-            ['payment_no' => 'REC-' . $currentMonth . '-001'],
+            ['payment_no' => 'REC-'.$currentMonth.'-001'],
             [
                 'invoice_id' => $invCurrent1->id,
                 'lease_id' => $lease1->id,
                 'amount_paid' => 34500.00,
                 'payment_method' => 'cash',
                 'transaction_id' => null,
-                'payment_date' => Carbon::parse($currentMonth . '-05'),
+                'payment_date' => Carbon::parse($currentMonth.'-05'),
                 'received_by_user_id' => $manager->id,
                 'notes' => 'Full cash payment handed over to manager.',
             ]
@@ -499,7 +499,7 @@ class HouseRentalSeeder extends Seeder
 
         // Current month Invoice 2 (Lease 2): Partially Paid
         $invCurrent2 = RentInvoice::updateOrCreate(
-            ['invoice_no' => 'INV-' . $currentMonth . '-002'],
+            ['invoice_no' => 'INV-'.$currentMonth.'-002'],
             [
                 'lease_id' => $lease2->id,
                 'tenant_id' => $tenants[1]->id,
@@ -510,20 +510,20 @@ class HouseRentalSeeder extends Seeder
                 'discount' => 0.00,
                 'total_payable' => 38000.00,
                 'paid_amount' => 20000.00,
-                'due_date' => Carbon::parse($currentMonth . '-10'),
+                'due_date' => Carbon::parse($currentMonth.'-10'),
                 'status' => 'partially_paid',
             ]
         );
 
         Payment::updateOrCreate(
-            ['payment_no' => 'REC-' . $currentMonth . '-002'],
+            ['payment_no' => 'REC-'.$currentMonth.'-002'],
             [
                 'invoice_id' => $invCurrent2->id,
                 'lease_id' => $lease2->id,
                 'amount_paid' => 20000.00,
                 'payment_method' => 'nagad',
                 'transaction_id' => 'NGD99281726',
-                'payment_date' => Carbon::parse($currentMonth . '-06'),
+                'payment_date' => Carbon::parse($currentMonth.'-06'),
                 'received_by_user_id' => $manager->id,
                 'notes' => 'Partial rent payment. Balance 18,000 due next week.',
             ]
@@ -531,7 +531,7 @@ class HouseRentalSeeder extends Seeder
 
         // Current month Invoice 3 (Lease 3): Unpaid
         RentInvoice::updateOrCreate(
-            ['invoice_no' => 'INV-' . $currentMonth . '-003'],
+            ['invoice_no' => 'INV-'.$currentMonth.'-003'],
             [
                 'lease_id' => $lease3->id,
                 'tenant_id' => $tenants[2]->id,
@@ -542,7 +542,7 @@ class HouseRentalSeeder extends Seeder
                 'discount' => 500.00,
                 'total_payable' => 46000.00,
                 'paid_amount' => 0.00,
-                'due_date' => Carbon::parse($currentMonth . '-10'),
+                'due_date' => Carbon::parse($currentMonth.'-10'),
                 'status' => 'unpaid',
             ]
         );
@@ -576,35 +576,35 @@ class HouseRentalSeeder extends Seeder
                 'category' => 'salary',
                 'title' => 'Security Guard and Caretaker Monthly Salaries',
                 'amount' => 28000.00,
-                'expense_date' => Carbon::parse($currentMonth . '-01'),
+                'expense_date' => Carbon::parse($currentMonth.'-01'),
                 'notes' => 'Salaries for 2 day/night guards and 1 building caretaker.',
             ],
             [
                 'category' => 'utility',
                 'title' => 'Common Area Electricity Bill (DESCO)',
                 'amount' => 6450.00,
-                'expense_date' => Carbon::parse($currentMonth . '-04'),
+                'expense_date' => Carbon::parse($currentMonth.'-04'),
                 'notes' => 'Hallways, staircase, parking, and pump motor consumption.',
             ],
             [
                 'category' => 'maintenance',
                 'title' => 'Otis Elevator Monthly Maintenance & Lubrication Service',
                 'amount' => 4500.00,
-                'expense_date' => Carbon::parse($currentMonth . '-05'),
+                'expense_date' => Carbon::parse($currentMonth.'-05'),
                 'notes' => 'Scheduled safety check and cable lubrication by Otis technician.',
             ],
             [
                 'category' => 'utility',
                 'title' => 'Emergency Standby Generator Diesel (120 Liters)',
                 'amount' => 13200.00,
-                'expense_date' => Carbon::parse($currentMonth . '-08'),
+                'expense_date' => Carbon::parse($currentMonth.'-08'),
                 'notes' => 'Fuel refill from Meghna Petroleum station.',
             ],
             [
                 'category' => 'others',
                 'title' => 'Building Cleaning Chemicals, Dustbins & Pest Control',
                 'amount' => 3800.00,
-                'expense_date' => Carbon::parse($currentMonth . '-06'),
+                'expense_date' => Carbon::parse($currentMonth.'-06'),
                 'notes' => 'Monthly floor cleaning soap, mop sets and pest spray.',
             ],
         ];

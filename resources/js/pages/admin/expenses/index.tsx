@@ -1,23 +1,9 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
 import AdminSmallBox from '@/components/admin/admin-small-box';
-import { 
-    Coins, 
-    PlusCircle, 
-    Search, 
-    Filter, 
-    Edit, 
-    Trash2, 
-    FileText, 
-    Calendar,
-    DollarSign,
-    Zap,
-    Users,
-    Wrench,
-    ExternalLink
-} from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router } from '@inertiajs/react';
+import { Coins, Edit, ExternalLink, FileText, Filter, PlusCircle, Search, Trash2, Users, Wrench, Zap } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface Expense {
     id: number;
@@ -58,14 +44,18 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
 
     const handleFilter = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/admin/expenses', {
-            search,
-            category,
-            month,
-        }, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            '/admin/expenses',
+            {
+                search,
+                category,
+                month,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleDelete = (item: Expense) => {
@@ -99,25 +89,10 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
             <Head title="Building Expenses - AdminLTE Management" />
 
             {/* Small Boxes Row */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
-                <AdminSmallBox
-                    variant="danger"
-                    value={`৳ ${stats.total_expenses.toLocaleString()}`}
-                    label="Total Operational Outflow"
-                    icon={Coins}
-                />
-                <AdminSmallBox
-                    variant="info"
-                    value={`৳ ${stats.salary_total.toLocaleString()}`}
-                    label="Staff Salaries (Guards/Care)"
-                    icon={Users}
-                />
-                <AdminSmallBox
-                    variant="warning"
-                    value={`৳ ${stats.utility_total.toLocaleString()}`}
-                    label="Utilities (Power/Gen Fuel)"
-                    icon={Zap}
-                />
+            <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <AdminSmallBox variant="danger" value={`৳ ${stats.total_expenses.toLocaleString()}`} label="Total Operational Outflow" icon={Coins} />
+                <AdminSmallBox variant="info" value={`৳ ${stats.salary_total.toLocaleString()}`} label="Staff Salaries (Guards/Care)" icon={Users} />
+                <AdminSmallBox variant="warning" value={`৳ ${stats.utility_total.toLocaleString()}`} label="Utilities (Power/Gen Fuel)" icon={Zap} />
                 <AdminSmallBox
                     variant="primary"
                     value={`৳ ${stats.maintenance_total.toLocaleString()}`}
@@ -133,7 +108,7 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
                 headerAction={
                     <Link
                         href="/admin/expenses/create"
-                        className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 shadow-sm"
+                        className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
                     >
                         <PlusCircle size={14} />
                         <span>Record New Expense</span>
@@ -142,22 +117,22 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
             >
                 {/* Search and Filters */}
                 <form onSubmit={handleFilter} className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-12">
-                    <div className="sm:col-span-5 relative">
+                    <div className="relative sm:col-span-5">
                         <input
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search by expense title or notes..."
-                            className="w-full rounded-md border border-slate-300 bg-white py-2 pl-9 pr-3 text-xs text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                            className="w-full rounded-md border border-slate-300 bg-white py-2 pr-3 pl-9 text-xs text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                         />
-                        <Search className="absolute left-2.5 top-2.5 text-slate-400" size={15} />
+                        <Search className="absolute top-2.5 left-2.5 text-slate-400" size={15} />
                     </div>
 
                     <div className="sm:col-span-3">
                         <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="w-full rounded-md border border-slate-300 bg-white py-2 px-3 text-xs text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                            className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                         >
                             <option value="all">All Categories</option>
                             <option value="salary">Salaries</option>
@@ -173,14 +148,14 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
                             type="month"
                             value={month}
                             onChange={(e) => setMonth(e.target.value)}
-                            className="w-full rounded-md border border-slate-300 bg-white py-2 px-3 text-xs text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                            className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                         />
                     </div>
 
                     <div className="sm:col-span-1">
                         <button
                             type="submit"
-                            className="w-full h-full flex items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm"
+                            className="flex h-full w-full items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700"
                         >
                             <Filter size={14} />
                         </button>
@@ -190,7 +165,7 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
                 {/* Table */}
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-700 dark:text-slate-200">
-                        <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                        <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold tracking-wider text-slate-600 uppercase dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
                             <tr>
                                 <th className="px-4 py-3">Expense Details</th>
                                 <th className="px-4 py-3">Category</th>
@@ -211,27 +186,23 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
                                 expenses.data.map((item) => (
                                     <tr key={item.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
                                         <td className="px-4 py-3">
-                                            <span className="font-semibold text-slate-900 dark:text-white block">
-                                                {item.title}
-                                            </span>
-                                            {item.notes && (
-                                                <span className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">
-                                                    {item.notes}
-                                                </span>
-                                            )}
+                                            <span className="block font-semibold text-slate-900 dark:text-white">{item.title}</span>
+                                            {item.notes && <span className="mt-0.5 line-clamp-1 text-[11px] text-slate-400">{item.notes}</span>}
                                         </td>
                                         <td className="px-4 py-3 whitespace-nowrap">
-                                            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${getCategoryBadge(item.category)}`}>
+                                            <span
+                                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase ${getCategoryBadge(item.category)}`}
+                                            >
                                                 {item.category}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-slate-600 dark:text-slate-400 text-xs">
+                                        <td className="px-4 py-3 text-xs whitespace-nowrap text-slate-600 dark:text-slate-400">
                                             {item.expense_date}
                                         </td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-right font-bold text-rose-600 dark:text-rose-400">
+                                        <td className="px-4 py-3 text-right font-bold whitespace-nowrap text-rose-600 dark:text-rose-400">
                                             ৳ {Number(item.amount).toLocaleString()}
                                         </td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-center">
+                                        <td className="px-4 py-3 text-center whitespace-nowrap">
                                             {item.voucher_path ? (
                                                 <a
                                                     href={item.voucher_path}
@@ -244,10 +215,10 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
                                                     <ExternalLink size={10} />
                                                 </a>
                                             ) : (
-                                                <span className="text-slate-400 text-[11px]">None</span>
+                                                <span className="text-[11px] text-slate-400">None</span>
                                             )}
                                         </td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-right">
+                                        <td className="px-4 py-3 text-right whitespace-nowrap">
                                             <div className="inline-flex items-center gap-1">
                                                 <Link
                                                     href={`/admin/expenses/${item.id}/edit`}
@@ -274,7 +245,7 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
 
                 {/* Pagination */}
                 {expenses.links && expenses.links.length > 3 && (
-                    <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 dark:border-slate-800 mt-4 text-xs text-slate-500">
+                    <div className="mt-4 flex items-center justify-between border-t border-slate-200 px-4 py-3 text-xs text-slate-500 dark:border-slate-800">
                         <div>
                             Showing {expenses.data.length} of {expenses.total} expense entries
                         </div>
@@ -288,8 +259,8 @@ export default function ExpenseIndex({ expenses, filters, stats }: Props) {
                                         link.active
                                             ? 'bg-blue-600 text-white'
                                             : !link.url
-                                            ? 'text-slate-300 pointer-events-none'
-                                            : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
+                                              ? 'pointer-events-none text-slate-300'
+                                              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
                                     }`}
                                 />
                             ))}

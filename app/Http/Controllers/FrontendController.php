@@ -63,7 +63,7 @@ class FrontendController extends Controller
 
         // Floor filter
         if ($request->filled('floor')) {
-            $query->where('floor', 'like', '%' . $request->floor . '%');
+            $query->where('floor', 'like', '%'.$request->floor.'%');
         }
 
         // Rent range filter

@@ -1,21 +1,9 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import {
-    Building2,
-    PlusCircle,
-    Search,
-    SlidersHorizontal,
-    Edit3,
-    Trash2,
-    ExternalLink,
-    Filter,
-    CheckCircle2,
-    Clock,
-    AlertTriangle
-} from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link, router } from '@inertiajs/react';
+import { Building2, Edit3, ExternalLink, PlusCircle, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface FlatItem {
     id: number;
@@ -78,12 +66,16 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
 
     const handleFilterSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/admin/flats', {
-            search,
-            status,
-            floor,
-            sort,
-        }, { preserveState: true });
+        router.get(
+            '/admin/flats',
+            {
+                search,
+                status,
+                floor,
+                sort,
+            },
+            { preserveState: true },
+        );
     };
 
     const handleDelete = (flat: FlatItem) => {
@@ -95,30 +87,30 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
     return (
         <AdminLayout title="Flats & Units Management • Skyline Heights" breadcrumbs={breadcrumbs}>
             {/* Quick Stat Pill Widgets */}
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 mb-6">
+            <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 <div className="rounded-md border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                    <div className="text-xs font-semibold uppercase text-slate-400">Total Units</div>
+                    <div className="text-xs font-semibold text-slate-400 uppercase">Total Units</div>
                     <div className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">{stats.total}</div>
                 </div>
                 <div className="rounded-md border border-emerald-200 bg-emerald-50/50 p-4 shadow-sm dark:border-emerald-950 dark:bg-emerald-950/20">
-                    <div className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">Vacant Units</div>
+                    <div className="text-xs font-semibold text-emerald-600 uppercase dark:text-emerald-400">Vacant Units</div>
                     <div className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{stats.vacant}</div>
                 </div>
                 <div className="rounded-md border border-blue-200 bg-blue-50/50 p-4 shadow-sm dark:border-blue-950 dark:bg-blue-950/20">
-                    <div className="text-xs font-semibold uppercase text-blue-600 dark:text-blue-400">Occupied Units</div>
+                    <div className="text-xs font-semibold text-blue-600 uppercase dark:text-blue-400">Occupied Units</div>
                     <div className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">{stats.occupied}</div>
                 </div>
                 <div className="rounded-md border border-amber-200 bg-amber-50/50 p-4 shadow-sm dark:border-amber-950 dark:bg-amber-950/20">
-                    <div className="text-xs font-semibold uppercase text-amber-600 dark:text-amber-400">Maintenance</div>
+                    <div className="text-xs font-semibold text-amber-600 uppercase dark:text-amber-400">Maintenance</div>
                     <div className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">{stats.maintenance}</div>
                 </div>
             </div>
 
             {/* Filter Card */}
             <AdminCard variant="default" className="mb-6">
-                <form onSubmit={handleFilterSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-5 items-end">
+                <form onSubmit={handleFilterSubmit} className="grid grid-cols-1 items-end gap-3 sm:grid-cols-2 md:grid-cols-5">
                     <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Search Unit
                         </label>
                         <div className="relative">
@@ -133,7 +125,7 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                     </div>
 
                     <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Status
                         </label>
                         <select
@@ -149,7 +141,7 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                     </div>
 
                     <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Floor
                         </label>
                         <select
@@ -159,13 +151,15 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                         >
                             <option value="all">All Floors</option>
                             {floors.map((fl, i) => (
-                                <option key={i} value={fl}>{fl}</option>
+                                <option key={i} value={fl}>
+                                    {fl}
+                                </option>
                             ))}
                         </select>
                     </div>
 
                     <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Sort Order
                         </label>
                         <select
@@ -183,13 +177,13 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                     <div className="flex gap-2">
                         <button
                             type="submit"
-                            className="flex-1 rounded bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                            className="flex-1 rounded bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
                         >
                             Apply Filter
                         </button>
                         <Link
                             href="/admin/flats"
-                            className="rounded border border-slate-300 bg-white px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                            className="rounded border border-slate-300 bg-white px-3 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
                         >
                             Reset
                         </Link>
@@ -208,7 +202,7 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                 tools={
                     <Link
                         href="/admin/flats/create"
-                        className="inline-flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                        className="inline-flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
                     >
                         <PlusCircle size={14} />
                         <span>Add New Flat</span>
@@ -219,7 +213,7 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
             >
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-                        <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-800/60">
+                        <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60">
                             <tr>
                                 <th className="px-5 py-3.5">Unit No & Floor</th>
                                 <th className="px-5 py-3.5">Specifications</th>
@@ -241,9 +235,7 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                                     <tr key={flat.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                                         <td className="px-5 py-3.5 font-bold text-slate-900 dark:text-white">
                                             Flat {flat.flat_number}
-                                            <span className="block text-[11px] font-normal text-slate-500 dark:text-slate-400">
-                                                {flat.floor}
-                                            </span>
+                                            <span className="block text-[11px] font-normal text-slate-500 dark:text-slate-400">{flat.floor}</span>
                                         </td>
                                         <td className="px-5 py-3.5">
                                             <span className="font-semibold text-slate-800 dark:text-slate-200">
@@ -253,7 +245,7 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                                                 {flat.size_sqft} sqft • {flat.balconies} Balcony
                                             </span>
                                         </td>
-                                        <td className="px-5 py-3.5 font-bold text-slate-900 dark:text-white text-sm">
+                                        <td className="px-5 py-3.5 text-sm font-bold text-slate-900 dark:text-white">
                                             ৳{Number(flat.rent_cost).toLocaleString()}
                                         </td>
                                         <td className="px-5 py-3.5">
@@ -262,9 +254,7 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                                                     <span className="font-semibold text-slate-800 dark:text-slate-200">
                                                         {flat.active_lease.tenant.name}
                                                     </span>
-                                                    <span className="block text-[11px] text-slate-400">
-                                                        {flat.active_lease.tenant.phone}
-                                                    </span>
+                                                    <span className="block text-[11px] text-slate-400">{flat.active_lease.tenant.phone}</span>
                                                 </div>
                                             ) : (
                                                 <span className="text-slate-400 italic">No Active Tenant</span>
@@ -272,12 +262,12 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                                         </td>
                                         <td className="px-5 py-3.5 text-center">
                                             <span
-                                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase ${
                                                     flat.status === 'vacant'
                                                         ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                                                         : flat.status === 'occupied'
-                                                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300'
-                                                        : 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
+                                                          ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300'
+                                                          : 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
                                                 }`}
                                             >
                                                 {flat.status}
@@ -332,8 +322,8 @@ export default function FlatsIndex({ flats, filters, stats, floors }: FlatsIndex
                                         link.active
                                             ? 'bg-blue-600 font-bold text-white'
                                             : link.url
-                                            ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-                                            : 'pointer-events-none text-slate-300 dark:text-slate-600'
+                                              ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                              : 'pointer-events-none text-slate-300 dark:text-slate-600'
                                     }`}
                                 />
                             ))}

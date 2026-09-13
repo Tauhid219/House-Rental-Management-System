@@ -1,24 +1,9 @@
-import React, { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
-import FrontendLayout from '../../../layouts/frontend-layout';
+import { ArrowLeft, Bath, Bed, CheckCircle2, Clock, Info, Layers, MapPin, Maximize2, Phone, Send, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
 import FlatCard, { FlatType } from '../../../components/flat-card';
 import TourBookingModal from '../../../components/tour-booking-modal';
-import { 
-    Bed, 
-    Bath, 
-    Layers, 
-    Maximize2, 
-    CheckCircle2, 
-    Calendar, 
-    ShieldCheck, 
-    MapPin, 
-    ArrowLeft, 
-    Send, 
-    Phone, 
-    Clock, 
-    Sparkles, 
-    Info
-} from 'lucide-react';
+import FrontendLayout from '../../../layouts/frontend-layout';
 
 interface Props {
     flat: FlatType;
@@ -26,9 +11,10 @@ interface Props {
 }
 
 export default function FlatShow({ flat, relatedFlats }: Props) {
-    const images = flat.images && flat.images.length > 0
-        ? flat.images
-        : ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80'];
+    const images =
+        flat.images && flat.images.length > 0
+            ? flat.images
+            : ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80'];
 
     const [activeImage, setActiveImage] = useState(images[0]);
     const [isTourModalOpen, setIsTourModalOpen] = useState(false);
@@ -72,47 +58,45 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
             <Head title={`Unit ${flat.flat_number} (${flat.bedrooms} BHK, ${flat.floor}) - Skyline Heights`} />
 
             {/* Top Navigation & Breadcrumb */}
-            <div className="bg-slate-900 border-b border-slate-800 py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between">
+            <div className="border-b border-slate-800 bg-slate-900 py-6">
+                <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-8">
                     <Link
                         href="/flats"
-                        className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+                        className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 transition-colors hover:text-white"
                     >
-                        <ArrowLeft className="w-4 h-4" />
+                        <ArrowLeft className="h-4 w-4" />
                         <span>Back to All Available Flats</span>
                     </Link>
 
                     <div className="flex items-center gap-2">
                         <span
-                            className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${
+                            className={`rounded-full px-3 py-1 text-xs font-semibold tracking-wider uppercase ${
                                 isVacant
-                                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
-                                    : 'bg-amber-500/20 text-amber-400 border border-amber-500/40'
+                                    ? 'border border-emerald-500/40 bg-emerald-500/20 text-emerald-400'
+                                    : 'border border-amber-500/40 bg-amber-500/20 text-amber-400'
                             }`}
                         >
                             {flat.status}
                         </span>
-                        <span className="text-xs text-slate-400 font-medium hidden sm:inline">
-                            {flat.floor}
-                        </span>
+                        <span className="hidden text-xs font-medium text-slate-400 sm:inline">{flat.floor}</span>
                     </div>
                 </div>
             </div>
 
             {/* Main Flat Content */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <div className="mx-auto max-w-7xl px-4 py-10 sm:px-8">
+                <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
                     {/* Left Column: Gallery + Details */}
-                    <div className="lg:col-span-8 space-y-8">
+                    <div className="space-y-8 lg:col-span-8">
                         {/* Gallery Section */}
                         <div className="space-y-3">
-                            <div className="relative aspect-[16/10] rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl">
+                            <div className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-slate-800 bg-slate-950 shadow-2xl">
                                 <img
                                     src={activeImage}
                                     alt={`Unit ${flat.flat_number}`}
-                                    className="w-full h-full object-cover transition-all duration-300"
+                                    className="h-full w-full object-cover transition-all duration-300"
                                 />
-                                <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-slate-800 text-xs font-bold text-white shadow">
+                                <div className="absolute top-4 left-4 rounded-xl border border-slate-800 bg-slate-950/80 px-3.5 py-1.5 text-xs font-bold text-white shadow backdrop-blur-md">
                                     Flat {flat.flat_number}
                                 </div>
                             </div>
@@ -124,17 +108,13 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
                                         <button
                                             key={idx}
                                             onClick={() => setActiveImage(img)}
-                                            className={`relative w-24 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${
+                                            className={`relative h-16 w-24 shrink-0 cursor-pointer overflow-hidden rounded-xl border-2 transition-all ${
                                                 activeImage === img
-                                                    ? 'border-emerald-500 scale-95 shadow-md shadow-emerald-950'
+                                                    ? 'scale-95 border-emerald-500 shadow-md shadow-emerald-950'
                                                     : 'border-slate-800 opacity-60 hover:opacity-100'
                                             }`}
                                         >
-                                            <img
-                                                src={img}
-                                                alt={`Thumbnail ${idx + 1}`}
-                                                className="w-full h-full object-cover"
-                                            />
+                                            <img src={img} alt={`Thumbnail ${idx + 1}`} className="h-full w-full object-cover" />
                                         </button>
                                     ))}
                                 </div>
@@ -142,93 +122,90 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
                         </div>
 
                         {/* Title & Core Specs */}
-                        <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+                        <div className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900 p-8">
+                            <div className="flex flex-col justify-between gap-4 border-b border-slate-800 pb-6 sm:flex-row sm:items-center">
                                 <div>
-                                    <h1 className="text-3xl font-black text-white tracking-tight">
-                                        Executive Flat {flat.flat_number}
-                                    </h1>
-                                    <p className="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
-                                        <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+                                    <h1 className="text-3xl font-black tracking-tight text-white">Executive Flat {flat.flat_number}</h1>
+                                    <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-400">
+                                        <MapPin className="h-3.5 w-3.5 text-emerald-400" />
                                         Skyline Heights Residency · {flat.floor} · Banani, Dhaka
                                     </p>
                                 </div>
 
                                 <div className="text-left sm:text-right">
-                                    <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400 block">Monthly Rent</span>
-                                    <span className="text-3xl font-black text-emerald-400">
-                                        ৳ {Number(flat.rent_cost).toLocaleString()}
-                                    </span>
-                                    <span className="text-xs text-slate-400 block font-normal">exclusive of utilities</span>
+                                    <span className="block text-[11px] font-medium tracking-wider text-slate-400 uppercase">Monthly Rent</span>
+                                    <span className="text-3xl font-black text-emerald-400">৳ {Number(flat.rent_cost).toLocaleString()}</span>
+                                    <span className="block text-xs font-normal text-slate-400">exclusive of utilities</span>
                                 </div>
                             </div>
 
                             {/* Core Specs Grid */}
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                                        <Bed className="w-5 h-5" />
+                            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                <div className="flex items-center gap-3 rounded-2xl border border-slate-800 bg-slate-950/80 p-4">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+                                        <Bed className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <span className="text-xs text-slate-400 block">Bedrooms</span>
-                                        <strong className="text-white text-sm font-bold">{flat.bedrooms} BHK</strong>
+                                        <span className="block text-xs text-slate-400">Bedrooms</span>
+                                        <strong className="text-sm font-bold text-white">{flat.bedrooms} BHK</strong>
                                     </div>
                                 </div>
 
-                                <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                                        <Bath className="w-5 h-5" />
+                                <div className="flex items-center gap-3 rounded-2xl border border-slate-800 bg-slate-950/80 p-4">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+                                        <Bath className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <span className="text-xs text-slate-400 block">Bathrooms</span>
-                                        <strong className="text-white text-sm font-bold">{flat.bathrooms} Baths</strong>
+                                        <span className="block text-xs text-slate-400">Bathrooms</span>
+                                        <strong className="text-sm font-bold text-white">{flat.bathrooms} Baths</strong>
                                     </div>
                                 </div>
 
-                                <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                                        <Layers className="w-5 h-5" />
+                                <div className="flex items-center gap-3 rounded-2xl border border-slate-800 bg-slate-950/80 p-4">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+                                        <Layers className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <span className="text-xs text-slate-400 block">Balconies</span>
-                                        <strong className="text-white text-sm font-bold">{flat.balconies} Balcony</strong>
+                                        <span className="block text-xs text-slate-400">Balconies</span>
+                                        <strong className="text-sm font-bold text-white">{flat.balconies} Balcony</strong>
                                     </div>
                                 </div>
 
-                                <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                                        <Maximize2 className="w-5 h-5" />
+                                <div className="flex items-center gap-3 rounded-2xl border border-slate-800 bg-slate-950/80 p-4">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+                                        <Maximize2 className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <span className="text-xs text-slate-400 block">Floor Area</span>
-                                        <strong className="text-white text-sm font-bold">{flat.size_sqft} Sq Ft</strong>
+                                        <span className="block text-xs text-slate-400">Floor Area</span>
+                                        <strong className="text-sm font-bold text-white">{flat.size_sqft} Sq Ft</strong>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Description */}
                             <div>
-                                <h3 className="text-base font-bold text-white mb-2">Apartment Overview</h3>
-                                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                                    {flat.description || 'This premium residential unit provides open-concept living, Italian ceramic floor tiles, abundant natural cross-ventilation, and dedicated kitchen cabinetry. Fully serviced and ready for occupancy.'}
+                                <h3 className="mb-2 text-base font-bold text-white">Apartment Overview</h3>
+                                <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
+                                    {flat.description ||
+                                        'This premium residential unit provides open-concept living, Italian ceramic floor tiles, abundant natural cross-ventilation, and dedicated kitchen cabinetry. Fully serviced and ready for occupancy.'}
                                 </p>
                             </div>
                         </div>
 
                         {/* Amenities Included */}
-                        <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
-                            <h3 className="text-base font-bold text-white flex items-center gap-2">
-                                <Sparkles className="w-4 h-4 text-emerald-400" />
+                        <div className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900 p-8">
+                            <h3 className="flex items-center gap-2 text-base font-bold text-white">
+                                <Sparkles className="h-4 w-4 text-emerald-400" />
                                 <span>Unit & Building Features</span>
                             </h3>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                            <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
                                 {displayAmenities.map((amenity, index) => (
                                     <div
                                         key={index}
-                                        className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-xs text-slate-300"
+                                        className="flex items-center gap-2.5 rounded-xl border border-slate-800 bg-slate-950/60 p-3 text-xs text-slate-300"
                                     >
-                                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                                        <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                                         <span>{amenity}</span>
                                     </div>
                                 ))}
@@ -236,23 +213,23 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
                         </div>
 
                         {/* Financial Terms & Deposit */}
-                        <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-400 space-y-3">
-                            <div className="flex items-center gap-2 text-white font-bold text-sm">
-                                <Info className="w-4 h-4 text-emerald-400" />
+                        <div className="space-y-3 rounded-2xl border border-slate-800 bg-slate-950 p-6 text-xs text-slate-400">
+                            <div className="flex items-center gap-2 text-sm font-bold text-white">
+                                <Info className="h-4 w-4 text-emerald-400" />
                                 <span>Rental Agreement & Lease Terms</span>
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                            <div className="grid grid-cols-1 gap-4 pt-2 sm:grid-cols-3">
                                 <div>
-                                    <span className="text-slate-500 block">Security Deposit (Refundable)</span>
-                                    <strong className="text-slate-200 text-sm">৳ {securityDeposit.toLocaleString()} (2 Months)</strong>
+                                    <span className="block text-slate-500">Security Deposit (Refundable)</span>
+                                    <strong className="text-sm text-slate-200">৳ {securityDeposit.toLocaleString()} (2 Months)</strong>
                                 </div>
                                 <div>
-                                    <span className="text-slate-500 block">Advance Rent</span>
-                                    <strong className="text-slate-200 text-sm">৳ {Number(flat.rent_cost).toLocaleString()} (1 Month)</strong>
+                                    <span className="block text-slate-500">Advance Rent</span>
+                                    <strong className="text-sm text-slate-200">৳ {Number(flat.rent_cost).toLocaleString()} (1 Month)</strong>
                                 </div>
                                 <div>
-                                    <span className="text-slate-500 block">Minimum Lease Period</span>
-                                    <strong className="text-slate-200 text-sm">12 Months (Renewable)</strong>
+                                    <span className="block text-slate-500">Minimum Lease Period</span>
+                                    <strong className="text-sm text-slate-200">12 Months (Renewable)</strong>
                                 </div>
                             </div>
                         </div>
@@ -260,22 +237,18 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
 
                     {/* Right Column: Sticky Booking Widget */}
                     <div className="lg:col-span-4">
-                        <div className="p-7 rounded-3xl bg-slate-900 border border-slate-800 sticky top-28 space-y-6 shadow-2xl">
+                        <div className="sticky top-28 space-y-6 rounded-3xl border border-slate-800 bg-slate-900 p-7 shadow-2xl">
                             <div>
-                                <span className="inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-950 border border-emerald-800/80 rounded-full mb-2">
+                                <span className="mb-2 inline-block rounded-full border border-emerald-800/80 bg-emerald-950 px-3 py-1 text-[10px] font-bold tracking-wider text-emerald-400 uppercase">
                                     Instant Tour Booking
                                 </span>
-                                <h3 className="text-xl font-bold text-white">
-                                    Schedule a Private Inspection
-                                </h3>
-                                <p className="text-xs text-slate-400 mt-1">
-                                    Book a guided tour of Unit {flat.flat_number} with our on-site manager.
-                                </p>
+                                <h3 className="text-xl font-bold text-white">Schedule a Private Inspection</h3>
+                                <p className="mt-1 text-xs text-slate-400">Book a guided tour of Unit {flat.flat_number} with our on-site manager.</p>
                             </div>
 
                             {wasSuccessful ? (
-                                <div className="p-5 rounded-2xl bg-emerald-950/70 border border-emerald-500/40 text-center space-y-2">
-                                    <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
+                                <div className="space-y-2 rounded-2xl border border-emerald-500/40 bg-emerald-950/70 p-5 text-center">
+                                    <CheckCircle2 className="mx-auto h-10 w-10 text-emerald-400" />
                                     <h4 className="text-sm font-bold text-white">Visit Request Received!</h4>
                                     <p className="text-xs text-emerald-200">
                                         We will call you shortly to confirm the scheduled tour time for Unit {flat.flat_number}.
@@ -284,7 +257,7 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
                             ) : (
                                 <form onSubmit={handleSidebarBooking} className="space-y-4">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-300">
                                             Your Full Name <span className="text-rose-400">*</span>
                                         </label>
                                         <input
@@ -293,13 +266,13 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
                                             value={data.name}
                                             onChange={(e) => setData('name', e.target.value)}
                                             placeholder="e.g. Tanvir Ahmed"
-                                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-emerald-500"
+                                            className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                                         />
-                                        {errors.name && <p className="text-[11px] text-rose-400 mt-1">{errors.name}</p>}
+                                        {errors.name && <p className="mt-1 text-[11px] text-rose-400">{errors.name}</p>}
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-300">
                                             Phone Number <span className="text-rose-400">*</span>
                                         </label>
                                         <input
@@ -308,13 +281,13 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
                                             value={data.phone}
                                             onChange={(e) => setData('phone', e.target.value)}
                                             placeholder="+88017XXXXXXXX"
-                                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-emerald-500"
+                                            className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                                         />
-                                        {errors.phone && <p className="text-[11px] text-rose-400 mt-1">{errors.phone}</p>}
+                                        {errors.phone && <p className="mt-1 text-[11px] text-rose-400">{errors.phone}</p>}
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-300">
                                             Email Address <span className="text-rose-400">*</span>
                                         </label>
                                         <input
@@ -323,57 +296,55 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
                                             value={data.email}
                                             onChange={(e) => setData('email', e.target.value)}
                                             placeholder="name@example.com"
-                                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-emerald-500"
+                                            className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                                         />
-                                        {errors.email && <p className="text-[11px] text-rose-400 mt-1">{errors.email}</p>}
+                                        {errors.email && <p className="mt-1 text-[11px] text-rose-400">{errors.email}</p>}
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-300 mb-1">
-                                            Preferred Tour Date
-                                        </label>
+                                        <label className="mb-1 block text-xs font-semibold text-slate-300">Preferred Tour Date</label>
                                         <input
                                             type="date"
                                             min={new Date().toISOString().split('T')[0]}
                                             value={data.visit_date}
                                             onChange={(e) => setData('visit_date', e.target.value)}
-                                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-emerald-500"
+                                            className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3.5 py-2.5 text-xs text-white focus:border-emerald-500 focus:outline-none"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-300 mb-1">
-                                            Notes / Moving Timeline (Optional)
-                                        </label>
+                                        <label className="mb-1 block text-xs font-semibold text-slate-300">Notes / Moving Timeline (Optional)</label>
                                         <textarea
                                             rows={2}
                                             value={data.message}
                                             onChange={(e) => setData('message', e.target.value)}
                                             placeholder="e.g. Planning to move next month..."
-                                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-emerald-500 resize-none"
+                                            className="w-full resize-none rounded-xl border border-slate-800 bg-slate-950 px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
                                         />
                                     </div>
 
                                     <button
                                         type="submit"
                                         disabled={processing || !isVacant}
-                                        className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-950/60 transition-all disabled:opacity-50 cursor-pointer"
+                                        className="w-full cursor-pointer rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-3.5 text-xs font-bold text-white shadow-lg shadow-emerald-950/60 transition-all hover:from-emerald-500 hover:to-teal-500 disabled:opacity-50"
                                     >
                                         <span className="flex items-center justify-center gap-2">
-                                            <Send className="w-4 h-4" />
+                                            <Send className="h-4 w-4" />
                                             {processing ? 'Submitting...' : isVacant ? 'Schedule Private Visit' : 'Currently Unavailable'}
                                         </span>
                                     </button>
                                 </form>
                             )}
 
-                            <div className="pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-400">
+                            <div className="space-y-2 border-t border-slate-800 pt-4 text-xs text-slate-400">
                                 <p className="flex items-center gap-2">
-                                    <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                                    <span>Immediate Inquiries: <strong>+880 1711-000002</strong></span>
+                                    <Phone className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
+                                    <span>
+                                        Immediate Inquiries: <strong>+880 1711-000002</strong>
+                                    </span>
                                 </p>
                                 <p className="flex items-center gap-2">
-                                    <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                    <Clock className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
                                     <span>Open for visit 7 days a week (9 AM - 7 PM)</span>
                                 </p>
                             </div>
@@ -383,34 +354,22 @@ export default function FlatShow({ flat, relatedFlats }: Props) {
 
                 {/* Related Flats Section */}
                 {relatedFlats && relatedFlats.length > 0 && (
-                    <div className="mt-20 pt-12 border-t border-slate-800">
+                    <div className="mt-20 border-t border-slate-800 pt-12">
                         <div className="mb-8">
-                            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
-                                Similar Accommodations
-                            </span>
-                            <h3 className="text-2xl font-bold text-white mt-1">
-                                Other Available Flats You Might Like
-                            </h3>
+                            <span className="text-xs font-semibold tracking-wider text-emerald-400 uppercase">Similar Accommodations</span>
+                            <h3 className="mt-1 text-2xl font-bold text-white">Other Available Flats You Might Like</h3>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {relatedFlats.map((rFlat) => (
-                                <FlatCard
-                                    key={rFlat.id}
-                                    flat={rFlat}
-                                    onBookTour={() => setIsTourModalOpen(true)}
-                                />
+                                <FlatCard key={rFlat.id} flat={rFlat} onBookTour={() => setIsTourModalOpen(true)} />
                             ))}
                         </div>
                     </div>
                 )}
             </div>
 
-            <TourBookingModal
-                isOpen={isTourModalOpen}
-                onClose={() => setIsTourModalOpen(false)}
-                flat={flat}
-            />
+            <TourBookingModal isOpen={isTourModalOpen} onClose={() => setIsTourModalOpen(false)} flat={flat} />
         </FrontendLayout>
     );
 }

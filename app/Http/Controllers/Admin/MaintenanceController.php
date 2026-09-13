@@ -106,7 +106,7 @@ class MaintenanceController extends Controller
         // If completed and flat was in maintenance status, restore flat to vacant if not leased
         if ($data['status'] === 'completed') {
             $flat = Flat::find($maintenance->flat_id);
-            if ($flat && $flat->status === 'maintenance' && !$flat->currentLease) {
+            if ($flat && $flat->status === 'maintenance' && ! $flat->currentLease) {
                 $flat->update(['status' => 'vacant']);
             }
         }

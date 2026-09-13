@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
 import AdminSmallBox from '@/components/admin/admin-small-box';
-import { 
-    AlertCircle, 
-    ArrowLeft, 
-    Printer, 
-    Download, 
-    Search, 
-    CreditCard, 
-    ExternalLink,
-    Building2,
-    Calendar,
-    Coins
-} from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, router } from '@inertiajs/react';
+import { AlertCircle, ArrowLeft, Calendar, Coins, CreditCard, Download, ExternalLink, Printer, Search } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface DueInvoice {
     id: number;
@@ -62,13 +51,17 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
 
     const handleFilter = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/admin/reports/dues', {
-            search,
-            month,
-        }, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            '/admin/reports/dues',
+            {
+                search,
+                month,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleExportCSV = () => {
@@ -111,7 +104,7 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
             <Head title="Outstanding Due List Report - Skyline Heights" />
 
             {/* Top Toolbar (Hidden on print) */}
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
+            <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center print:hidden">
                 <Link
                     href="/admin/reports"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
@@ -124,7 +117,7 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
                     <button
                         type="button"
                         onClick={handleExportCSV}
-                        className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                        className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                     >
                         <Download size={13} />
                         <span>Export CSV</span>
@@ -132,7 +125,7 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
                     <button
                         type="button"
                         onClick={() => window.print()}
-                        className="inline-flex items-center gap-1.5 rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 shadow-sm"
+                        className="inline-flex items-center gap-1.5 rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-amber-700"
                     >
                         <Printer size={13} />
                         <span>Print Due List</span>
@@ -141,34 +134,22 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
             </div>
 
             {/* Printable Report Header */}
-            <div className="hidden print:block mb-6 border-b border-slate-300 pb-4 text-center">
+            <div className="mb-6 hidden border-b border-slate-300 pb-4 text-center print:block">
                 <h2 className="text-xl font-black text-slate-900">SKYLINE HEIGHTS RESIDENCY</h2>
                 <p className="text-xs text-slate-600">House 42, Road 11, Block D, Banani, Dhaka-1213 · Property Accounts Office</p>
-                <h3 className="text-sm font-bold text-amber-800 mt-2 uppercase tracking-wide">
-                    Outstanding Rent Dues & Arrears Statement
-                </h3>
+                <h3 className="mt-2 text-sm font-bold tracking-wide text-amber-800 uppercase">Outstanding Rent Dues & Arrears Statement</h3>
             </div>
 
             {/* Metrics Row */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+            <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <AdminSmallBox
                     variant="danger"
                     value={`৳ ${summary.total_due.toLocaleString()}`}
                     label="Total Outstanding Balance"
                     icon={AlertCircle}
                 />
-                <AdminSmallBox
-                    variant="warning"
-                    value={summary.total_invoices}
-                    label="Unsettled Invoices"
-                    icon={Calendar}
-                />
-                <AdminSmallBox
-                    variant="info"
-                    value={`৳ ${summary.total_payable.toLocaleString()}`}
-                    label="Total Billed on Dues"
-                    icon={Coins}
-                />
+                <AdminSmallBox variant="warning" value={summary.total_invoices} label="Unsettled Invoices" icon={Calendar} />
+                <AdminSmallBox variant="info" value={`৳ ${summary.total_payable.toLocaleString()}`} label="Total Billed on Dues" icon={Coins} />
                 <AdminSmallBox
                     variant="success"
                     value={`৳ ${summary.total_paid.toLocaleString()}`}
@@ -178,10 +159,10 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
             </div>
 
             {/* Filters Bar (Hidden on print) */}
-            <div className="mb-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm print:hidden">
-                <form onSubmit={handleFilter} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                    <div className="sm:col-span-6 relative">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
+            <div className="mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 print:hidden">
+                <form onSubmit={handleFilter} className="grid grid-cols-1 items-end gap-3 sm:grid-cols-12">
+                    <div className="relative sm:col-span-6">
+                        <label className="mb-1 block text-xs font-bold tracking-wider text-slate-600 uppercase dark:text-slate-400">
                             Search Resident or Flat
                         </label>
                         <input
@@ -189,13 +170,13 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Type tenant name, phone, or unit..."
-                            className="w-full rounded-md border border-slate-300 bg-white py-1.5 pl-8 pr-3 text-xs text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+                            className="w-full rounded-md border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                         />
-                        <Search className="absolute left-2.5 top-7 text-slate-400" size={14} />
+                        <Search className="absolute top-7 left-2.5 text-slate-400" size={14} />
                     </div>
 
                     <div className="sm:col-span-4">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
+                        <label className="mb-1 block text-xs font-bold tracking-wider text-slate-600 uppercase dark:text-slate-400">
                             Specific Billing Month
                         </label>
                         <input
@@ -209,7 +190,7 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
                     <div className="sm:col-span-2">
                         <button
                             type="submit"
-                            className="w-full rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm"
+                            className="w-full rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700"
                         >
                             Filter Dues
                         </button>
@@ -221,7 +202,7 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
             <AdminCard title={`Outstanding Invoices Ledger (${invoices.length} Unsettled)`} icon={AlertCircle}>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-700 dark:text-slate-200">
-                        <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                        <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold tracking-wider text-slate-600 uppercase dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
                             <tr>
                                 <th className="px-4 py-3">Invoice & Month</th>
                                 <th className="px-4 py-3">Resident Details</th>
@@ -248,43 +229,37 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
                                             <td className="px-4 py-3 whitespace-nowrap">
                                                 <Link
                                                     href={`/admin/invoices/${inv.id}`}
-                                                    className="font-mono font-bold text-blue-600 dark:text-blue-400 hover:underline block"
+                                                    className="block font-mono font-bold text-blue-600 hover:underline dark:text-blue-400"
                                                 >
                                                     {inv.invoice_no}
                                                 </Link>
-                                                <span className="text-[10px] text-slate-400">
-                                                    Month: {inv.billing_month}
-                                                </span>
+                                                <span className="text-[10px] text-slate-400">Month: {inv.billing_month}</span>
                                             </td>
                                             <td className="px-4 py-3 whitespace-nowrap">
-                                                <span className="font-semibold text-slate-900 dark:text-white block">
+                                                <span className="block font-semibold text-slate-900 dark:text-white">
                                                     {inv.tenant?.name || 'Resident'}
                                                 </span>
                                                 <span className="text-[10px] text-slate-400">{inv.tenant?.phone}</span>
                                             </td>
                                             <td className="px-4 py-3 whitespace-nowrap">
                                                 Unit {inv.lease?.flat?.flat_number || 'N/A'}
-                                                <span className="block text-[10px] text-slate-400">
-                                                    {inv.lease?.flat?.floor}
-                                                </span>
+                                                <span className="block text-[10px] text-slate-400">{inv.lease?.flat?.floor}</span>
                                             </td>
-                                            <td className="px-4 py-3 whitespace-nowrap text-slate-500">
-                                                {inv.due_date || 'Immediate'}
-                                            </td>
-                                            <td className="px-4 py-3 whitespace-nowrap text-right font-medium">
+                                            <td className="px-4 py-3 whitespace-nowrap text-slate-500">{inv.due_date || 'Immediate'}</td>
+                                            <td className="px-4 py-3 text-right font-medium whitespace-nowrap">
                                                 ৳ {Number(inv.total_payable).toLocaleString()}
                                             </td>
-                                            <td className="px-4 py-3 whitespace-nowrap text-right text-slate-500">
+                                            <td className="px-4 py-3 text-right whitespace-nowrap text-slate-500">
                                                 ৳ {Number(inv.paid_amount).toLocaleString()}
                                             </td>
-                                            <td className="px-4 py-3 whitespace-nowrap text-right font-bold text-rose-600 dark:text-rose-400">
+                                            <td className="px-4 py-3 text-right font-bold whitespace-nowrap text-rose-600 dark:text-rose-400">
                                                 ৳ {due.toLocaleString()}
                                             </td>
-                                            <td className="px-4 py-3 whitespace-nowrap text-right print:hidden">
+                                            <td className="px-4 py-3 text-right whitespace-nowrap print:hidden">
                                                 <div className="inline-flex items-center gap-1.5">
                                                     <Link
                                                         href={`/admin/payments/create?invoice_id=${inv.id}`}
-                                                        className="rounded bg-emerald-600 px-2.5 py-1 text-[11px] font-bold text-white hover:bg-emerald-700 shadow-sm"
+                                                        className="rounded bg-emerald-600 px-2.5 py-1 text-[11px] font-bold text-white shadow-sm hover:bg-emerald-700"
                                                     >
                                                         Collect
                                                     </Link>
@@ -302,9 +277,9 @@ export default function ReportDues({ invoices, filters, summary }: Props) {
                                 })
                             )}
                         </tbody>
-                        <tfoot className="border-t-2 border-slate-300 dark:border-slate-700 bg-slate-50/75 dark:bg-slate-900/60 font-bold">
+                        <tfoot className="border-t-2 border-slate-300 bg-slate-50/75 font-bold dark:border-slate-700 dark:bg-slate-900/60">
                             <tr>
-                                <td colSpan={6} className="px-4 py-3 text-right uppercase tracking-wider text-xs">
+                                <td colSpan={6} className="px-4 py-3 text-right text-xs tracking-wider uppercase">
                                     Total Outstanding Arrears:
                                 </td>
                                 <td className="px-4 py-3 text-right text-sm text-rose-600 dark:text-rose-400">

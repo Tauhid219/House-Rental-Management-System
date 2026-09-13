@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------

@@ -1,17 +1,5 @@
-import React, { useEffect } from 'react';
 import { Head, Link } from '@inertiajs/react';
-import { 
-    Printer, 
-    ArrowLeft, 
-    Building2, 
-    CheckCircle2, 
-    CreditCard, 
-    Receipt, 
-    Calendar,
-    Phone,
-    MapPin,
-    FileText
-} from 'lucide-react';
+import { ArrowLeft, Building2, FileText, Printer } from 'lucide-react';
 
 interface Tenant {
     id: number;
@@ -69,80 +57,70 @@ export default function PaymentReceipt({ payment }: Props) {
     const invoice = payment.invoice;
 
     const renderSlip = (copyType: 'TENANT COPY' | 'OFFICE COPY') => (
-        <div className="rounded-xl border border-slate-300 bg-white p-6 sm:p-8 text-slate-800 shadow-sm print:shadow-none print:border-slate-800 print:rounded-none">
+        <div className="rounded-xl border border-slate-300 bg-white p-6 text-slate-800 shadow-sm sm:p-8 print:rounded-none print:border-slate-800 print:shadow-none">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-200">
+            <div className="flex flex-col items-start justify-between border-b border-slate-200 pb-4 sm:flex-row sm:items-center">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-600 font-bold text-white">
                         <Building2 size={20} />
                     </div>
                     <div>
-                        <h2 className="text-base font-black tracking-tight text-slate-900 leading-tight">
-                            SKYLINE HEIGHTS RESIDENCY
-                        </h2>
-                        <p className="text-[11px] text-slate-500">
-                            House 42, Road 11, Block D, Banani, Dhaka-1213 · Tel: +880 1711-000001
-                        </p>
+                        <h2 className="text-base leading-tight font-black tracking-tight text-slate-900">SKYLINE HEIGHTS RESIDENCY</h2>
+                        <p className="text-[11px] text-slate-500">House 42, Road 11, Block D, Banani, Dhaka-1213 · Tel: +880 1711-000001</p>
                     </div>
                 </div>
 
-                <div className="mt-3 sm:mt-0 text-left sm:text-right">
-                    <span className="inline-block rounded bg-slate-100 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest text-slate-700 border border-slate-200">
+                <div className="mt-3 text-left sm:mt-0 sm:text-right">
+                    <span className="inline-block rounded border border-slate-200 bg-slate-100 px-2 py-0.5 text-[10px] font-extrabold tracking-widest text-slate-700 uppercase">
                         {copyType}
                     </span>
-                    <h3 className="text-sm font-extrabold text-emerald-700 mt-1">
-                        RENT MONEY RECEIPT
-                    </h3>
+                    <h3 className="mt-1 text-sm font-extrabold text-emerald-700">RENT MONEY RECEIPT</h3>
                 </div>
             </div>
 
             {/* Receipt Meta Details */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 border-b border-slate-100 text-xs">
+            <div className="grid grid-cols-2 gap-4 border-b border-slate-100 py-4 text-xs sm:grid-cols-4">
                 <div>
-                    <span className="text-slate-400 block text-[10px] uppercase">Receipt No</span>
-                    <strong className="font-mono text-slate-900 font-bold">{payment.payment_no}</strong>
+                    <span className="block text-[10px] text-slate-400 uppercase">Receipt No</span>
+                    <strong className="font-mono font-bold text-slate-900">{payment.payment_no}</strong>
                 </div>
                 <div>
-                    <span className="text-slate-400 block text-[10px] uppercase">Payment Date</span>
+                    <span className="block text-[10px] text-slate-400 uppercase">Payment Date</span>
                     <strong className="text-slate-900">{payment.payment_date}</strong>
                 </div>
                 <div>
-                    <span className="text-slate-400 block text-[10px] uppercase">Invoice Ref</span>
+                    <span className="block text-[10px] text-slate-400 uppercase">Invoice Ref</span>
                     <strong className="text-slate-900">{invoice ? invoice.invoice_no : 'N/A'}</strong>
                 </div>
                 <div>
-                    <span className="text-slate-400 block text-[10px] uppercase">Billing Month</span>
+                    <span className="block text-[10px] text-slate-400 uppercase">Billing Month</span>
                     <strong className="text-slate-900">{invoice ? invoice.billing_month : 'N/A'}</strong>
                 </div>
             </div>
 
             {/* Resident & Unit Information */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4 border-b border-slate-100 text-xs">
+            <div className="grid grid-cols-1 gap-4 border-b border-slate-100 py-4 text-xs sm:grid-cols-2">
                 <div className="space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                        Received From (Resident):
-                    </span>
-                    <p className="font-bold text-slate-900 text-sm">{tenant ? tenant.name : 'Unknown Resident'}</p>
+                    <span className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Received From (Resident):</span>
+                    <p className="text-sm font-bold text-slate-900">{tenant ? tenant.name : 'Unknown Resident'}</p>
                     <p className="text-slate-600">Phone: {tenant ? tenant.phone : 'N/A'}</p>
-                    <p className="text-slate-500 text-[11px]">NID/Passport: {tenant ? tenant.nid_passport : 'N/A'}</p>
+                    <p className="text-[11px] text-slate-500">NID/Passport: {tenant ? tenant.nid_passport : 'N/A'}</p>
                 </div>
 
                 <div className="space-y-1 sm:text-right">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                        Unit Details:
-                    </span>
-                    <p className="font-bold text-slate-900 text-sm">
+                    <span className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Unit Details:</span>
+                    <p className="text-sm font-bold text-slate-900">
                         Unit {flat ? flat.flat_number : 'N/A'} ({flat ? flat.floor : 'N/A'})
                     </p>
                     <p className="text-slate-600">Residential Tenancy Account</p>
-                    <p className="text-slate-500 text-[11px]">Authorized Residence</p>
+                    <p className="text-[11px] text-slate-500">Authorized Residence</p>
                 </div>
             </div>
 
             {/* Transaction Particulars Table */}
             <div className="py-4">
-                <table className="w-full text-left text-xs border border-slate-200">
-                    <thead className="bg-slate-50 text-[10px] font-bold uppercase text-slate-600 border-b border-slate-200">
+                <table className="w-full border border-slate-200 text-left text-xs">
+                    <thead className="border-b border-slate-200 bg-slate-50 text-[10px] font-bold text-slate-600 uppercase">
                         <tr>
                             <th className="p-2.5">Payment Particulars</th>
                             <th className="p-2.5">Method</th>
@@ -155,28 +133,20 @@ export default function PaymentReceipt({ payment }: Props) {
                             <td className="p-2.5 font-medium text-slate-800">
                                 Monthly Rent & Utilities Payment
                                 {payment.notes && (
-                                    <span className="block text-[11px] text-slate-500 font-normal italic mt-0.5">
-                                        Note: {payment.notes}
-                                    </span>
+                                    <span className="mt-0.5 block text-[11px] font-normal text-slate-500 italic">Note: {payment.notes}</span>
                                 )}
                             </td>
-                            <td className="p-2.5 uppercase font-semibold text-slate-700">
-                                {payment.payment_method}
-                            </td>
-                            <td className="p-2.5 font-mono text-slate-600">
-                                {payment.transaction_id || 'Cash Transaction'}
-                            </td>
-                            <td className="p-2.5 text-right font-bold text-emerald-700 text-sm">
-                                ৳ {Number(payment.amount_paid).toLocaleString()}
-                            </td>
+                            <td className="p-2.5 font-semibold text-slate-700 uppercase">{payment.payment_method}</td>
+                            <td className="p-2.5 font-mono text-slate-600">{payment.transaction_id || 'Cash Transaction'}</td>
+                            <td className="p-2.5 text-right text-sm font-bold text-emerald-700">৳ {Number(payment.amount_paid).toLocaleString()}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             {/* Total Highlight & Signatures */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 items-end">
-                <div className="text-xs text-slate-500 space-y-1">
+            <div className="grid grid-cols-1 items-end gap-6 pt-4 sm:grid-cols-2">
+                <div className="space-y-1 text-xs text-slate-500">
                     <p className="text-[11px]">
                         Received By: <strong className="text-slate-800">{payment.received_by?.name || 'Property Accounts Officer'}</strong>
                     </p>
@@ -185,13 +155,13 @@ export default function PaymentReceipt({ payment }: Props) {
                     </p>
                 </div>
 
-                <div className="flex items-center justify-between sm:justify-end gap-10 text-center text-xs pt-8 sm:pt-0">
+                <div className="flex items-center justify-between gap-10 pt-8 text-center text-xs sm:justify-end sm:pt-0">
                     <div>
-                        <div className="w-32 border-b border-slate-400 mb-1" />
+                        <div className="mb-1 w-32 border-b border-slate-400" />
                         <span className="text-[10px] text-slate-500">Resident Signature</span>
                     </div>
                     <div>
-                        <div className="w-32 border-b border-slate-400 mb-1" />
+                        <div className="mb-1 w-32 border-b border-slate-400" />
                         <span className="text-[10px] text-slate-500">Authorized Officer</span>
                     </div>
                 </div>
@@ -200,15 +170,12 @@ export default function PaymentReceipt({ payment }: Props) {
     );
 
     return (
-        <div className="min-h-screen bg-slate-100 py-8 px-4 sm:px-6 print:bg-white print:p-0">
+        <div className="min-h-screen bg-slate-100 px-4 py-8 sm:px-6 print:bg-white print:p-0">
             <Head title={`Receipt #${payment.payment_no} - Skyline Heights`} />
 
             {/* Top Toolbar (Hidden when printing) */}
-            <div className="max-w-4xl mx-auto mb-6 flex items-center justify-between print:hidden">
-                <Link
-                    href="/admin/payments"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900"
-                >
+            <div className="mx-auto mb-6 flex max-w-4xl items-center justify-between print:hidden">
+                <Link href="/admin/payments" className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900">
                     <ArrowLeft size={14} />
                     <span>Back to Payment Ledger</span>
                 </Link>
@@ -217,7 +184,7 @@ export default function PaymentReceipt({ payment }: Props) {
                     {invoice && (
                         <Link
                             href={`/admin/invoices/${invoice.id}`}
-                            className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
                         >
                             <FileText size={14} />
                             <span>View Linked Invoice</span>
@@ -226,7 +193,7 @@ export default function PaymentReceipt({ payment }: Props) {
                     <button
                         type="button"
                         onClick={handlePrint}
-                        className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-700 shadow cursor-pointer"
+                        className="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-emerald-700"
                     >
                         <Printer size={14} />
                         <span>Print Money Receipt</span>
@@ -235,13 +202,13 @@ export default function PaymentReceipt({ payment }: Props) {
             </div>
 
             {/* Slips Container */}
-            <div className="max-w-4xl mx-auto space-y-8">
+            <div className="mx-auto max-w-4xl space-y-8">
                 {/* 1. Tenant Copy */}
                 {renderSlip('TENANT COPY')}
 
                 {/* Perforation Line for Print */}
-                <div className="border-t-2 border-dashed border-slate-300 relative text-center print:my-6">
-                    <span className="bg-slate-100 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest relative -top-2.5 print:bg-white">
+                <div className="relative border-t-2 border-dashed border-slate-300 text-center print:my-6">
+                    <span className="relative -top-2.5 bg-slate-100 px-3 text-[10px] font-bold tracking-widest text-slate-400 uppercase print:bg-white">
                         ✂ Tear Along Perforation · Office Record Below
                     </span>
                 </div>

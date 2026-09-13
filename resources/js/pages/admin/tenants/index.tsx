@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import {
-    Users,
-    PlusCircle,
-    Search,
-    Edit3,
-    Trash2,
-    Phone,
-    Mail,
-    Home as HomeIcon,
-    Shield,
-    FileText
-} from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link, router } from '@inertiajs/react';
+import { Edit3, Home as HomeIcon, Mail, Phone, PlusCircle, Trash2, Users } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface TenantItem {
     id: number;
@@ -72,10 +61,14 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
 
     const handleFilterSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/admin/tenants', {
-            search,
-            status,
-        }, { preserveState: true });
+        router.get(
+            '/admin/tenants',
+            {
+                search,
+                status,
+            },
+            { preserveState: true },
+        );
     };
 
     const handleDelete = (tenant: TenantItem) => {
@@ -87,26 +80,26 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
     return (
         <AdminLayout title="Tenants & Residents Directory • Skyline Heights" breadcrumbs={breadcrumbs}>
             {/* Quick Stat Pill Widgets */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mb-6">
+            <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div className="rounded-md border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                    <div className="text-xs font-semibold uppercase text-slate-400">Total Registered Tenants</div>
+                    <div className="text-xs font-semibold text-slate-400 uppercase">Total Registered Tenants</div>
                     <div className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">{stats.total}</div>
                 </div>
                 <div className="rounded-md border border-emerald-200 bg-emerald-50/50 p-4 shadow-sm dark:border-emerald-950 dark:bg-emerald-950/20">
-                    <div className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">Active Residents</div>
+                    <div className="text-xs font-semibold text-emerald-600 uppercase dark:text-emerald-400">Active Residents</div>
                     <div className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{stats.active}</div>
                 </div>
                 <div className="rounded-md border border-slate-200 bg-slate-50/50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-800/40">
-                    <div className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">Past Residents</div>
+                    <div className="text-xs font-semibold text-slate-500 uppercase dark:text-slate-400">Past Residents</div>
                     <div className="mt-1 text-2xl font-bold text-slate-700 dark:text-slate-300">{stats.past}</div>
                 </div>
             </div>
 
             {/* Filter Card */}
             <AdminCard variant="default" className="mb-6">
-                <form onSubmit={handleFilterSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-3 items-end">
+                <form onSubmit={handleFilterSubmit} className="grid grid-cols-1 items-end gap-3 sm:grid-cols-3">
                     <div className="sm:col-span-2">
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Search Tenant
                         </label>
                         <input
@@ -119,7 +112,7 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
                     </div>
 
                     <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Resident Status
                         </label>
                         <div className="flex gap-2">
@@ -134,7 +127,7 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
                             </select>
                             <button
                                 type="submit"
-                                className="rounded bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                                className="rounded bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
                             >
                                 Filter
                             </button>
@@ -154,7 +147,7 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
                 tools={
                     <Link
                         href="/admin/tenants/create"
-                        className="inline-flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                        className="inline-flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
                     >
                         <PlusCircle size={14} />
                         <span>Register New Tenant</span>
@@ -165,7 +158,7 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
             >
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-                        <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-800/60">
+                        <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60">
                             <tr>
                                 <th className="px-5 py-3.5">Tenant Name & Details</th>
                                 <th className="px-5 py-3.5">Contact Info</th>
@@ -186,9 +179,7 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
                                 tenants.data.map((tenant) => (
                                     <tr key={tenant.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                                         <td className="px-5 py-3.5">
-                                            <div className="font-bold text-slate-900 dark:text-white">
-                                                {tenant.name}
-                                            </div>
+                                            <div className="font-bold text-slate-900 dark:text-white">{tenant.name}</div>
                                             <span className="text-[11px] text-slate-500 dark:text-slate-400">
                                                 {tenant.occupation || 'Resident'} • {tenant.family_members} Members
                                             </span>
@@ -199,7 +190,7 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
                                                 <span>{tenant.phone}</span>
                                             </div>
                                             {tenant.email && (
-                                                <div className="flex items-center gap-1 text-[11px] text-slate-400 mt-0.5">
+                                                <div className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-400">
                                                     <Mail size={12} />
                                                     <span>{tenant.email}</span>
                                                 </div>
@@ -215,12 +206,12 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
                                                     Flat {tenant.active_lease.flat.flat_number} ({tenant.active_lease.flat.floor})
                                                 </span>
                                             ) : (
-                                                <span className="text-slate-400 italic text-[11px]">No active lease</span>
+                                                <span className="text-[11px] text-slate-400 italic">No active lease</span>
                                             )}
                                         </td>
                                         <td className="px-5 py-3.5 text-center">
                                             <span
-                                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase ${
                                                     tenant.status === 'active'
                                                         ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                                                         : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
@@ -270,8 +261,8 @@ export default function TenantsIndex({ tenants, filters, stats }: TenantsIndexPr
                                         link.active
                                             ? 'bg-blue-600 font-bold text-white'
                                             : link.url
-                                            ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-                                            : 'pointer-events-none text-slate-300 dark:text-slate-600'
+                                              ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                              : 'pointer-events-none text-slate-300 dark:text-slate-600'
                                     }`}
                                 />
                             ))}

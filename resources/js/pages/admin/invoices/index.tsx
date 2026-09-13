@@ -1,23 +1,9 @@
-import React, { useState } from 'react';
-import { Head, Link, router, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import {
-    Receipt,
-    PlusCircle,
-    Search,
-    Calendar,
-    DollarSign,
-    ExternalLink,
-    CreditCard,
-    Trash2,
-    CheckCircle2,
-    Clock,
-    AlertCircle,
-    Zap,
-    X
-} from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link, router, useForm } from '@inertiajs/react';
+import { CreditCard, ExternalLink, PlusCircle, Receipt, Trash2, X, Zap } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface InvoiceItem {
     id: number;
@@ -83,20 +69,21 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Rent Invoices', href: '/admin/invoices' },
 ];
 
-export default function InvoicesIndex({
-    invoices,
-    filters,
-    stats,
-    billingMonths,
-    currentMonth,
-}: InvoicesIndexProps) {
+export default function InvoicesIndex({ invoices, filters, stats, billingMonths, currentMonth }: InvoicesIndexProps) {
     const [search, setSearch] = useState(filters.search || '');
     const [status, setStatus] = useState(filters.status || 'all');
     const [billingMonth, setBillingMonth] = useState(filters.billing_month || 'all');
     const [isBatchModalOpen, setIsBatchModalOpen] = useState(false);
 
     // Batch generator form state
-    const { data: batchData, setData: setBatchData, post: postBatch, processing: batchProcessing, errors: batchErrors, reset: resetBatch } = useForm({
+    const {
+        data: batchData,
+        setData: setBatchData,
+        post: postBatch,
+        processing: batchProcessing,
+        errors: batchErrors,
+        reset: resetBatch,
+    } = useForm({
         billing_month: currentMonth,
         due_date: new Date(new Date().getFullYear(), new Date().getMonth(), 10).toISOString().split('T')[0],
         utility_charges: 3000,
@@ -105,11 +92,15 @@ export default function InvoicesIndex({
 
     const handleFilterSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/admin/invoices', {
-            search,
-            status,
-            billing_month: billingMonth,
-        }, { preserveState: true });
+        router.get(
+            '/admin/invoices',
+            {
+                search,
+                status,
+                billing_month: billingMonth,
+            },
+            { preserveState: true },
+        );
     };
 
     const handleBatchSubmit = (e: React.FormEvent) => {
@@ -131,64 +122,54 @@ export default function InvoicesIndex({
     return (
         <AdminLayout title="Rent Invoices & Billing • Skyline Heights" breadcrumbs={breadcrumbs}>
             {/* Quick Stat Pill Widgets */}
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 mb-6">
+            <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 <div className="rounded-md border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                    <div className="text-xs font-semibold uppercase text-slate-400">Total Invoiced</div>
-                    <div className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
-                        ৳{stats.total_payable.toLocaleString()}
-                    </div>
+                    <div className="text-xs font-semibold text-slate-400 uppercase">Total Invoiced</div>
+                    <div className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">৳{stats.total_payable.toLocaleString()}</div>
                     <span className="text-[11px] text-slate-400">{stats.total_invoices} invoices total</span>
                 </div>
                 <div className="rounded-md border border-emerald-200 bg-emerald-50/50 p-4 shadow-sm dark:border-emerald-950 dark:bg-emerald-950/20">
-                    <div className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">Collected Payments</div>
-                    <div className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">
-                        ৳{stats.total_paid.toLocaleString()}
-                    </div>
+                    <div className="text-xs font-semibold text-emerald-600 uppercase dark:text-emerald-400">Collected Payments</div>
+                    <div className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">৳{stats.total_paid.toLocaleString()}</div>
                     <span className="text-[11px] text-emerald-600 dark:text-emerald-400">{stats.paid_count} fully paid</span>
                 </div>
                 <div className="rounded-md border border-rose-200 bg-rose-50/50 p-4 shadow-sm dark:border-rose-950 dark:bg-rose-950/20">
-                    <div className="text-xs font-semibold uppercase text-rose-600 dark:text-rose-400">Outstanding Due</div>
-                    <div className="mt-1 text-2xl font-bold text-rose-700 dark:text-rose-300">
-                        ৳{stats.total_due.toLocaleString()}
-                    </div>
+                    <div className="text-xs font-semibold text-rose-600 uppercase dark:text-rose-400">Outstanding Due</div>
+                    <div className="mt-1 text-2xl font-bold text-rose-700 dark:text-rose-300">৳{stats.total_due.toLocaleString()}</div>
                     <span className="text-[11px] text-rose-600 dark:text-rose-400">
                         {stats.unpaid_count + stats.partially_paid_count} pending invoices
                     </span>
                 </div>
                 <div className="rounded-md border border-blue-200 bg-blue-50/50 p-4 shadow-sm dark:border-blue-950 dark:bg-blue-950/20">
-                    <div className="text-xs font-semibold uppercase text-blue-600 dark:text-blue-400">Collection Rate</div>
+                    <div className="text-xs font-semibold text-blue-600 uppercase dark:text-blue-400">Collection Rate</div>
                     <div className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">
-                        {stats.total_payable > 0
-                            ? Math.round((stats.total_paid / stats.total_payable) * 100)
-                            : 0}%
+                        {stats.total_payable > 0 ? Math.round((stats.total_paid / stats.total_payable) * 100) : 0}%
                     </div>
-                    <span className="text-[11px] text-blue-600 dark:text-blue-400">
-                        {stats.partially_paid_count} partial collections
-                    </span>
+                    <span className="text-[11px] text-blue-600 dark:text-blue-400">{stats.partially_paid_count} partial collections</span>
                 </div>
             </div>
 
             {/* Action & Filter Bar */}
             <AdminCard variant="default" className="mb-6">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-100 pb-4 dark:border-slate-800">
+                <div className="flex flex-col gap-4 border-b border-slate-100 pb-4 md:flex-row md:items-center md:justify-between dark:border-slate-800">
                     <div className="flex flex-wrap items-center gap-2.5">
                         <button
                             onClick={() => setIsBatchModalOpen(true)}
-                            className="inline-flex items-center gap-1.5 rounded bg-indigo-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-indigo-700 transition-colors"
+                            className="inline-flex items-center gap-1.5 rounded bg-indigo-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-indigo-700"
                         >
                             <Zap size={14} />
                             <span>Batch Generate Monthly Invoices</span>
                         </button>
                         <Link
                             href="/admin/invoices/create"
-                            className="inline-flex items-center gap-1.5 rounded bg-blue-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                            className="inline-flex items-center gap-1.5 rounded bg-blue-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700"
                         >
                             <PlusCircle size={14} />
                             <span>Create Single Invoice</span>
                         </Link>
                         <Link
                             href="/admin/payments/create"
-                            className="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                            className="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
                             <CreditCard size={14} />
                             <span>Record Payment Collection</span>
@@ -196,9 +177,9 @@ export default function InvoicesIndex({
                     </div>
                 </div>
 
-                <form onSubmit={handleFilterSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-4 items-end mt-4">
+                <form onSubmit={handleFilterSubmit} className="mt-4 grid grid-cols-1 items-end gap-3 sm:grid-cols-4">
                     <div className="sm:col-span-2">
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Search Invoice
                         </label>
                         <input
@@ -211,7 +192,7 @@ export default function InvoicesIndex({
                     </div>
 
                     <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Payment Status
                         </label>
                         <select
@@ -227,7 +208,7 @@ export default function InvoicesIndex({
                     </div>
 
                     <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1">
+                        <label className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-400">
                             Billing Month
                         </label>
                         <div className="flex gap-2">
@@ -238,12 +219,14 @@ export default function InvoicesIndex({
                             >
                                 <option value="all">All Months</option>
                                 {billingMonths.map((m) => (
-                                    <option key={m} value={m}>{m}</option>
+                                    <option key={m} value={m}>
+                                        {m}
+                                    </option>
                                 ))}
                             </select>
                             <button
                                 type="submit"
-                                className="rounded bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                                className="rounded bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
                             >
                                 Filter
                             </button>
@@ -265,7 +248,7 @@ export default function InvoicesIndex({
             >
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
-                        <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-800/60">
+                        <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60">
                             <tr>
                                 <th className="px-5 py-3.5">Invoice # & Month</th>
                                 <th className="px-5 py-3.5">Resident & Flat</th>
@@ -289,18 +272,14 @@ export default function InvoicesIndex({
                                         <td className="px-5 py-3.5">
                                             <Link
                                                 href={`/admin/invoices/${inv.id}`}
-                                                className="font-mono text-xs font-bold text-blue-600 hover:underline block"
+                                                className="block font-mono text-xs font-bold text-blue-600 hover:underline"
                                             >
                                                 {inv.invoice_no}
                                             </Link>
-                                            <span className="text-[11px] text-slate-400">
-                                                Month: {inv.billing_month}
-                                            </span>
+                                            <span className="text-[11px] text-slate-400">Month: {inv.billing_month}</span>
                                         </td>
                                         <td className="px-5 py-3.5">
-                                            <div className="font-semibold text-slate-900 dark:text-white">
-                                                {inv.tenant?.name || 'Unassigned'}
-                                            </div>
+                                            <div className="font-semibold text-slate-900 dark:text-white">{inv.tenant?.name || 'Unassigned'}</div>
                                             <span className="text-[11px] text-slate-500 dark:text-slate-400">
                                                 Flat {inv.lease?.flat?.flat_number} ({inv.lease?.flat?.floor})
                                             </span>
@@ -316,12 +295,12 @@ export default function InvoicesIndex({
                                         </td>
                                         <td className="px-5 py-3.5 text-center">
                                             <span
-                                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide uppercase ${
                                                     inv.status === 'paid'
                                                         ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                                                         : inv.status === 'partially_paid'
-                                                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
-                                                        : 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300'
+                                                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
+                                                          : 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300'
                                                 }`}
                                             >
                                                 {inv.status.replace('_', ' ')}
@@ -341,7 +320,7 @@ export default function InvoicesIndex({
                                                     <Link
                                                         href={`/admin/payments/create?invoice_id=${inv.id}`}
                                                         title="Collect Payment"
-                                                        className="inline-flex items-center gap-1 rounded bg-emerald-600 px-2 py-1 text-xs font-semibold text-white hover:bg-emerald-700 shadow-sm"
+                                                        className="inline-flex items-center gap-1 rounded bg-emerald-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
                                                     >
                                                         <CreditCard size={13} />
                                                         <span>Collect</span>
@@ -381,8 +360,8 @@ export default function InvoicesIndex({
                                         link.active
                                             ? 'bg-blue-600 font-bold text-white'
                                             : link.url
-                                            ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-                                            : 'pointer-events-none text-slate-300 dark:text-slate-600'
+                                              ? 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                              : 'pointer-events-none text-slate-300 dark:text-slate-600'
                                     }`}
                                 />
                             ))}
@@ -398,9 +377,7 @@ export default function InvoicesIndex({
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-800">
                             <div className="flex items-center gap-2">
                                 <Zap size={18} className="text-indigo-600" />
-                                <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                                    Batch Generate Monthly Invoices
-                                </h3>
+                                <h3 className="text-base font-bold text-slate-900 dark:text-white">Batch Generate Monthly Invoices</h3>
                             </div>
                             <button
                                 onClick={() => setIsBatchModalOpen(false)}
@@ -411,13 +388,14 @@ export default function InvoicesIndex({
                         </div>
 
                         <form onSubmit={handleBatchSubmit} className="mt-4 space-y-4">
-                            <p className="text-xs text-slate-500 leading-relaxed dark:text-slate-400">
-                                Automatically creates monthly rent invoices for <strong>all currently active leases</strong>. Active units that already have an invoice generated for the selected month will be safely skipped.
+                            <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                                Automatically creates monthly rent invoices for <strong>all currently active leases</strong>. Active units that
+                                already have an invoice generated for the selected month will be safely skipped.
                             </p>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Billing Month (YYYY-MM) *
                                     </label>
                                     <input
@@ -427,15 +405,11 @@ export default function InvoicesIndex({
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {batchErrors.billing_month && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{batchErrors.billing_month}</p>
-                                    )}
+                                    {batchErrors.billing_month && <p className="mt-1 text-[11px] text-rose-600">{batchErrors.billing_month}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Payment Due Date *
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Payment Due Date *</label>
                                     <input
                                         type="date"
                                         value={batchData.due_date}
@@ -443,15 +417,13 @@ export default function InvoicesIndex({
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {batchErrors.due_date && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{batchErrors.due_date}</p>
-                                    )}
+                                    {batchErrors.due_date && <p className="mt-1 text-[11px] text-rose-600">{batchErrors.due_date}</p>}
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Default Utility Charges (৳)
                                     </label>
                                     <input
@@ -465,7 +437,7 @@ export default function InvoicesIndex({
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Other Service Charges (৳)
                                     </label>
                                     <input
@@ -479,7 +451,7 @@ export default function InvoicesIndex({
                                 </div>
                             </div>
 
-                            <div className="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+                            <div className="mt-6 flex items-center justify-end gap-3 border-t border-slate-100 pt-3 dark:border-slate-800">
                                 <button
                                     type="button"
                                     onClick={() => setIsBatchModalOpen(false)}

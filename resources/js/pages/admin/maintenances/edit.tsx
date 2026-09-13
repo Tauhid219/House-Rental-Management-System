@@ -1,8 +1,8 @@
-import React from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import { Wrench, ArrowLeft, Save } from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { ArrowLeft, Save, Wrench } from 'lucide-react';
+import React from 'react';
 
 interface Flat {
     id: number;
@@ -53,7 +53,7 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
         <AdminLayout title="Edit Maintenance Work Order" breadcrumbs={breadcrumbs}>
             <Head title={`Edit Task: ${maintenance.title} - AdminLTE Management`} />
 
-            <div className="max-w-3xl mx-auto">
+            <div className="mx-auto max-w-3xl">
                 <div className="mb-4">
                     <Link
                         href="/admin/maintenances"
@@ -68,7 +68,7 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Affected Unit / Flat <span className="text-rose-500">*</span>
                                 </label>
                                 <select
@@ -87,13 +87,13 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Status <span className="text-rose-500">*</span>
                                 </label>
                                 <select
                                     value={data.status}
                                     onChange={(e) => {
-                                        const newStatus = e.target.value as any;
+                                        const newStatus = e.target.value as Maintenance['status'];
                                         setData('status', newStatus);
                                         if (newStatus === 'completed' && !data.completed_date) {
                                             setData('completed_date', new Date().toISOString().split('T')[0]);
@@ -110,7 +110,7 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                            <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                 Issue Title / Task Summary <span className="text-rose-500">*</span>
                             </label>
                             <input
@@ -124,21 +124,21 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                            <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                 Detailed Work Description
                             </label>
                             <textarea
                                 rows={3}
                                 value={data.description}
                                 onChange={(e) => setData('description', e.target.value)}
-                                className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 resize-none"
+                                className="w-full resize-none rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                             />
                             {errors.description && <p className="mt-1 text-xs text-rose-500">{errors.description}</p>}
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Repair Cost (BDT) <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -154,7 +154,7 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Reported Date <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -168,7 +168,7 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="mb-1.5 block text-xs font-bold tracking-wider text-slate-700 uppercase dark:text-slate-300">
                                     Completed Date
                                 </label>
                                 <input
@@ -181,7 +181,7 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
                             </div>
                         </div>
 
-                        <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end gap-3">
+                        <div className="flex items-center justify-end gap-3 border-t border-slate-200 pt-4 dark:border-slate-800">
                             <Link
                                 href="/admin/maintenances"
                                 className="rounded-md border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -191,7 +191,7 @@ export default function MaintenanceEdit({ maintenance, flats }: Props) {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm disabled:opacity-50"
+                                className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
                             >
                                 <Save size={14} />
                                 <span>{processing ? 'Updating...' : 'Save Changes'}</span>

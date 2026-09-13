@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from '@inertiajs/react';
 import { ArrowRight, LucideIcon } from 'lucide-react';
 
@@ -13,16 +12,7 @@ interface AdminSmallBoxProps {
     linkText?: string;
 }
 
-export default function AdminSmallBox({
-    title,
-    label,
-    value,
-    icon: Icon,
-    variant,
-    href,
-    link,
-    linkText = 'More info',
-}: AdminSmallBoxProps) {
+export default function AdminSmallBox({ title, label, value, icon: Icon, variant, href, link, linkText = 'More info' }: AdminSmallBoxProps) {
     const boxTitle = title || label || '';
     const destination = href || link || '';
 
@@ -62,13 +52,15 @@ export default function AdminSmallBox({
                 <div className="flex items-baseline justify-between">
                     <div>
                         <h3 className="text-3xl font-bold tracking-tight">{value}</h3>
-                        <p className="mt-1 text-sm font-medium tracking-wide opacity-90 uppercase">{boxTitle}</p>
+                        <p className="mt-1 text-sm font-medium tracking-wide uppercase opacity-90">{boxTitle}</p>
                     </div>
                 </div>
             </div>
 
             {/* Background Watermark Icon */}
-            <div className={`pointer-events-none absolute -right-2 -bottom-2 ${style.iconColor} transition-transform duration-300 group-hover:scale-110`}>
+            <div
+                className={`pointer-events-none absolute -right-2 -bottom-2 ${style.iconColor} transition-transform duration-300 group-hover:scale-110`}
+            >
                 <Icon size={84} strokeWidth={1.5} />
             </div>
 

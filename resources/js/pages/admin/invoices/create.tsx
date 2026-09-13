@@ -1,9 +1,9 @@
-import React from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import { Receipt, ArrowLeft, Save, AlertCircle } from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link, useForm } from '@inertiajs/react';
+import { AlertCircle, ArrowLeft, Receipt, Save } from 'lucide-react';
+import React from 'react';
 
 interface LeaseOption {
     id: number;
@@ -54,8 +54,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
         }));
     };
 
-    const calculatedTotal =
-        Math.max(0, Number(data.rent_amount) + Number(data.utility_charges) + Number(data.other_charges) - Number(data.discount));
+    const calculatedTotal = Math.max(0, Number(data.rent_amount) + Number(data.utility_charges) + Number(data.other_charges) - Number(data.discount));
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -67,12 +66,13 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
             <div className="max-w-3xl">
                 {activeLeases.length === 0 ? (
                     <div className="rounded-md border border-amber-200 bg-amber-50 p-6 text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-200">
-                        <div className="flex items-center gap-2 font-bold text-sm">
+                        <div className="flex items-center gap-2 text-sm font-bold">
                             <AlertCircle size={18} className="text-amber-600" />
                             <span>No Active Leases Available</span>
                         </div>
                         <p className="mt-2 text-xs leading-relaxed">
-                            Rent invoices can only be issued for active residential lease agreements. Please execute a lease agreement first before billing.
+                            Rent invoices can only be issued for active residential lease agreements. Please execute a lease agreement first before
+                            billing.
                         </p>
                         <div className="mt-4">
                             <Link
@@ -106,7 +106,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                             <div className="space-y-5">
                                 {/* Row 1: Lease Selection */}
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Select Active Resident & Unit *
                                     </label>
                                     <select
@@ -117,19 +117,18 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     >
                                         {activeLeases.map((l) => (
                                             <option key={l.id} value={l.id}>
-                                                Flat {l.flat?.flat_number} ({l.flat?.floor}) - {l.tenant?.name} (Contract: ৳{Number(l.agreed_monthly_rent).toLocaleString()})
+                                                Flat {l.flat?.flat_number} ({l.flat?.floor}) - {l.tenant?.name} (Contract: ৳
+                                                {Number(l.agreed_monthly_rent).toLocaleString()})
                                             </option>
                                         ))}
                                     </select>
-                                    {errors.lease_id && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.lease_id}</p>
-                                    )}
+                                    {errors.lease_id && <p className="mt-1 text-[11px] text-rose-600">{errors.lease_id}</p>}
                                 </div>
 
                                 {/* Row 2: Billing Month & Due Date */}
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Billing Month (YYYY-MM) *
                                         </label>
                                         <input
@@ -139,13 +138,11 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                             className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                             required
                                         />
-                                        {errors.billing_month && (
-                                            <p className="mt-1 text-[11px] text-rose-600">{errors.billing_month}</p>
-                                        )}
+                                        {errors.billing_month && <p className="mt-1 text-[11px] text-rose-600">{errors.billing_month}</p>}
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Payment Due Date *
                                         </label>
                                         <input
@@ -155,18 +152,14 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                             className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                             required
                                         />
-                                        {errors.due_date && (
-                                            <p className="mt-1 text-[11px] text-rose-600">{errors.due_date}</p>
-                                        )}
+                                        {errors.due_date && <p className="mt-1 text-[11px] text-rose-600">{errors.due_date}</p>}
                                     </div>
                                 </div>
 
                                 {/* Row 3: Itemized Financial Breakdown */}
-                                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 border-t border-slate-100 pt-4 dark:border-slate-800">
+                                <div className="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4 sm:grid-cols-4 dark:border-slate-800">
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                            Flat Rent (৳) *
-                                        </label>
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Flat Rent (৳) *</label>
                                         <input
                                             type="number"
                                             min="0"
@@ -178,7 +171,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Utility Charges (৳)
                                         </label>
                                         <input
@@ -191,7 +184,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Other Charges (৳)
                                         </label>
                                         <input
@@ -204,7 +197,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                        <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Discount Waiver (৳)
                                         </label>
                                         <input
@@ -220,9 +213,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                 {/* Total Calculation Banner */}
                                 <div className="rounded-md border border-blue-200 bg-blue-50/70 p-4 text-xs dark:border-blue-900/60 dark:bg-blue-950/30">
                                     <div className="flex items-baseline justify-between">
-                                        <span className="font-semibold text-slate-700 dark:text-slate-300">
-                                            Total Calculated Payable Amount:
-                                        </span>
+                                        <span className="font-semibold text-slate-700 dark:text-slate-300">Total Calculated Payable Amount:</span>
                                         <span className="text-xl font-extrabold text-blue-700 dark:text-blue-300">
                                             ৳{calculatedTotal.toLocaleString()} BDT
                                         </span>
@@ -234,14 +225,14 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                             <div className="mt-8 flex items-center justify-end gap-3 border-t border-slate-100 pt-5 dark:border-slate-800">
                                 <Link
                                     href="/admin/invoices"
-                                    className="rounded border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                                    className="rounded border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
                                 >
                                     Cancel
                                 </Link>
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="inline-flex items-center gap-2 rounded bg-blue-600 px-5 py-2 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                    className="inline-flex items-center gap-2 rounded bg-blue-600 px-5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:opacity-50"
                                 >
                                     <Save size={15} />
                                     <span>{processing ? 'Issuing Invoice...' : 'Generate Invoice'}</span>

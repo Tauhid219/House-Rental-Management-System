@@ -1,9 +1,9 @@
-import React from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
 import AdminCard from '@/components/admin/admin-card';
-import { Building2, ArrowLeft, Save } from 'lucide-react';
+import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link, useForm } from '@inertiajs/react';
+import { ArrowLeft, Building2, Save } from 'lucide-react';
+import React from 'react';
 
 interface FlatData {
     id: number;
@@ -41,12 +41,15 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
         rent_cost: flat.rent_cost || 35000,
         status: flat.status || 'vacant',
         description: flat.description || '',
-        amenities: flat.amenities || [] as string[],
+        amenities: flat.amenities || ([] as string[]),
     });
 
     const handleAmenityToggle = (amenity: string) => {
         if (data.amenities.includes(amenity)) {
-            setData('amenities', data.amenities.filter((a) => a !== amenity));
+            setData(
+                'amenities',
+                data.amenities.filter((a) => a !== amenity),
+            );
         } else {
             setData('amenities', [...data.amenities, amenity]);
         }
@@ -83,7 +86,7 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                             {/* Row 1: Flat Number & Floor & Status */}
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Flat / Unit Number *
                                     </label>
                                     <input
@@ -93,15 +96,11 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {errors.flat_number && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.flat_number}</p>
-                                    )}
+                                    {errors.flat_number && <p className="mt-1 text-[11px] text-rose-600">{errors.flat_number}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Floor Level *
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Floor Level *</label>
                                     <select
                                         value={data.floor}
                                         onChange={(e) => setData('floor', e.target.value)}
@@ -116,36 +115,28 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                                         <option value="7th Floor">7th Floor</option>
                                         <option value="8th Floor">8th Floor (Penthouse)</option>
                                     </select>
-                                    {errors.floor && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.floor}</p>
-                                    )}
+                                    {errors.floor && <p className="mt-1 text-[11px] text-rose-600">{errors.floor}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Occupancy Status *
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Occupancy Status *</label>
                                     <select
                                         value={data.status}
-                                        onChange={(e) => setData('status', e.target.value as any)}
+                                        onChange={(e) => setData('status', e.target.value as 'vacant' | 'occupied' | 'maintenance')}
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                     >
                                         <option value="vacant">Vacant</option>
                                         <option value="occupied">Occupied</option>
                                         <option value="maintenance">Under Maintenance</option>
                                     </select>
-                                    {errors.status && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.status}</p>
-                                    )}
+                                    {errors.status && <p className="mt-1 text-[11px] text-rose-600">{errors.status}</p>}
                                 </div>
                             </div>
 
                             {/* Row 2: Size & Specs */}
                             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Size (Sq Ft) *
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Size (Sq Ft) *</label>
                                     <input
                                         type="number"
                                         min="100"
@@ -154,15 +145,11 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {errors.size_sqft && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.size_sqft}</p>
-                                    )}
+                                    {errors.size_sqft && <p className="mt-1 text-[11px] text-rose-600">{errors.size_sqft}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Bedrooms (BHK) *
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Bedrooms (BHK) *</label>
                                     <input
                                         type="number"
                                         min="1"
@@ -172,15 +159,11 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {errors.bedrooms && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.bedrooms}</p>
-                                    )}
+                                    {errors.bedrooms && <p className="mt-1 text-[11px] text-rose-600">{errors.bedrooms}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Bathrooms *
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Bathrooms *</label>
                                     <input
                                         type="number"
                                         min="1"
@@ -190,15 +173,11 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {errors.bathrooms && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.bathrooms}</p>
-                                    )}
+                                    {errors.bathrooms && <p className="mt-1 text-[11px] text-rose-600">{errors.bathrooms}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Balconies
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Balconies</label>
                                     <input
                                         type="number"
                                         min="0"
@@ -207,16 +186,14 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                                         onChange={(e) => setData('balconies', Number(e.target.value))}
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                     />
-                                    {errors.balconies && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.balconies}</p>
-                                    )}
+                                    {errors.balconies && <p className="mt-1 text-[11px] text-rose-600">{errors.balconies}</p>}
                                 </div>
                             </div>
 
                             {/* Row 3: Rent Cost */}
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                         Monthly Rent Cost (৳ BDT) *
                                     </label>
                                     <input
@@ -228,15 +205,11 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                                         className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
-                                    {errors.rent_cost && (
-                                        <p className="mt-1 text-[11px] text-rose-600">{errors.rent_cost}</p>
-                                    )}
+                                    {errors.rent_cost && <p className="mt-1 text-[11px] text-rose-600">{errors.rent_cost}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                                        Unit Description
-                                    </label>
+                                    <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">Unit Description</label>
                                     <textarea
                                         rows={3}
                                         value={data.description}
@@ -248,16 +221,16 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
 
                             {/* Amenities Checklist */}
                             <div>
-                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                <label className="mb-2 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                     Amenities & Building Perks Included
                                 </label>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 border border-slate-200 rounded p-4 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
+                                <div className="dark:bg-slate-850 grid grid-cols-1 gap-2 rounded border border-slate-200 bg-slate-50/50 p-4 sm:grid-cols-2 dark:border-slate-800">
                                     {commonAmenities.map((amenity, idx) => {
                                         const checked = data.amenities.includes(amenity);
                                         return (
                                             <label
                                                 key={idx}
-                                                className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer select-none"
+                                                className="flex cursor-pointer items-center gap-2 text-xs text-slate-700 select-none dark:text-slate-300"
                                             >
                                                 <input
                                                     type="checkbox"
@@ -277,14 +250,14 @@ export default function FlatEdit({ flat, commonAmenities }: EditFlatProps) {
                         <div className="mt-8 flex items-center justify-end gap-3 border-t border-slate-100 pt-5 dark:border-slate-800">
                             <Link
                                 href="/admin/flats"
-                                className="rounded border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                                className="rounded border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
                             >
                                 Cancel
                             </Link>
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="inline-flex items-center gap-2 rounded bg-blue-600 px-5 py-2 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                className="inline-flex items-center gap-2 rounded bg-blue-600 px-5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:opacity-50"
                             >
                                 <Save size={15} />
                                 <span>{processing ? 'Saving Changes...' : 'Update Flat'}</span>

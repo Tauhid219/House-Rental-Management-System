@@ -8,7 +8,6 @@ use App\Models\Flat;
 use App\Models\Lease;
 use App\Models\RentInvoice;
 use App\Models\Tenant;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -26,7 +25,7 @@ class DashboardController extends Controller
         $activeLeases = Lease::where('status', 'active')->count();
 
         $monthlyRentExpected = Lease::where('status', 'active')->sum('agreed_monthly_rent');
-        
+
         $pendingInvoicesCount = RentInvoice::whereIn('status', ['unpaid', 'partially_paid'])->count();
         $pendingInvoicesSum = RentInvoice::whereIn('status', ['unpaid', 'partially_paid'])->sum(DB::raw('total_payable - paid_amount'));
         $paidInvoicesSum = RentInvoice::sum('paid_amount');
