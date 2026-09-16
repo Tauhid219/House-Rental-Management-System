@@ -88,8 +88,10 @@ Route::middleware(['auth'])->group(function () {
         Route::middleware(['role:admin'])->group(function () {
             Route::resource('roles', RoleController::class);
             Route::get('users', [UserManagementController::class, 'index'])->name('users.index');
+            Route::post('users', [UserManagementController::class, 'store'])->name('users.store');
             Route::patch('users/{user}/role', [UserManagementController::class, 'updateRole'])->name('users.role');
             Route::patch('users/{user}/status', [UserManagementController::class, 'updateStatus'])->name('users.status');
+            Route::delete('users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
         });
     });
 });

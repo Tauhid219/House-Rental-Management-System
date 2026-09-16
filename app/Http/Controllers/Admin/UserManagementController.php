@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
@@ -50,6 +51,35 @@ class UserManagementController extends Controller
     }
 
     /**
+     * Store a newly created system user.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'role' => ['required', 'string', 'exists:roles,name'],
+            'password' => ['required', 'string', 'min:8'],
+            'status' => ['required', 'in:active,inactive'],
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'] ?? null,
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
+            'status' => $validated['status'],
+            'email_verified_at' => now(),
+        ]);
+
+        $user->syncRoles([$validated['role']]);
+
+        return back()->with('success', "New user '{$user->name}' created successfully with role '{$validated['role']}'.");
+    }
+
+    /**
      * Update the assigned role for a user.
      */
     public function updateRole(Request $request, User $user): RedirectResponse
@@ -90,5 +120,20 @@ class UserManagementController extends Controller
         $user->save();
 
         return back()->with('success', "Account status for '{$user->name}' marked as {$user->status}.");
+    }
+
+    /**
+     * Remove the specified system user.
+     */
+    public function destroy(Request $request, User $user): RedirectResponse
+    {
+        if ($user->id === $request->user()->id) {
+            return back()->with('error', 'You cannot delete your own account.');
+        }
+
+        $userName = $user->name;
+        $user->delete();
+
+        return back()->with('success', "User '{$userName}' has been deleted successfully.");
     }
 }

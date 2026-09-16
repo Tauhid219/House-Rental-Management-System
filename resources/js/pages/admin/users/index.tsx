@@ -1,8 +1,23 @@
 import AdminCard from '@/components/admin/admin-card';
 import AdminLayout from '@/layouts/admin-layout';
 import { BreadcrumbItem, SharedData } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { CheckCircle2, Filter, Search, Shield, ShieldCheck, UserCheck, Users, XCircle } from 'lucide-react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import {
+    CheckCircle2,
+    Eye,
+    EyeOff,
+    Filter,
+    Loader2,
+    Search,
+    Shield,
+    ShieldCheck,
+    Trash2,
+    UserCheck,
+    UserPlus,
+    Users,
+    X,
+    XCircle,
+} from 'lucide-react';
 import React, { useState } from 'react';
 
 interface RoleOption {
@@ -49,6 +64,17 @@ export default function UsersIndex({ users, roles, filters }: Props) {
     const { auth } = usePage<SharedData>().props;
     const [search, setSearch] = useState(filters.search || '');
     const [roleFilter, setRoleFilter] = useState(filters.role || 'all');
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
+        name: '',
+        email: '',
+        phone: '',
+        role: roles.find((r) => r.name === 'manager')?.name || roles[0]?.name || 'manager',
+        password: '',
+        status: 'active' as 'active' | 'inactive',
+    });
 
     const handleFilter = (e?: React.FormEvent) => {
         if (e) e.preventDefault();
@@ -82,6 +108,41 @@ export default function UsersIndex({ users, roles, filters }: Props) {
         }
     };
 
+    const handleDeleteUser = (user: UserItem) => {
+        if (user.id === auth.user.id) {
+            alert('Security Safeguard: You cannot delete your own active administrator account.');
+            return;
+        }
+
+        if (confirm(`Are you sure you want to permanently delete user '${user.name}' (${user.email})? This action cannot be undone.`)) {
+            router.delete(`/admin/users/${user.id}`, { preserveScroll: true });
+        }
+    };
+
+    const openCreateModal = () => {
+        clearErrors();
+        reset();
+        setShowPassword(false);
+        setIsCreateModalOpen(true);
+    };
+
+    const closeCreateModal = () => {
+        setIsCreateModalOpen(false);
+        clearErrors();
+        reset();
+    };
+
+    const handleCreateSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        post('/admin/users', {
+            preserveScroll: true,
+            onSuccess: () => {
+                setIsCreateModalOpen(false);
+                reset();
+            },
+        });
+    };
+
     return (
         <AdminLayout title="System Users & Role Assignment" breadcrumbs={breadcrumbs}>
             <Head title="System Users & RBAC - Skyline Heights Admin" />
@@ -96,7 +157,16 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <button
+                            type="button"
+                            onClick={openCreateModal}
+                            className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                        >
+                            <UserPlus size={14} />
+                            <span>Add New User</span>
+                        </button>
+
                         <Link
                             href="/admin/roles"
                             className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
@@ -184,12 +254,13 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                     <th className="px-4 py-3">Current Role</th>
                                     <th className="px-4 py-3">Assign RBAC Role</th>
                                     <th className="px-4 py-3">Account Status</th>
+                                    <th className="px-4 py-3 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                                 {users.data.length === 0 ? (
                                     <tr>
-                                        <td colSpan={5} className="py-8 text-center text-slate-400">
+                                        <td colSpan={6} className="py-8 text-center text-slate-400">
                                             No users found matching your filter criteria.
                                         </td>
                                     </tr>
@@ -282,6 +353,18 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                                         )}
                                                     </button>
                                                 </td>
+
+                                                <td className="px-4 py-3.5 text-right">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleDeleteUser(user)}
+                                                        disabled={isCurrentUser}
+                                                        title={isCurrentUser ? 'Cannot delete your own active account' : 'Delete user account'}
+                                                        className="inline-flex items-center justify-center rounded p-1.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-rose-950/40 dark:hover:text-rose-400"
+                                                    >
+                                                        <Trash2 size={14} />
+                                                    </button>
+                                                </td>
                                             </tr>
                                         );
                                     })
@@ -317,6 +400,178 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                     )}
                 </AdminCard>
             </div>
+
+            {/* Create New User Modal */}
+            {isCreateModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 p-4 backdrop-blur-sm">
+                    <div className="relative w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-800">
+                            <div className="flex items-center gap-2">
+                                <div className="flex size-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
+                                    <UserPlus size={18} />
+                                </div>
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                                        Create New User / Staff
+                                    </h3>
+                                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                        Add a new user directly to the system with their role and access.
+                                    </p>
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={closeCreateModal}
+                                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+                            >
+                                <X size={16} />
+                            </button>
+                        </div>
+
+                        {/* Modal Body / Form */}
+                        <form onSubmit={handleCreateSubmit} className="mt-4 space-y-4">
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                    Full Name <span className="text-rose-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    placeholder="e.g. John Doe"
+                                    value={data.name}
+                                    onChange={(e) => setData('name', e.target.value)}
+                                    className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                />
+                                {errors.name && (
+                                    <p className="mt-1 text-[11px] text-rose-500">{errors.name}</p>
+                                )}
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                <div>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                        Email Address <span className="text-rose-500">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        required
+                                        placeholder="john@example.com"
+                                        value={data.email}
+                                        onChange={(e) => setData('email', e.target.value)}
+                                        className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                    />
+                                    {errors.email && (
+                                        <p className="mt-1 text-[11px] text-rose-500">{errors.email}</p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                        Phone Number (Optional)
+                                    </label>
+                                    <input
+                                        type="text"
+                                        placeholder="+880 1700-000000"
+                                        value={data.phone}
+                                        onChange={(e) => setData('phone', e.target.value)}
+                                        className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                    />
+                                    {errors.phone && (
+                                        <p className="mt-1 text-[11px] text-rose-500">{errors.phone}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                <div>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                        Role <span className="text-rose-500">*</span>
+                                    </label>
+                                    <select
+                                        value={data.role}
+                                        onChange={(e) => setData('role', e.target.value)}
+                                        className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                    >
+                                        {roles.map((r) => (
+                                            <option key={r.id} value={r.name}>
+                                                {r.name.toUpperCase()}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.role && (
+                                        <p className="mt-1 text-[11px] text-rose-500">{errors.role}</p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                        Account Status <span className="text-rose-500">*</span>
+                                    </label>
+                                    <select
+                                        value={data.status}
+                                        onChange={(e) => setData('status', e.target.value as 'active' | 'inactive')}
+                                        className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                    >
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                    {errors.status && (
+                                        <p className="mt-1 text-[11px] text-rose-500">{errors.status}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                    Initial Password <span className="text-rose-500">* (Min 8 characters)</span>
+                                </label>
+                                <div className="relative mt-1">
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        required
+                                        minLength={8}
+                                        placeholder="••••••••"
+                                        value={data.password}
+                                        onChange={(e) => setData('password', e.target.value)}
+                                        className="w-full rounded-md border border-slate-300 bg-white py-2 pl-3 pr-9 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                                    >
+                                        {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                                    </button>
+                                </div>
+                                {errors.password && (
+                                    <p className="mt-1 text-[11px] text-rose-500">{errors.password}</p>
+                                )}
+                            </div>
+
+                            {/* Modal Footer */}
+                            <div className="flex items-center justify-end gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
+                                <button
+                                    type="button"
+                                    onClick={closeCreateModal}
+                                    disabled={processing}
+                                    className="rounded-md border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
+                                >
+                                    {processing && <Loader2 size={13} className="animate-spin" />}
+                                    <span>Create User</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </AdminLayout>
     );
 }
