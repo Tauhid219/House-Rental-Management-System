@@ -126,14 +126,15 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                     <Key size={15} />
                     <span>Create Lease Agreement</span>
                 </Link>
-                <Link
+                <a
                     href="/flats"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
                     <ExternalLink size={15} />
                     <span>View Public Showcase</span>
-                </Link>
+                </a>
             </div>
 
             {/* Main Operational Tables Grid */}

@@ -314,14 +314,15 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
 
                 {/* Right controls */}
                 <div className="flex items-center gap-3">
-                    <Link
+                    <a
                         href="/"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="hidden items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-200 md:inline-flex dark:bg-slate-800 dark:text-slate-300"
                     >
                         <Globe size={13} className="text-blue-600" />
                         <span>Live Website</span>
-                    </Link>
+                    </a>
 
                     {/* Theme Switcher (Light / Dark / System) */}
                     <AppearanceToggleDropdown />
@@ -439,13 +440,26 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                                 </div>
                                 {section.items.map((item, itemIdx) => {
                                     const Icon = item.icon;
+                                    if (item.isExternal) {
+                                        return (
+                                            <a
+                                                key={itemIdx}
+                                                href={item.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="group flex items-center gap-3 rounded-md px-3 py-2 text-[#c2c7d0] transition-all hover:bg-[#4f5962] hover:text-white"
+                                            >
+                                                <Icon size={18} className="shrink-0" />
+                                                <span className={`truncate ${!isSidebarOpen && 'lg:hidden'}`}>{item.title}</span>
+                                            </a>
+                                        );
+                                    }
                                     return (
                                         <Link
                                             key={itemIdx}
                                             href={item.url}
                                             data-nav-active={item.isActive ? 'true' : 'false'}
                                             onClick={handleNavClick}
-                                            target={item.isExternal ? '_blank' : undefined}
                                             className={`group flex items-center gap-3 rounded-md px-3 py-2 transition-all ${
                                                 item.isActive
                                                     ? 'bg-[#007bff] font-semibold text-white shadow-sm'

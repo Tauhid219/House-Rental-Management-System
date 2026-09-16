@@ -143,13 +143,15 @@ export default function FrontendLayout({ children }: Props) {
                                 <span>Portal Dashboard</span>
                             </Link>
                         ) : (
-                            <Link
+                            <a
                                 href="/login"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-2.5 text-xs font-semibold text-white shadow-md shadow-emerald-950/40 transition-all hover:from-emerald-500 hover:to-teal-500"
                             >
                                 <span>Resident / Staff Login</span>
                                 <ArrowRight className="h-3.5 w-3.5" />
-                            </Link>
+                            </a>
                         )}
                     </div>
 
@@ -221,12 +223,15 @@ export default function FrontendLayout({ children }: Props) {
                                     Go to Portal Dashboard
                                 </Link>
                             ) : (
-                                <Link
+                                <a
                                     href="/login"
-                                    className="w-full rounded-xl border border-slate-800 bg-slate-900 py-3 text-center text-xs font-semibold text-slate-200"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="block w-full rounded-xl border border-slate-800 bg-slate-900 py-3 text-center text-xs font-semibold text-slate-200"
                                 >
                                     Resident / Staff Portal Login
-                                </Link>
+                                </a>
                             )}
                         </div>
                     </div>
@@ -308,14 +313,14 @@ export default function FrontendLayout({ children }: Props) {
                             <h4 className="text-xs font-bold tracking-wider text-slate-200 uppercase">Management & Policies</h4>
                             <ul className="space-y-2 text-xs text-slate-400">
                                 <li>
-                                    <Link href="/login" className="transition-colors hover:text-emerald-400">
+                                    <a href="/login" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-emerald-400">
                                         Resident Bill Payment
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
-                                    <Link href="/login" className="transition-colors hover:text-emerald-400">
+                                    <a href="/login" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-emerald-400">
                                         Property Staff Portal
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
                                     <span className="text-slate-500">Security Deposit Terms</span>
@@ -365,9 +370,9 @@ export default function FrontendLayout({ children }: Props) {
                         <div className="flex items-center gap-6">
                             <span>Privacy Policy</span>
                             <span>Rental Agreement Terms</span>
-                            <Link href="/login" className="transition-colors hover:text-emerald-400">
+                            <a href="/login" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-emerald-400">
                                 Staff Portal
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>
