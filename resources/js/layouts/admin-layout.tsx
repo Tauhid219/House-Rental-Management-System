@@ -26,6 +26,7 @@ import {
     X,
 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
+import AppearanceToggleDropdown from '@/components/appearance-dropdown';
 
 interface AdminNavItem {
     title: string;
@@ -321,6 +322,9 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                         <Globe size={13} className="text-blue-600" />
                         <span>Live Website</span>
                     </Link>
+
+                    {/* Theme Switcher (Light / Dark / System) */}
+                    <AppearanceToggleDropdown />
 
                     {/* User profile dropdown */}
                     <div className="relative">

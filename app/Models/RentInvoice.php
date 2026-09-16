@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\NumberToWordsHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,9 +18,17 @@ class RentInvoice extends Model
         'tenant_id',
         'billing_month',
         'rent_amount',
+        'water_bill',
+        'service_charge',
+        'gas_bill',
+        'gas_type',
+        'electricity_bill',
+        'electricity_type',
         'utility_charges',
         'other_charges',
+        'other_charges_description',
         'discount',
+        'advance_adjustment',
         'total_payable',
         'paid_amount',
         'due_date',
@@ -28,19 +37,29 @@ class RentInvoice extends Model
 
     protected $casts = [
         'rent_amount' => 'decimal:2',
+        'water_bill' => 'decimal:2',
+        'service_charge' => 'decimal:2',
+        'gas_bill' => 'decimal:2',
+        'electricity_bill' => 'decimal:2',
         'utility_charges' => 'decimal:2',
         'other_charges' => 'decimal:2',
         'discount' => 'decimal:2',
+        'advance_adjustment' => 'decimal:2',
         'total_payable' => 'decimal:2',
         'paid_amount' => 'decimal:2',
         'due_date' => 'date',
     ];
 
-    protected $appends = ['due_amount'];
+    protected $appends = ['due_amount', 'total_in_words'];
 
     public function getDueAmountAttribute(): float
     {
         return max(0, (float) ($this->total_payable - $this->paid_amount));
+    }
+
+    public function getTotalInWordsAttribute(): string
+    {
+        return NumberToWordsHelper::toWords((float) $this->total_payable);
     }
 
     public function lease(): BelongsTo

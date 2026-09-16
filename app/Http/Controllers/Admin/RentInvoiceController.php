@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\BatchGenerateInvoiceRequest;
 use App\Http\Requests\Admin\StoreRentInvoiceRequest;
 use App\Models\Lease;
 use App\Models\RentInvoice;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -77,17 +78,20 @@ class RentInvoiceController extends Controller
             ->with(['tenant', 'flat'])
             ->get();
 
+        $currentMonth = now()->format('Y-m');
+        $seventhDueDate = Carbon::createFromFormat('Y-m', $currentMonth)->startOfMonth()->addDays(6)->toDateString(); // 7th of month
+
         return Inertia::render('admin/invoices/create', [
             'activeLeases' => $activeLeases,
-            'defaultBillingMonth' => now()->format('Y-m'),
-            'defaultDueDate' => now()->addDays(10)->toDateString(),
+            'defaultBillingMonth' => $currentMonth,
+            'defaultDueDate' => $seventhDueDate,
         ]);
     }
 
     public function store(StoreRentInvoiceRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $lease = Lease::with('tenant')->findOrFail($data['lease_id']);
+        $lease = Lease::with(['tenant', 'flat'])->findOrFail($data['lease_id']);
 
         // Check if invoice for this lease and month already exists
         $exists = RentInvoice::where('lease_id', $lease->id)
@@ -99,11 +103,18 @@ class RentInvoiceController extends Controller
         }
 
         $rent = (float) $data['rent_amount'];
-        $utility = (float) ($data['utility_charges'] ?? 0);
+        $water = (float) ($data['water_bill'] ?? 0);
+        $service = (float) ($data['service_charge'] ?? 0);
+        $gas = (float) ($data['gas_bill'] ?? 0);
+        $gasType = $data['gas_type'] ?? 'prepaid';
+        $electricity = (float) ($data['electricity_bill'] ?? 0);
+        $electricityType = $data['electricity_type'] ?? 'prepaid';
         $other = (float) ($data['other_charges'] ?? 0);
+        $advance = (float) ($data['advance_adjustment'] ?? 0);
         $discount = (float) ($data['discount'] ?? 0);
 
-        $totalPayable = max(0, $rent + $utility + $other - $discount);
+        $totalUtility = $water + $service + $gas + $electricity;
+        $totalPayable = max(0, $rent + $totalUtility + $other - $advance - $discount);
 
         $monthStr = str_replace('-', '', $data['billing_month']);
         $nextNum = RentInvoice::where('billing_month', $data['billing_month'])->count() + 1;
@@ -115,12 +126,20 @@ class RentInvoiceController extends Controller
             'tenant_id' => $lease->tenant_id,
             'billing_month' => $data['billing_month'],
             'rent_amount' => $rent,
-            'utility_charges' => $utility,
+            'water_bill' => $water,
+            'service_charge' => $service,
+            'gas_bill' => $gas,
+            'gas_type' => $gasType,
+            'electricity_bill' => $electricity,
+            'electricity_type' => $electricityType,
+            'utility_charges' => $totalUtility,
             'other_charges' => $other,
+            'other_charges_description' => $data['other_charges_description'] ?? null,
+            'advance_adjustment' => $advance,
             'discount' => $discount,
             'total_payable' => $totalPayable,
             'paid_amount' => 0.00,
-            'due_date' => $data['due_date'] ?? now()->addDays(10)->toDateString(),
+            'due_date' => $data['due_date'] ?? Carbon::createFromFormat('Y-m', $data['billing_month'])->startOfMonth()->addDays(6)->toDateString(),
             'status' => 'unpaid',
         ]);
 
@@ -132,7 +151,7 @@ class RentInvoiceController extends Controller
         $data = $request->validated();
         $billingMonth = $data['billing_month'];
         $dueDate = $data['due_date'];
-        $utility = (float) ($data['utility_charges'] ?? 0);
+        $overrideService = isset($data['service_charge']) ? (float) $data['service_charge'] : null;
         $other = (float) ($data['other_charges'] ?? 0);
 
         $activeLeases = Lease::where('status', 'active')->with(['tenant', 'flat'])->get();
@@ -149,7 +168,7 @@ class RentInvoiceController extends Controller
             $activeLeases,
             $billingMonth,
             $dueDate,
-            $utility,
+            $overrideService,
             $other,
             $monthStr,
             &$currentCount,
@@ -169,7 +188,13 @@ class RentInvoiceController extends Controller
                 $invoiceNo = 'INV-'.$monthStr.'-'.str_pad((string) $currentCount, 4, '0', STR_PAD_LEFT);
 
                 $rent = (float) $lease->agreed_monthly_rent;
-                $totalPayable = max(0, $rent + $utility + $other);
+                $water = (float) ($lease->default_water_bill ?? 0.00);
+                $service = $overrideService !== null ? $overrideService : (float) ($lease->default_service_charge ?? 3500.00);
+                $gasType = $lease->default_gas_type ?? 'prepaid';
+                $electricityType = $lease->default_electricity_type ?? 'prepaid';
+                
+                $totalUtility = $water + $service;
+                $totalPayable = max(0, $rent + $totalUtility + $other);
 
                 RentInvoice::create([
                     'invoice_no' => $invoiceNo,
@@ -177,8 +202,16 @@ class RentInvoiceController extends Controller
                     'tenant_id' => $lease->tenant_id,
                     'billing_month' => $billingMonth,
                     'rent_amount' => $rent,
-                    'utility_charges' => $utility,
+                    'water_bill' => $water,
+                    'service_charge' => $service,
+                    'gas_bill' => 0.00,
+                    'gas_type' => $gasType,
+                    'electricity_bill' => 0.00,
+                    'electricity_type' => $electricityType,
+                    'utility_charges' => $totalUtility,
                     'other_charges' => $other,
+                    'other_charges_description' => null,
+                    'advance_adjustment' => 0.00,
                     'discount' => 0.00,
                     'total_payable' => $totalPayable,
                     'paid_amount' => 0.00,
