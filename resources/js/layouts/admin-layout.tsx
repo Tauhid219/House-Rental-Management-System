@@ -18,11 +18,14 @@ import {
     Mail,
     Menu,
     Receipt,
+    ShieldCheck,
+    User,
+    UserCheck,
     Users,
     Wrench,
     X,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface AdminNavItem {
     title: string;
@@ -51,6 +54,89 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
+    const sidebarNavRef = useRef<HTMLDivElement>(null);
+    const isRestoringRef = useRef(false);
+
+    // Save sidebar scroll position on user scrolling
+    const handleSidebarScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        // Prevent accidental reset during initial mount or programmatic scroll
+        if (isRestoringRef.current) return;
+        const top = e.currentTarget.scrollTop;
+        if (top > 0) {
+            sessionStorage.setItem('admin_sidebar_scroll', String(top));
+        }
+    };
+
+    // Save scroll position immediately before navigation click
+    const handleNavClick = () => {
+        if (sidebarNavRef.current) {
+            sessionStorage.setItem('admin_sidebar_scroll', String(sidebarNavRef.current.scrollTop));
+        }
+        if (window.innerWidth < 1024) {
+            setIsMobileMenuOpen(false);
+        }
+    };
+
+    // Restore sidebar scroll position and guarantee active item is centered & visible
+    useEffect(() => {
+        isRestoringRef.current = true;
+        let attempts = 0;
+
+        const performScrollRestore = () => {
+            const navContainer = sidebarNavRef.current;
+            if (!navContainer) return;
+
+            const containerRect = navContainer.getBoundingClientRect();
+            // Wait for valid layout dimensions
+            if (containerRect.height === 0 && attempts < 15) {
+                attempts++;
+                requestAnimationFrame(performScrollRestore);
+                return;
+            }
+
+            const activeLink = navContainer.querySelector<HTMLElement>('[data-nav-active="true"]');
+            const savedScroll = sessionStorage.getItem('admin_sidebar_scroll');
+
+            let isPositionRestored = false;
+            if (savedScroll !== null) {
+                const scrollVal = Number(savedScroll);
+                if (!isNaN(scrollVal) && scrollVal > 0) {
+                    navContainer.scrollTop = scrollVal;
+                    isPositionRestored = true;
+                }
+            }
+
+            // Verify if the active link is visible inside the container
+            if (activeLink) {
+                const linkRect = activeLink.getBoundingClientRect();
+                const isFullyVisible = linkRect.top >= containerRect.top && linkRect.bottom <= containerRect.bottom;
+
+                if (!isFullyVisible || !isPositionRestored) {
+                    const deltaFromCenter = (linkRect.top - containerRect.top) - (containerRect.height / 2) + (linkRect.height / 2);
+                    const targetScroll = Math.max(0, navContainer.scrollTop + deltaFromCenter);
+                    navContainer.scrollTop = targetScroll;
+                    sessionStorage.setItem('admin_sidebar_scroll', String(targetScroll));
+                }
+            }
+
+            setTimeout(() => {
+                isRestoringRef.current = false;
+            }, 300);
+        };
+
+        // Try immediately, on next animation frame, and after 60ms & 150ms for layout stability
+        performScrollRestore();
+        const rafId = requestAnimationFrame(performScrollRestore);
+        const t1 = setTimeout(performScrollRestore, 60);
+        const t2 = setTimeout(performScrollRestore, 150);
+
+        return () => {
+            cancelAnimationFrame(rafId);
+            clearTimeout(t1);
+            clearTimeout(t2);
+        };
+    }, [currentUrl]);
 
     const handleLogout = () => {
         router.post('/logout');
@@ -142,6 +228,38 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                 },
             ],
         },
+        ...(auth?.user?.role === 'admin'
+            ? [
+                  {
+                      category: 'ACCESS CONTROL (RBAC)',
+                      items: [
+                          {
+                              title: 'Roles & Permissions',
+                              url: '/admin/roles',
+                              icon: ShieldCheck,
+                              isActive: currentUrl.startsWith('/admin/roles'),
+                          },
+                          {
+                              title: 'System Users',
+                              url: '/admin/users',
+                              icon: UserCheck,
+                              isActive: currentUrl.startsWith('/admin/users'),
+                          },
+                      ],
+                  },
+              ]
+            : []),
+        {
+            category: 'ACCOUNT & SETTINGS',
+            items: [
+                {
+                    title: 'Profile Settings',
+                    url: '/admin/profile',
+                    icon: User,
+                    isActive: currentUrl.startsWith('/admin/profile'),
+                },
+            ],
+        },
         {
             category: 'SHORTCUTS',
             items: [
@@ -157,11 +275,11 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
     ];
 
     return (
-        <div className="flex min-h-screen flex-col bg-[#f4f6f9] font-sans text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100">
+        <div className="flex min-h-screen flex-col bg-[#f4f6f9] font-sans text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100 print:min-h-0 print:bg-white print:text-slate-900 print:block">
             {title && <Head title={title} />}
 
             {/* Top Navbar */}
-            <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <header className="sticky top-0 z-30 flex h-14 w-full items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 print:hidden">
                 {/* Left controls */}
                 <div className="flex items-center gap-3">
                     <button
@@ -225,14 +343,39 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                                 <div className="border-b border-slate-100 px-4 py-2 dark:border-slate-800">
                                     <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">{auth?.user?.name}</p>
                                     <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">{auth?.user?.email}</p>
+                                    <span className="mt-1 inline-block rounded bg-blue-100 px-1.5 py-0.5 text-[10px] font-bold text-blue-800 uppercase dark:bg-blue-900/50 dark:text-blue-200">
+                                        {String(auth?.user?.role || 'User')}
+                                    </span>
                                 </div>
-                                <button
-                                    onClick={handleLogout}
-                                    className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs font-medium text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30"
-                                >
-                                    <LogOut size={14} />
-                                    <span>Sign Out</span>
-                                </button>
+                                <div className="py-1">
+                                    <Link
+                                        href="/admin/profile"
+                                        onClick={() => setIsUserDropdownOpen(false)}
+                                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
+                                    >
+                                        <User size={14} className="text-slate-400" />
+                                        <span>Profile Settings</span>
+                                    </Link>
+                                    {auth?.user?.role === 'admin' && (
+                                        <Link
+                                            href="/admin/roles"
+                                            onClick={() => setIsUserDropdownOpen(false)}
+                                            className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
+                                        >
+                                            <ShieldCheck size={14} className="text-slate-400" />
+                                            <span>Manage RBAC</span>
+                                        </Link>
+                                    )}
+                                </div>
+                                <div className="border-t border-slate-100 dark:border-slate-800">
+                                    <button
+                                        onClick={handleLogout}
+                                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs font-medium text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30"
+                                    >
+                                        <LogOut size={14} />
+                                        <span>Sign Out</span>
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -240,10 +383,10 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
             </header>
 
             {/* Layout Wrapper: Sidebar + Content Wrapper */}
-            <div className="relative flex flex-1 overflow-hidden">
+            <div className="relative flex flex-1 overflow-hidden print:overflow-visible print:block">
                 {/* AdminLTE 3 Dark Charcoal Sidebar */}
                 <aside
-                    className={`fixed inset-y-0 left-0 z-40 flex flex-col bg-[#343a40] text-[#c2c7d0] transition-all duration-300 ease-in-out lg:static lg:z-auto ${
+                    className={`fixed inset-y-0 left-0 z-40 flex flex-col bg-[#343a40] text-[#c2c7d0] transition-all duration-300 ease-in-out lg:static lg:z-auto print:hidden ${
                         isSidebarOpen ? 'w-64' : 'w-0 overflow-hidden lg:w-16'
                     } ${isMobileMenuOpen ? '!w-64 translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
                 >
@@ -278,7 +421,11 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                     </div>
 
                     {/* Sidebar Nav items */}
-                    <div className="flex-1 space-y-4 overflow-y-auto px-2 py-3 text-xs font-medium">
+                    <div
+                        ref={sidebarNavRef}
+                        onScroll={handleSidebarScroll}
+                        className="relative flex-1 space-y-4 overflow-y-auto px-2 py-3 text-xs font-medium"
+                    >
                         {navItems.map((section, idx) => (
                             <div key={idx} className="space-y-1">
                                 <div
@@ -292,6 +439,8 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                                         <Link
                                             key={itemIdx}
                                             href={item.url}
+                                            data-nav-active={item.isActive ? 'true' : 'false'}
+                                            onClick={handleNavClick}
                                             target={item.isExternal ? '_blank' : undefined}
                                             className={`group flex items-center gap-3 rounded-md px-3 py-2 transition-all ${
                                                 item.isActive
@@ -315,12 +464,12 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                 </aside>
 
                 {/* Mobile Backdrop */}
-                {isMobileMenuOpen && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setIsMobileMenuOpen(false)} />}
+                {isMobileMenuOpen && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden print:hidden" onClick={() => setIsMobileMenuOpen(false)} />}
 
                 {/* Content Wrapper (AdminLTE .content-wrapper) */}
-                <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
+                <div className="flex min-w-0 flex-1 flex-col overflow-y-auto print:overflow-visible print:block print:w-full print:bg-white">
                     {/* Content Header */}
-                    <div className="border-b border-slate-200/80 bg-white px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50">
+                    <div className="border-b border-slate-200/80 bg-white px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50 print:hidden">
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                             <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">{title || 'Dashboard'}</h1>
 
@@ -350,23 +499,23 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
 
                     {/* Flash Toast Alerts */}
                     {flash?.success && (
-                        <div className="mx-6 mt-4 flex items-center gap-2.5 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-800 shadow-sm dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300">
+                        <div className="mx-6 mt-4 flex items-center gap-2.5 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-800 shadow-sm dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300 print:hidden">
                             <CheckCircle2 size={16} className="shrink-0 text-emerald-600 dark:text-emerald-400" />
                             <span>{flash.success}</span>
                         </div>
                     )}
                     {flash?.error && (
-                        <div className="mx-6 mt-4 flex items-center gap-2.5 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-xs text-rose-800 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-300">
+                        <div className="mx-6 mt-4 flex items-center gap-2.5 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-xs text-rose-800 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-300 print:hidden">
                             <AlertCircle size={16} className="shrink-0 text-rose-600 dark:text-rose-400" />
                             <span>{flash.error}</span>
                         </div>
                     )}
 
                     {/* Main Page Body */}
-                    <main className="flex-1 p-6">{children}</main>
+                    <main className="flex-1 p-6 print:p-0 print:m-0 print:overflow-visible print:block print:w-full print:bg-white">{children}</main>
 
                     {/* AdminLTE Footer */}
-                    <footer className="flex flex-col items-center justify-between gap-2 border-t border-slate-200 bg-white px-6 py-3 text-xs text-slate-500 sm:flex-row dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                    <footer className="flex flex-col items-center justify-between gap-2 border-t border-slate-200 bg-white px-6 py-3 text-xs text-slate-500 sm:flex-row dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 print:hidden">
                         <div>
                             <strong>
                                 Copyright &copy; 2026{' '}

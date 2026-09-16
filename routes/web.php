@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\ContactInquiryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ExpenseController;
@@ -9,7 +10,9 @@ use App\Http\Controllers\Admin\MaintenanceController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\RentInvoiceController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TenantController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,6 +78,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('contacts', [ContactInquiryController::class, 'index'])->name('contacts.index');
         Route::patch('contacts/{contact}/status', [ContactInquiryController::class, 'updateStatus'])->name('contacts.status');
         Route::delete('contacts/{contact}', [ContactInquiryController::class, 'destroy'])->name('contacts.destroy');
+
+        // Admin Profile & Account Settings
+        Route::get('profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('profile', [AdminProfileController::class, 'update'])->name('profile.update');
+        Route::put('profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.password');
+
+        // Role-Based Access Control (RBAC) Management (Admin Only)
+        Route::middleware(['role:admin'])->group(function () {
+            Route::resource('roles', RoleController::class);
+            Route::get('users', [UserManagementController::class, 'index'])->name('users.index');
+            Route::patch('users/{user}/role', [UserManagementController::class, 'updateRole'])->name('users.role');
+            Route::patch('users/{user}/status', [UserManagementController::class, 'updateStatus'])->name('users.status');
+        });
     });
 });
 

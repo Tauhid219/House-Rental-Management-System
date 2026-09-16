@@ -2,7 +2,7 @@ import AdminCard from '@/components/admin/admin-card';
 import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, CheckCircle, CreditCard, Save } from 'lucide-react';
+import { ArrowLeft, CheckCircle, CreditCard, Save, Zap } from 'lucide-react';
 import React from 'react';
 
 interface DueInvoice {
@@ -171,15 +171,32 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                         <label className="mb-1 block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                             Collection Amount (৳ BDT) *
                                         </label>
-                                        <input
-                                            type="number"
-                                            min="0.01"
-                                            step="100"
-                                            value={data.amount_paid}
-                                            onChange={(e) => setData('amount_paid', Number(e.target.value))}
-                                            className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                                            required
-                                        />
+                                        <div className="flex">
+                                            <div className="relative flex-1">
+                                                <span className="absolute left-3 top-2 text-xs font-bold text-slate-400">৳</span>
+                                                <input
+                                                    type="number"
+                                                    min="0.01"
+                                                    step="any"
+                                                    placeholder="0.00"
+                                                    value={data.amount_paid === 0 ? '' : data.amount_paid}
+                                                    onChange={(e) => setData('amount_paid', e.target.value === '' ? ('' as any) : Number(e.target.value))}
+                                                    className={`w-full ${selectedInvoice ? 'rounded-l border-r-0' : 'rounded'} border border-slate-300 bg-white py-2 pl-7 pr-3 text-xs font-bold text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white`}
+                                                    required
+                                                />
+                                            </div>
+                                            {selectedInvoice && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setData('amount_paid', selectedInvoice.due_amount)}
+                                                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-r bg-emerald-600 px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-700 active:scale-95 whitespace-nowrap"
+                                                    title={`Click to fill full due amount: ৳${selectedInvoice.due_amount.toLocaleString()}`}
+                                                >
+                                                    <Zap size={13} className="fill-current text-emerald-200" />
+                                                    <span>Pay Full Due (৳{selectedInvoice.due_amount.toLocaleString()})</span>
+                                                </button>
+                                            )}
+                                        </div>
                                         {errors.amount_paid && <p className="mt-1 text-[11px] text-rose-600">{errors.amount_paid}</p>}
                                     </div>
 

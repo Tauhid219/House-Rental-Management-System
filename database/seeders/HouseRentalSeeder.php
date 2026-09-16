@@ -41,6 +41,9 @@ class HouseRentalSeeder extends Seeder
             'view expenses', 'create expenses', 'edit expenses',
             'view reports',
             'view contacts',
+            'view roles',
+            'manage roles',
+            'manage users',
         ];
 
         foreach ($permissions as $perm) {
