@@ -104,36 +104,36 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
             </div>
 
             {/* Quick Action Shortcuts Bar */}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="mt-6 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
                 <Link
                     href="/admin/flats/create"
-                    className="inline-flex items-center gap-2 rounded bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+                    className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 text-center"
                 >
-                    <PlusCircle size={15} />
-                    <span>Add New Flat Unit</span>
+                    <PlusCircle size={15} className="shrink-0" />
+                    <span>Add Flat Unit</span>
                 </Link>
                 <Link
                     href="/admin/tenants/create"
-                    className="inline-flex items-center gap-2 rounded bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
+                    className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 text-center"
                 >
-                    <Users size={15} />
-                    <span>Register New Tenant</span>
+                    <Users size={15} className="shrink-0" />
+                    <span>Register Tenant</span>
                 </Link>
                 <Link
                     href="/admin/leases/create"
-                    className="inline-flex items-center gap-2 rounded bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700"
+                    className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 text-center"
                 >
-                    <Key size={15} />
-                    <span>Create Lease Agreement</span>
+                    <Key size={15} className="shrink-0" />
+                    <span>Create Lease</span>
                 </Link>
                 <a
                     href="/flats"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                    className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 text-center"
                 >
-                    <ExternalLink size={15} />
-                    <span>View Public Showcase</span>
+                    <ExternalLink size={15} className="shrink-0" />
+                    <span>Public Site</span>
                 </a>
             </div>
 
@@ -151,13 +151,60 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                         }
                         tools={
                             <Link href="/admin/leases" className="text-xs font-semibold text-blue-600 hover:underline">
-                                View All Leases &rarr;
+                                View All &rarr;
                             </Link>
                         }
                         variant="primary"
                         noPadding
                     >
-                        <div className="overflow-x-auto">
+                        {/* Mobile Card View (md:hidden) */}
+                        <div className="divide-y divide-slate-100 md:hidden dark:divide-slate-800">
+                            {recentLeases.length === 0 ? (
+                                <div className="p-5 text-center text-xs text-slate-400">
+                                    No lease agreements registered yet.
+                                </div>
+                            ) : (
+                                recentLeases.map((lease) => (
+                                    <div key={lease.id} className="p-4 space-y-2">
+                                        <div className="flex items-start justify-between">
+                                            <div>
+                                                <span className="font-bold text-slate-900 dark:text-slate-100 text-sm">
+                                                    Flat {lease.flat?.flat_number || 'N/A'}
+                                                </span>
+                                                <span className="ml-2 text-[11px] text-slate-400">{lease.flat?.floor}</span>
+                                            </div>
+                                            <span
+                                                className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
+                                                    lease.status === 'active'
+                                                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                                        : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
+                                                }`}
+                                            >
+                                                {lease.status}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex items-center justify-between text-xs">
+                                            <div>
+                                                <span className="font-medium text-slate-800 dark:text-slate-200">
+                                                    {lease.tenant?.name || 'Unassigned'}
+                                                </span>
+                                                <span className="block text-[11px] text-slate-400">{lease.tenant?.phone}</span>
+                                            </div>
+                                            <div className="text-right">
+                                                <span className="font-bold text-slate-900 dark:text-slate-100 text-sm">
+                                                    ৳{Number(lease.agreed_monthly_rent).toLocaleString()}
+                                                </span>
+                                                <span className="block text-[10px] text-slate-400">{lease.start_date}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Desktop Table View (hidden md:block) */}
+                        <div className="hidden md:block overflow-x-auto">
                             <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
                                 <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60">
                                     <tr>

@@ -96,7 +96,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
 
     // Render single slip component for Client Bill Slip
     const renderBillSlip = (copyType: 'TENANT COPY' | 'OFFICE COPY') => (
-        <div className="flex-1 bg-white p-5 border border-slate-300 print:border-black text-[12px] leading-snug font-sans text-black select-none">
+        <div className="flex-1 bg-white p-3.5 sm:p-5 border border-slate-300 print:border-black text-[12px] leading-snug font-sans text-black select-none">
             {/* Slip Header */}
             <div className="text-center pb-2 border-b border-black">
                 <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 print:text-black uppercase">
@@ -159,112 +159,100 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                             <th className="py-1 text-right">Total Amount (৳)</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-200 print:divide-slate-300">
+                    <tbody className="divide-y divide-slate-200 print:divide-black">
                         <tr>
-                            <td className="py-1.5 font-medium">Monthly Rent</td>
-                            <td className="py-1.5 text-center text-slate-500 print:text-black text-[10px]">—</td>
-                            <td className="py-1.5 text-right font-mono font-bold">{rentAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                            <td className="py-1">Apartment Rent</td>
+                            <td className="py-1 text-center text-slate-400">—</td>
+                            <td className="py-1 text-right font-mono font-bold">৳{rentAmount.toLocaleString()}</td>
                         </tr>
                         <tr>
-                            <td className="py-1.5 font-medium">GAS Bill</td>
-                            <td className="py-1.5 text-center text-[10px] font-semibold text-slate-700 print:text-black">
-                                {gasType === 'prepaid' ? 'Prepaid' : 'Billed'}
-                            </td>
-                            <td className="py-1.5 text-right font-mono">
-                                {gasBill > 0 ? gasBill.toLocaleString('en-US', { minimumFractionDigits: 2 }) : ' - '}
-                            </td>
+                            <td className="py-1">GAS Bill</td>
+                            <td className="py-1 text-center font-semibold text-[10px]">{gasType === 'prepaid' ? 'Prepaid' : 'Billed'}</td>
+                            <td className="py-1 text-right font-mono font-bold">{gasBill > 0 ? `৳${gasBill.toLocaleString()}` : '-'}</td>
                         </tr>
                         <tr>
-                            <td className="py-1.5 font-medium">Electric Bill</td>
-                            <td className="py-1.5 text-center text-[10px] font-semibold text-slate-700 print:text-black">
-                                {electricityType === 'prepaid' ? 'Prepaid' : 'Billed'}
-                            </td>
-                            <td className="py-1.5 text-right font-mono">
-                                {electricityBill > 0 ? electricityBill.toLocaleString('en-US', { minimumFractionDigits: 2 }) : ' - '}
-                            </td>
+                            <td className="py-1">Electric Bill</td>
+                            <td className="py-1 text-center font-semibold text-[10px]">{electricityType === 'prepaid' ? 'Prepaid' : 'Billed'}</td>
+                            <td className="py-1 text-right font-mono font-bold">{electricityBill > 0 ? `৳${electricityBill.toLocaleString()}` : '-'}</td>
                         </tr>
                         <tr>
-                            <td className="py-1.5 font-medium">Water Bill</td>
-                            <td className="py-1.5 text-center text-slate-500 print:text-black text-[10px]">—</td>
-                            <td className="py-1.5 text-right font-mono font-bold">
-                                {waterBill > 0 ? waterBill.toLocaleString('en-US', { minimumFractionDigits: 2 }) : ' - '}
-                            </td>
+                            <td className="py-1">Water Bill</td>
+                            <td className="py-1 text-center text-slate-400">—</td>
+                            <td className="py-1 text-right font-mono font-bold">{waterBill > 0 ? `৳${waterBill.toLocaleString()}` : '-'}</td>
                         </tr>
                         <tr>
-                            <td className="py-1.5 font-medium">Service Charge</td>
-                            <td className="py-1.5 text-center text-slate-500 print:text-black text-[10px]">—</td>
-                            <td className="py-1.5 text-right font-mono font-bold">
-                                {serviceCharge > 0 ? serviceCharge.toLocaleString('en-US', { minimumFractionDigits: 2 }) : ' - '}
-                            </td>
+                            <td className="py-1">Service Charge</td>
+                            <td className="py-1 text-center text-slate-400">—</td>
+                            <td className="py-1 text-right font-mono font-bold">৳{serviceCharge.toLocaleString()}</td>
                         </tr>
                         {otherCharges > 0 && (
                             <tr>
-                                <td className="py-1.5 font-medium truncate max-w-[140px]">
-                                    {invoice.other_charges_description || 'Others / Shop rent'}
-                                </td>
-                                <td className="py-1.5 text-center text-slate-500 print:text-black text-[10px]">—</td>
-                                <td className="py-1.5 text-right font-mono font-bold">{otherCharges.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-1">{invoice.other_charges_description || 'Other Charges / Shop Rent'}</td>
+                                <td className="py-1 text-center text-slate-400">—</td>
+                                <td className="py-1 text-right font-mono font-bold">৳{otherCharges.toLocaleString()}</td>
                             </tr>
                         )}
                         {advanceAdjustment > 0 && (
-                            <tr className="text-rose-700 print:text-black">
-                                <td className="py-1.5 font-medium">Advance adjustment</td>
-                                <td className="py-1.5 text-center text-[10px]">Deduction</td>
-                                <td className="py-1.5 text-right font-mono font-bold">- {advanceAdjustment.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                            <tr className="text-rose-600 print:text-black">
+                                <td className="py-1 font-semibold">Advance Deduction</td>
+                                <td className="py-1 text-center text-[10px]">Less</td>
+                                <td className="py-1 text-right font-mono font-bold">- ৳{advanceAdjustment.toLocaleString()}</td>
                             </tr>
                         )}
                         {discount > 0 && (
-                            <tr className="text-emerald-700 print:text-black">
-                                <td className="py-1.5 font-medium">Discount Waiver</td>
-                                <td className="py-1.5 text-center text-[10px]">Waiver</td>
-                                <td className="py-1.5 text-right font-mono font-bold">- {discount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                            <tr className="text-emerald-600 print:text-black">
+                                <td className="py-1 font-semibold">Approved Waiver</td>
+                                <td className="py-1 text-center text-[10px]">Waiver</td>
+                                <td className="py-1 text-right font-mono font-bold">- ৳{discount.toLocaleString()}</td>
                             </tr>
                         )}
                     </tbody>
-                    <tfoot>
-                        <tr className="border-t-2 border-b-2 border-black font-black text-[12.5px]">
-                            <td colSpan={2} className="py-1.5 text-right pr-3 uppercase">Total Taka:</td>
-                            <td className="py-1.5 text-right font-mono text-[13px]">৳ {totalPayable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
 
-            {/* Total in words */}
-            <div className="py-1.5 border-b border-black text-[10.5px]">
-                <span className="font-bold">Total In Words: </span>
-                <span className="font-semibold italic">{invoice.total_in_words || 'Twenty Thousand Six Hundred Taka Only'}</span>
-            </div>
-
-            {/* Payment terms notice */}
-            <div className="py-2 text-center text-[10px] font-black uppercase text-rose-700 print:text-black tracking-wide">
-                REQUESTED TO PAY BILL BY 7TH EACH MONTH.
-            </div>
-
-            {/* Paid On Acknowledgement line */}
-            <div className="py-2 text-[11px] font-bold">
-                <span>Paid On: ________________________</span>
-            </div>
-
-            {/* Signatures Row */}
-            <div className="pt-8 flex justify-between items-end text-[11px] font-bold">
-                <div>
-                    <div className="border-t border-black pt-1 w-32 text-center text-[10px]">
-                        House Owner Signature
-                    </div>
+            {/* Total Payable Box */}
+            <div className="py-2 border-t-2 border-black space-y-1">
+                <div className="flex justify-between text-[12px] font-black">
+                    <span>Total Rent Payable:</span>
+                    <span className="font-mono">৳{totalPayable.toLocaleString()} BDT</span>
                 </div>
-                <div>
-                    <div className="border-t border-black pt-1 w-24 text-center text-[10px]">
-                        Dated
+                {Number(invoice.paid_amount) > 0 && (
+                    <div className="flex justify-between text-[11px] font-bold text-emerald-700 print:text-black">
+                        <span>Amount Paid:</span>
+                        <span className="font-mono">৳{Number(invoice.paid_amount).toLocaleString()} BDT</span>
                     </div>
+                )}
+                {Number(invoice.due_amount) > 0 && (
+                    <div className="flex justify-between text-[11.5px] font-black text-rose-700 print:text-black">
+                        <span>Net Outstanding Due:</span>
+                        <span className="font-mono">৳{Number(invoice.due_amount).toLocaleString()} BDT</span>
+                    </div>
+                )}
+                <div className="text-[10px] text-slate-600 print:text-black pt-1 italic">
+                    <strong>In Words: </strong>
+                    {invoice.total_in_words || 'N/A'}
+                </div>
+            </div>
+
+            {/* Policy & Signature Line */}
+            <div className="pt-3 border-t border-black flex justify-between items-end text-[10px]">
+                <div className="space-y-0.5 max-w-[65%]">
+                    <p className="font-bold uppercase text-[9.5px]">Policy Note:</p>
+                    <p className="leading-tight text-slate-700 print:text-black">
+                        Requested to pay bill by 7th of each month.
+                    </p>
+                </div>
+                <div className="text-center">
+                    <div className="w-24 border-b border-black mb-1"></div>
+                    <span className="font-bold text-[9px] uppercase tracking-wider">Manager / Landlord</span>
                 </div>
             </div>
         </div>
     );
 
     return (
-        <AdminLayout title={`Bill #${invoice.invoice_no} • Skyline Heights`} breadcrumbs={breadcrumbs}>
-            <Head title={`House Rent Bill #${invoice.invoice_no} - Skyline Heights`} />
+        <AdminLayout title={`Bill #${invoice.invoice_no}`} breadcrumbs={breadcrumbs}>
+            <Head title={`Invoice #${invoice.invoice_no} • Skyline Heights`} />
 
             <style
                 dangerouslySetInnerHTML={{
@@ -294,10 +282,10 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
             />
 
             {/* Action Bar (Hidden in Print) */}
-            <div className="mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
+            <div className="mb-4 sm:mb-6 flex flex-col gap-3 print:hidden sm:flex-row sm:items-center sm:justify-between">
                 <Link
                     href="/admin/invoices"
-                    className="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                    className="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 self-start"
                 >
                     <ArrowLeft size={14} />
                     <span>Back to Invoices</span>
@@ -305,37 +293,37 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
 
                 <div className="flex flex-wrap items-center gap-2">
                     {/* View Switcher Toggle */}
-                    <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 dark:border-slate-700 dark:bg-slate-800">
+                    <div className="inline-flex w-full sm:w-auto rounded-lg border border-slate-200 bg-slate-100 p-0.5 dark:border-slate-700 dark:bg-slate-800">
                         <button
                             type="button"
                             onClick={() => setViewMode('dual_slip')}
-                            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+                            className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
                                 viewMode === 'dual_slip'
                                     ? 'bg-white text-blue-700 shadow-sm dark:bg-slate-900 dark:text-blue-300'
                                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
                             }`}
                         >
                             <FileSpreadsheet size={14} />
-                            <span>Client Dual-Copy Slip (Excel Format)</span>
+                            <span>Dual Slip <span className="hidden sm:inline">(Excel Format)</span></span>
                         </button>
                         <button
                             type="button"
                             onClick={() => setViewMode('formal_invoice')}
-                            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+                            className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
                                 viewMode === 'formal_invoice'
                                     ? 'bg-white text-blue-700 shadow-sm dark:bg-slate-900 dark:text-blue-300'
                                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
                             }`}
                         >
                             <FileText size={14} />
-                            <span>Formal Full Invoice</span>
+                            <span>Formal Invoice</span>
                         </button>
                     </div>
 
                     {invoice.status !== 'paid' && (
                         <Link
                             href={`/admin/payments/create?invoice_id=${invoice.id}`}
-                            className="inline-flex items-center gap-1.5 rounded bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-700"
+                            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-700"
                         >
                             <CreditCard size={15} />
                             <span>Record Payment</span>
@@ -344,22 +332,22 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
 
                     <button
                         onClick={handlePrint}
-                        className="inline-flex items-center gap-1.5 rounded bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700 cursor-pointer"
+                        className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700 cursor-pointer"
                     >
                         <Printer size={15} />
-                        <span>Print Bill Slip / PDF</span>
+                        <span>Print / Save PDF</span>
                     </button>
                 </div>
             </div>
 
             {/* View Mode 1: Client Rent Bill Slip (Exact Replica of Client's Excel Sheet with Side-by-Side Dual Copies) */}
             {viewMode === 'dual_slip' ? (
-                <div className="print-area mx-auto max-w-5xl rounded-lg border border-slate-200 bg-slate-100 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950 print:bg-white print:p-0 print:border-none">
+                <div className="print-area mx-auto max-w-5xl rounded-lg border border-slate-200 bg-slate-100 p-3 sm:p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950 print:bg-white print:p-0 print:border-none">
                     <div className="mb-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 print:hidden">
                         <span className="font-semibold text-blue-600 dark:text-blue-400">
-                            • Client Format: Dual Slip (Tenant Copy + Office Copy side-by-side on A4)
+                            • Client Format: Dual Slip (Tenant Copy + Office Copy)
                         </span>
-                        <span className="text-[11px]">Ready for cutting & physical dispatch</span>
+                        <span className="text-[11px] hidden sm:inline">Ready for printing / PDF</span>
                     </div>
 
                     <div className="flex flex-col md:flex-row gap-4 print:flex-row print:gap-3">
@@ -379,7 +367,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                 </div>
             ) : (
                 /* View Mode 2: Executive Full Invoice */
-                <div className="print-area mx-auto max-w-4xl overflow-hidden rounded-md border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 print:w-full print:max-w-none print:overflow-visible print:border-none print:bg-white print:p-0 print:text-slate-900 print:shadow-none">
+                <div className="print-area mx-auto max-w-4xl overflow-hidden rounded-md border border-slate-200 bg-white p-4 sm:p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 print:w-full print:max-w-none print:overflow-visible print:border-none print:bg-white print:p-0 print:text-slate-900 print:shadow-none">
                     {/* Header Row */}
                     <div className="flex flex-col items-start justify-between border-b border-slate-200 pb-6 sm:flex-row sm:items-center dark:border-slate-800 print:flex-row print:items-center print:border-slate-300 print:pb-2.5">
                         <div className="flex items-center gap-3 print:gap-2.5">

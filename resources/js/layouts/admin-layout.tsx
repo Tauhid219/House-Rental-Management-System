@@ -485,11 +485,11 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                 {isMobileMenuOpen && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden print:hidden" onClick={() => setIsMobileMenuOpen(false)} />}
 
                 {/* Content Wrapper (AdminLTE .content-wrapper) */}
-                <div className="flex min-w-0 flex-1 flex-col overflow-y-auto print:overflow-visible print:block print:w-full print:bg-white">
+                <div className="flex min-w-0 flex-1 flex-col overflow-y-auto pb-16 lg:pb-0 print:overflow-visible print:block print:w-full print:bg-white print:pb-0">
                     {/* Content Header */}
-                    <div className="border-b border-slate-200/80 bg-white px-6 py-4 dark:border-slate-800 dark:bg-slate-900/50 print:hidden">
-                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                            <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">{title || 'Dashboard'}</h1>
+                    <div className="border-b border-slate-200/80 bg-white px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-800 dark:bg-slate-900/50 print:hidden">
+                        <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
+                            <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">{title || 'Dashboard'}</h1>
 
                             {/* Breadcrumbs */}
                             {breadcrumbs.length > 0 && (
@@ -517,23 +517,23 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
 
                     {/* Flash Toast Alerts */}
                     {flash?.success && (
-                        <div className="mx-6 mt-4 flex items-center gap-2.5 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-800 shadow-sm dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300 print:hidden">
+                        <div className="mx-4 mt-3 sm:mx-6 sm:mt-4 flex items-center gap-2.5 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-800 shadow-sm dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300 print:hidden">
                             <CheckCircle2 size={16} className="shrink-0 text-emerald-600 dark:text-emerald-400" />
                             <span>{flash.success}</span>
                         </div>
                     )}
                     {flash?.error && (
-                        <div className="mx-6 mt-4 flex items-center gap-2.5 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-xs text-rose-800 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-300 print:hidden">
+                        <div className="mx-4 mt-3 sm:mx-6 sm:mt-4 flex items-center gap-2.5 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-xs text-rose-800 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-300 print:hidden">
                             <AlertCircle size={16} className="shrink-0 text-rose-600 dark:text-rose-400" />
                             <span>{flash.error}</span>
                         </div>
                     )}
 
                     {/* Main Page Body */}
-                    <main className="flex-1 p-6 print:p-0 print:m-0 print:overflow-visible print:block print:w-full print:bg-white">{children}</main>
+                    <main className="flex-1 p-3 sm:p-6 print:p-0 print:m-0 print:overflow-visible print:block print:w-full print:bg-white">{children}</main>
 
                     {/* AdminLTE Footer */}
-                    <footer className="flex flex-col items-center justify-between gap-2 border-t border-slate-200 bg-white px-6 py-3 text-xs text-slate-500 sm:flex-row dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 print:hidden">
+                    <footer className="flex flex-col items-center justify-between gap-2 border-t border-slate-200 bg-white px-4 py-3 sm:px-6 text-xs text-slate-500 sm:flex-row dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 print:hidden">
                         <div>
                             <strong>
                                 Copyright &copy; 2026{' '}
@@ -550,6 +550,65 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                     </footer>
                 </div>
             </div>
+
+            {/* Mobile Bottom Navigation Bar (App-like Navigation Dock) */}
+            <nav className="fixed bottom-0 left-0 right-0 z-30 flex h-14 items-center justify-around border-t border-slate-200 bg-white/95 px-2 py-1 shadow-lg backdrop-blur-md lg:hidden dark:border-slate-800 dark:bg-slate-900/95 print:hidden">
+                <Link
+                    href="/dashboard"
+                    className={`flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold transition-colors ${
+                        currentUrl === '/dashboard'
+                            ? 'text-blue-600 dark:text-blue-400'
+                            : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                    }`}
+                >
+                    <LayoutGrid size={18} />
+                    <span>Dashboard</span>
+                </Link>
+
+                <Link
+                    href="/admin/flats"
+                    className={`flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold transition-colors ${
+                        currentUrl.startsWith('/admin/flats')
+                            ? 'text-blue-600 dark:text-blue-400'
+                            : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                    }`}
+                >
+                    <Building2 size={18} />
+                    <span>Flats</span>
+                </Link>
+
+                <Link
+                    href="/admin/invoices"
+                    className={`flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold transition-colors ${
+                        currentUrl.startsWith('/admin/invoices')
+                            ? 'text-blue-600 dark:text-blue-400'
+                            : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                    }`}
+                >
+                    <Receipt size={18} />
+                    <span>Invoices</span>
+                </Link>
+
+                <Link
+                    href="/admin/tenants"
+                    className={`flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold transition-colors ${
+                        currentUrl.startsWith('/admin/tenants')
+                            ? 'text-blue-600 dark:text-blue-400'
+                            : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                    }`}
+                >
+                    <Users size={18} />
+                    <span>Tenants</span>
+                </Link>
+
+                <button
+                    onClick={() => setIsMobileMenuOpen(true)}
+                    className="flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+                >
+                    <Menu size={18} />
+                    <span>Menu</span>
+                </button>
+            </nav>
         </div>
     );
 }

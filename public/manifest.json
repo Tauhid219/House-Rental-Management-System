@@ -1,0 +1,28 @@
+{
+  "name": "Skyline Heights Admin",
+  "short_name": "SkylineAdmin",
+  "description": "Skyline Heights House Rental Management Portal",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#343a40",
+  "theme_color": "#343a40",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
