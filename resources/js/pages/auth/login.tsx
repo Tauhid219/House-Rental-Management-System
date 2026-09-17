@@ -2,12 +2,6 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { AlertCircle, ArrowLeft, CheckCircle2, Eye, EyeOff, LoaderCircle, Mail } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
-interface LoginForm {
-    email: string;
-    password: string;
-    remember: boolean;
-}
-
 interface LoginProps {
     status?: string;
     canResetPassword: boolean;
@@ -16,10 +10,10 @@ interface LoginProps {
 export default function Login({ status, canResetPassword }: LoginProps) {
     const [showPassword, setShowPassword] = useState(false);
 
-    const { data, setData, post, processing, errors, reset } = useForm<LoginForm>({
+    const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
-        remember: false,
+        remember: false as boolean,
     });
 
     const submit: FormEventHandler = (e) => {
