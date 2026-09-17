@@ -2,7 +2,7 @@ import AdminCard from '@/components/admin/admin-card';
 import AdminLayout from '@/layouts/admin-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, CheckSquare, Plus, Save, Shield, Square } from 'lucide-react';
+import { ArrowLeft, CheckSquare, Save, Shield, Square } from 'lucide-react';
 import React from 'react';
 
 interface PermissionItem {
@@ -35,7 +35,10 @@ export default function RoleCreate({ groupedPermissions }: Props) {
 
     const togglePermission = (permName: string) => {
         if (data.permissions.includes(permName)) {
-            setData('permissions', data.permissions.filter((p) => p !== permName));
+            setData(
+                'permissions',
+                data.permissions.filter((p) => p !== permName),
+            );
         } else {
             setData('permissions', [...data.permissions, permName]);
         }
@@ -46,7 +49,10 @@ export default function RoleCreate({ groupedPermissions }: Props) {
         const allSelected = groupNames.every((name) => data.permissions.includes(name));
 
         if (allSelected) {
-            setData('permissions', data.permissions.filter((p) => !groupNames.includes(p)));
+            setData(
+                'permissions',
+                data.permissions.filter((p) => !groupNames.includes(p)),
+            );
         } else {
             const combined = Array.from(new Set([...data.permissions, ...groupNames]));
             setData('permissions', combined);
@@ -124,15 +130,11 @@ export default function RoleCreate({ groupedPermissions }: Props) {
                     </AdminCard>
 
                     {/* Permissions Allocation Matrix */}
-                    <AdminCard
-                        title={`Select Permissions (${data.permissions.length} of ${allPermissionNames.length} selected)`}
-                        icon={CheckSquare}
-                    >
+                    <AdminCard title={`Select Permissions (${data.permissions.length} of ${allPermissionNames.length} selected)`} icon={CheckSquare}>
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                             {Object.entries(groupedPermissions).map(([category, perms]) => {
                                 const groupNames = perms.map((p) => p.name);
                                 const isGroupAllSelected = groupNames.every((n) => data.permissions.includes(n));
-                                const hasSomeSelected = groupNames.some((n) => data.permissions.includes(n));
 
                                 return (
                                     <div
@@ -164,7 +166,7 @@ export default function RoleCreate({ groupedPermissions }: Props) {
                                                             onChange={() => togglePermission(perm.name)}
                                                             className="size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-900"
                                                         />
-                                                        <span className="select-none font-medium capitalize">{perm.name}</span>
+                                                        <span className="font-medium capitalize select-none">{perm.name}</span>
                                                     </label>
                                                 );
                                             })}

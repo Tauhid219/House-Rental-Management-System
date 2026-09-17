@@ -49,7 +49,10 @@ export default function RoleEdit({ role, rolePermissions, groupedPermissions, is
         }
 
         if (data.permissions.includes(permName)) {
-            setData('permissions', data.permissions.filter((p) => p !== permName));
+            setData(
+                'permissions',
+                data.permissions.filter((p) => p !== permName),
+            );
         } else {
             setData('permissions', [...data.permissions, permName]);
         }
@@ -185,8 +188,7 @@ export default function RoleEdit({ role, rolePermissions, groupedPermissions, is
                                             {perms.map((perm) => {
                                                 const isChecked = data.permissions.includes(perm.name);
                                                 const isMandatoryAdmin =
-                                                    role.name === 'admin' &&
-                                                    ['view roles', 'manage roles', 'manage users'].includes(perm.name);
+                                                    role.name === 'admin' && ['view roles', 'manage roles', 'manage users'].includes(perm.name);
 
                                                 return (
                                                     <label
@@ -201,13 +203,11 @@ export default function RoleEdit({ role, rolePermissions, groupedPermissions, is
                                                                 onChange={() => togglePermission(perm.name)}
                                                                 className="size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900"
                                                             />
-                                                            <span className="select-none font-medium capitalize">{perm.name}</span>
+                                                            <span className="font-medium capitalize select-none">{perm.name}</span>
                                                         </div>
 
                                                         {isMandatoryAdmin && (
-                                                            <span className="text-[10px] text-slate-400 font-mono italic">
-                                                                (Admin Required)
-                                                            </span>
+                                                            <span className="font-mono text-[10px] text-slate-400 italic">(Admin Required)</span>
                                                         )}
                                                     </label>
                                                 );

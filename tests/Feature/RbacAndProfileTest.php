@@ -14,8 +14,11 @@ class RbacAndProfileTest extends TestCase
     use RefreshDatabase;
 
     protected User $adminUser;
+
     protected User $managerUser;
+
     protected Role $adminRole;
+
     protected Role $managerRole;
 
     protected function setUp(): void

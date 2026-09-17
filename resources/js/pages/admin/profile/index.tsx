@@ -78,7 +78,7 @@ export default function AdminProfile({ user }: Props) {
                                     <div className="flex size-20 items-center justify-center rounded-full bg-blue-600 text-2xl font-black text-white shadow-md">
                                         {user.name.charAt(0).toUpperCase()}
                                     </div>
-                                    <span className="absolute bottom-0 right-1 size-4 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
+                                    <span className="absolute right-1 bottom-0 size-4 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
                                 </div>
 
                                 <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">{user.name}</h3>
@@ -146,9 +146,7 @@ export default function AdminProfile({ user }: Props) {
                                             onChange={(e) => profileForm.setData('name', e.target.value)}
                                             className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                                         />
-                                        {profileForm.errors.name && (
-                                            <p className="mt-1 text-xs text-rose-500">{profileForm.errors.name}</p>
-                                        )}
+                                        {profileForm.errors.name && <p className="mt-1 text-xs text-rose-500">{profileForm.errors.name}</p>}
                                     </div>
 
                                     <div>
@@ -162,9 +160,7 @@ export default function AdminProfile({ user }: Props) {
                                             onChange={(e) => profileForm.setData('email', e.target.value)}
                                             className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                                         />
-                                        {profileForm.errors.email && (
-                                            <p className="mt-1 text-xs text-rose-500">{profileForm.errors.email}</p>
-                                        )}
+                                        {profileForm.errors.email && <p className="mt-1 text-xs text-rose-500">{profileForm.errors.email}</p>}
                                     </div>
                                 </div>
 
@@ -179,9 +175,7 @@ export default function AdminProfile({ user }: Props) {
                                         onChange={(e) => profileForm.setData('phone', e.target.value)}
                                         className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                                     />
-                                    {profileForm.errors.phone && (
-                                        <p className="mt-1 text-xs text-rose-500">{profileForm.errors.phone}</p>
-                                    )}
+                                    {profileForm.errors.phone && <p className="mt-1 text-xs text-rose-500">{profileForm.errors.phone}</p>}
                                 </div>
 
                                 <div className="flex justify-end pt-2">
@@ -230,9 +224,7 @@ export default function AdminProfile({ user }: Props) {
                                             onChange={(e) => passwordForm.setData('password', e.target.value)}
                                             className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                                         />
-                                        {passwordForm.errors.password && (
-                                            <p className="mt-1 text-xs text-rose-500">{passwordForm.errors.password}</p>
-                                        )}
+                                        {passwordForm.errors.password && <p className="mt-1 text-xs text-rose-500">{passwordForm.errors.password}</p>}
                                     </div>
 
                                     <div>
@@ -248,9 +240,7 @@ export default function AdminProfile({ user }: Props) {
                                             className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                                         />
                                         {passwordForm.errors.password_confirmation && (
-                                            <p className="mt-1 text-xs text-rose-500">
-                                                {passwordForm.errors.password_confirmation}
-                                            </p>
+                                            <p className="mt-1 text-xs text-rose-500">{passwordForm.errors.password_confirmation}</p>
                                         )}
                                     </div>
                                 </div>

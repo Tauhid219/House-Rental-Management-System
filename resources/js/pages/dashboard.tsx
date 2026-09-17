@@ -107,21 +107,21 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
             <div className="mt-6 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
                 <Link
                     href="/admin/flats/create"
-                    className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 text-center"
+                    className="inline-flex items-center justify-center gap-1.5 rounded bg-blue-600 px-3 py-2 text-center text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 sm:gap-2"
                 >
                     <PlusCircle size={15} className="shrink-0" />
                     <span>Add Flat Unit</span>
                 </Link>
                 <Link
                     href="/admin/tenants/create"
-                    className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 text-center"
+                    className="inline-flex items-center justify-center gap-1.5 rounded bg-emerald-600 px-3 py-2 text-center text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 sm:gap-2"
                 >
                     <Users size={15} className="shrink-0" />
                     <span>Register Tenant</span>
                 </Link>
                 <Link
                     href="/admin/leases/create"
-                    className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 text-center"
+                    className="inline-flex items-center justify-center gap-1.5 rounded bg-indigo-600 px-3 py-2 text-center text-xs font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 sm:gap-2"
                 >
                     <Key size={15} className="shrink-0" />
                     <span>Create Lease</span>
@@ -130,7 +130,7 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                     href="/flats"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 text-center"
+                    className="inline-flex items-center justify-center gap-1.5 rounded border border-slate-300 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 sm:gap-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
                     <ExternalLink size={15} className="shrink-0" />
                     <span>Public Site</span>
@@ -160,15 +160,13 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                         {/* Mobile Card View (md:hidden) */}
                         <div className="divide-y divide-slate-100 md:hidden dark:divide-slate-800">
                             {recentLeases.length === 0 ? (
-                                <div className="p-5 text-center text-xs text-slate-400">
-                                    No lease agreements registered yet.
-                                </div>
+                                <div className="p-5 text-center text-xs text-slate-400">No lease agreements registered yet.</div>
                             ) : (
                                 recentLeases.map((lease) => (
-                                    <div key={lease.id} className="p-4 space-y-2">
+                                    <div key={lease.id} className="space-y-2 p-4">
                                         <div className="flex items-start justify-between">
                                             <div>
-                                                <span className="font-bold text-slate-900 dark:text-slate-100 text-sm">
+                                                <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
                                                     Flat {lease.flat?.flat_number || 'N/A'}
                                                 </span>
                                                 <span className="ml-2 text-[11px] text-slate-400">{lease.flat?.floor}</span>
@@ -192,7 +190,7 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                                                 <span className="block text-[11px] text-slate-400">{lease.tenant?.phone}</span>
                                             </div>
                                             <div className="text-right">
-                                                <span className="font-bold text-slate-900 dark:text-slate-100 text-sm">
+                                                <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
                                                     ৳{Number(lease.agreed_monthly_rent).toLocaleString()}
                                                 </span>
                                                 <span className="block text-[10px] text-slate-400">{lease.start_date}</span>
@@ -204,7 +202,7 @@ export default function Dashboard({ stats, recentLeases, recentContacts, flatsBy
                         </div>
 
                         {/* Desktop Table View (hidden md:block) */}
-                        <div className="hidden md:block overflow-x-auto">
+                        <div className="hidden overflow-x-auto md:block">
                             <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
                                 <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60">
                                     <tr>

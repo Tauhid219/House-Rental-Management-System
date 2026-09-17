@@ -89,7 +89,7 @@ class RoleController extends Controller
             'guard_name' => 'web',
         ]);
 
-        if (!empty($validated['permissions'])) {
+        if (! empty($validated['permissions'])) {
             $role->syncPermissions($validated['permissions']);
         }
 
@@ -125,13 +125,13 @@ class RoleController extends Controller
             'permissions.*' => ['string', 'exists:permissions,name'],
         ];
 
-        if (!$isProtected) {
-            $rules['name'] = ['required', 'string', 'max:50', 'unique:roles,name,' . $role->id];
+        if (! $isProtected) {
+            $rules['name'] = ['required', 'string', 'max:50', 'unique:roles,name,'.$role->id];
         }
 
         $validated = $request->validate($rules);
 
-        if (!$isProtected && isset($validated['name'])) {
+        if (! $isProtected && isset($validated['name'])) {
             $role->name = strtolower(trim($validated['name']));
             $role->save();
         }

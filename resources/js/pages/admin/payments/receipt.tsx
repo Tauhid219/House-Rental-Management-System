@@ -65,9 +65,7 @@ export default function PaymentReceipt({ payment }: Props) {
                         <Building2 size={20} />
                     </div>
                     <div>
-                        <h2 className="text-base font-black tracking-tight text-slate-900 leading-tight print:text-sm">
-                            SKYLINE HEIGHTS RESIDENCY
-                        </h2>
+                        <h2 className="text-base leading-tight font-black tracking-tight text-slate-900 print:text-sm">SKYLINE HEIGHTS RESIDENCY</h2>
                         <p className="text-xs text-slate-500 print:text-[11px]">
                             House 42, Road 11, Block D, Banani, Dhaka-1213 · Tel: +880 1711-000001
                         </p>
@@ -85,19 +83,19 @@ export default function PaymentReceipt({ payment }: Props) {
             {/* Receipt Meta Details */}
             <div className="grid grid-cols-2 gap-3 border-b border-slate-100 py-3 text-xs sm:grid-cols-4 print:grid-cols-4 print:py-2.5">
                 <div>
-                    <span className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Receipt No</span>
+                    <span className="block text-[10px] font-semibold tracking-wider text-slate-400 uppercase">Receipt No</span>
                     <strong className="font-mono text-xs font-bold text-slate-900 sm:text-sm print:text-xs">{payment.payment_no}</strong>
                 </div>
                 <div>
-                    <span className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Payment Date</span>
+                    <span className="block text-[10px] font-semibold tracking-wider text-slate-400 uppercase">Payment Date</span>
                     <strong className="text-xs font-bold text-slate-900 sm:text-sm print:text-xs">{payment.payment_date}</strong>
                 </div>
                 <div>
-                    <span className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Invoice Ref</span>
+                    <span className="block text-[10px] font-semibold tracking-wider text-slate-400 uppercase">Invoice Ref</span>
                     <strong className="text-xs font-bold text-slate-900 sm:text-sm print:text-xs">{invoice ? invoice.invoice_no : 'N/A'}</strong>
                 </div>
                 <div>
-                    <span className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Billing Month</span>
+                    <span className="block text-[10px] font-semibold tracking-wider text-slate-400 uppercase">Billing Month</span>
                     <strong className="text-xs font-bold text-slate-900 sm:text-sm print:text-xs">{invoice ? invoice.billing_month : 'N/A'}</strong>
                 </div>
             </div>
@@ -137,14 +135,10 @@ export default function PaymentReceipt({ payment }: Props) {
                             <td className="px-3 py-2.5 font-medium text-slate-800 print:px-2.5 print:py-1.5">
                                 <span>Monthly Rent & Utilities Payment</span>
                                 {payment.notes && (
-                                    <span className="mt-0.5 block text-[11px] font-normal text-slate-500 italic">
-                                        Note: {payment.notes}
-                                    </span>
+                                    <span className="mt-0.5 block text-[11px] font-normal text-slate-500 italic">Note: {payment.notes}</span>
                                 )}
                             </td>
-                            <td className="px-3 py-2.5 font-semibold text-slate-700 uppercase print:px-2.5 print:py-1.5">
-                                {payment.payment_method}
-                            </td>
+                            <td className="px-3 py-2.5 font-semibold text-slate-700 uppercase print:px-2.5 print:py-1.5">{payment.payment_method}</td>
                             <td className="px-3 py-2.5 font-mono text-xs text-slate-600 print:px-2.5 print:py-1.5">
                                 {payment.transaction_id || 'Cash Transaction'}
                             </td>

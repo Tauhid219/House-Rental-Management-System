@@ -151,7 +151,9 @@ class RentInvoiceController extends Controller
         $data = $request->validated();
         $billingMonth = $data['billing_month'];
         $dueDate = $data['due_date'];
-        $overrideService = isset($data['service_charge']) ? (float) $data['service_charge'] : null;
+        $overrideService = isset($data['service_charge'])
+            ? (float) $data['service_charge']
+            : (isset($data['utility_charges']) ? (float) $data['utility_charges'] : null);
         $other = (float) ($data['other_charges'] ?? 0);
 
         $activeLeases = Lease::where('status', 'active')->with(['tenant', 'flat'])->get();
@@ -192,7 +194,7 @@ class RentInvoiceController extends Controller
                 $service = $overrideService !== null ? $overrideService : (float) ($lease->default_service_charge ?? 3500.00);
                 $gasType = $lease->default_gas_type ?? 'prepaid';
                 $electricityType = $lease->default_electricity_type ?? 'prepaid';
-                
+
                 $totalUtility = $water + $service;
                 $totalPayable = max(0, $rent + $totalUtility + $other);
 

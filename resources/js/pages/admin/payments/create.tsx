@@ -45,9 +45,16 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
               ? dueInvoices[0]
               : null;
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm<{
+        invoice_id: number | string;
+        amount_paid: number | string;
+        payment_method: string;
+        transaction_id: string;
+        payment_date: string;
+        notes: string;
+    }>({
         invoice_id: defaultInvoice ? defaultInvoice.id : '',
-        amount_paid: defaultInvoice ? defaultInvoice.due_amount : 0,
+        amount_paid: defaultInvoice ? defaultInvoice.due_amount : '',
         payment_method: 'cash',
         transaction_id: '',
         payment_date: today,
@@ -173,15 +180,15 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                         </label>
                                         <div className="flex">
                                             <div className="relative flex-1">
-                                                <span className="absolute left-3 top-2 text-xs font-bold text-slate-400">৳</span>
+                                                <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                                 <input
                                                     type="number"
                                                     min="0.01"
                                                     step="any"
                                                     placeholder="0.00"
-                                                    value={data.amount_paid === 0 ? '' : data.amount_paid}
-                                                    onChange={(e) => setData('amount_paid', e.target.value === '' ? ('' as any) : Number(e.target.value))}
-                                                    className={`w-full ${selectedInvoice ? 'rounded-l border-r-0' : 'rounded'} border border-slate-300 bg-white py-2 pl-7 pr-3 text-xs font-bold text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white`}
+                                                    value={data.amount_paid}
+                                                    onChange={(e) => setData('amount_paid', e.target.value === '' ? '' : Number(e.target.value))}
+                                                    className={`w-full ${selectedInvoice ? 'rounded-l border-r-0' : 'rounded'} border border-slate-300 bg-white py-2 pr-3 pl-7 text-xs font-bold text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white`}
                                                     required
                                                 />
                                             </div>
@@ -189,7 +196,7 @@ export default function PaymentCreate({ dueInvoices, preselectedInvoiceId, today
                                                 <button
                                                     type="button"
                                                     onClick={() => setData('amount_paid', selectedInvoice.due_amount)}
-                                                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-r bg-emerald-600 px-3 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-700 active:scale-95 whitespace-nowrap"
+                                                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-r bg-emerald-600 px-3 py-2 text-xs font-bold whitespace-nowrap text-white shadow-sm transition-colors hover:bg-emerald-700 active:scale-95"
                                                     title={`Click to fill full due amount: ৳${selectedInvoice.due_amount.toLocaleString()}`}
                                                 >
                                                     <Zap size={13} className="fill-current text-emerald-200" />

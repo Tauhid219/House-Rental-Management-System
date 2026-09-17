@@ -180,7 +180,7 @@ class ClientUttaraPropertySeeder extends Seeder
                     'balconies' => $item['flat_number'] === '54/A' ? 0 : 2,
                     'rent_cost' => $item['monthly_rent'],
                     'status' => 'occupied',
-                    'description' => "Plot No. 54, Road No. 10, Sector 10, Uttara, Dhaka-1230",
+                    'description' => 'Plot No. 54, Road No. 10, Sector 10, Uttara, Dhaka-1230',
                 ]
             );
 
@@ -190,7 +190,7 @@ class ClientUttaraPropertySeeder extends Seeder
                 [
                     'name' => $item['tenant_name'],
                     'email' => $item['email'],
-                    'nid_passport' => 'NID-' . rand(1000000000, 9999999999),
+                    'nid_passport' => 'NID-'.rand(1000000000, 9999999999),
                     'permanent_address' => 'Plot 54, Road 10, Sector 10, Uttara, Dhaka',
                     'emergency_contact' => '+8801711999999',
                     'status' => 'active',
@@ -227,7 +227,7 @@ class ClientUttaraPropertySeeder extends Seeder
             ]);
 
             // 4. Create or update Rent Invoice for September 2026 matching client Excel
-            $invoiceNo = 'BILL-202609-' . str_pad((string) $item['serial'], 3, '0', STR_PAD_LEFT);
+            $invoiceNo = 'BILL-202609-'.str_pad((string) $item['serial'], 3, '0', STR_PAD_LEFT);
             RentInvoice::updateOrCreate(
                 [
                     'lease_id' => $lease->id,

@@ -2,7 +2,7 @@ import AdminCard from '@/components/admin/admin-card';
 import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Link, useForm } from '@inertiajs/react';
-import { AlertCircle, ArrowLeft, Building2, Calendar, CheckCircle2, DollarSign, FileText, Receipt, Save, Zap } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Receipt, Save } from 'lucide-react';
 import React from 'react';
 
 interface LeaseOption {
@@ -72,10 +72,15 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
         }
     };
 
-    const totalUtility = Number(data.water_bill || 0) + Number(data.service_charge || 0) + Number(data.gas_bill || 0) + Number(data.electricity_bill || 0);
+    const totalUtility =
+        Number(data.water_bill || 0) + Number(data.service_charge || 0) + Number(data.gas_bill || 0) + Number(data.electricity_bill || 0);
     const calculatedTotal = Math.max(
         0,
-        Number(data.rent_amount || 0) + totalUtility + Number(data.other_charges || 0) - Number(data.advance_adjustment || 0) - Number(data.discount || 0)
+        Number(data.rent_amount || 0) +
+            totalUtility +
+            Number(data.other_charges || 0) -
+            Number(data.advance_adjustment || 0) -
+            Number(data.discount || 0),
     );
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -95,10 +100,14 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                             <span>No Active Leases Available</span>
                         </div>
                         <p className="mt-2 text-xs leading-relaxed">
-                            Rent invoices can only be issued for active residential lease agreements. Please execute a lease agreement first before billing.
+                            Rent invoices can only be issued for active residential lease agreements. Please execute a lease agreement first before
+                            billing.
                         </p>
                         <div className="mt-4">
-                            <Link href="/admin/leases/create" className="rounded bg-amber-600 px-4 py-2 text-xs font-bold text-white hover:bg-amber-700">
+                            <Link
+                                href="/admin/leases/create"
+                                className="rounded bg-amber-600 px-4 py-2 text-xs font-bold text-white hover:bg-amber-700"
+                            >
                                 Create Lease Agreement
                             </Link>
                         </div>
@@ -135,7 +144,8 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     >
                                         {activeLeases.map((l) => (
                                             <option key={l.id} value={l.id}>
-                                                Flat {l.flat?.flat_number} ({l.flat?.floor}) — {l.tenant?.name} [Agreed Rent: ৳{Number(l.agreed_monthly_rent).toLocaleString()}]
+                                                Flat {l.flat?.flat_number} ({l.flat?.floor}) — {l.tenant?.name} [Agreed Rent: ৳
+                                                {Number(l.agreed_monthly_rent).toLocaleString()}]
                                             </option>
                                         ))}
                                     </select>
@@ -187,19 +197,19 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
 
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     {/* 1. Monthly Rent */}
-                                    <div className="rounded border border-slate-200 p-3 bg-white dark:border-slate-700 dark:bg-slate-800/50">
+                                    <div className="rounded border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/50">
                                         <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-200">
                                             1. Monthly Apartment Rent (মাসিক ভাড়া) <span className="text-rose-500">*</span>
                                         </label>
                                         <div className="relative">
-                                            <span className="absolute top-2 left-3 text-xs text-slate-400 font-bold">৳</span>
+                                            <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                             <input
                                                 type="number"
                                                 step="0.01"
                                                 min="0"
                                                 value={data.rent_amount}
                                                 onChange={(e) => setData('rent_amount', Number(e.target.value))}
-                                                className="w-full rounded border border-slate-300 bg-white pl-8 pr-3 py-1.5 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+                                                className="w-full rounded border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
                                                 required
                                             />
                                         </div>
@@ -207,50 +217,48 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     </div>
 
                                     {/* 2. Service Charge */}
-                                    <div className="rounded border border-slate-200 p-3 bg-white dark:border-slate-700 dark:bg-slate-800/50">
+                                    <div className="rounded border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/50">
                                         <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-200">
                                             2. Service Charge (সার্ভিস চার্জ)
                                         </label>
                                         <div className="relative">
-                                            <span className="absolute top-2 left-3 text-xs text-slate-400 font-bold">৳</span>
+                                            <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                             <input
                                                 type="number"
                                                 step="0.01"
                                                 min="0"
                                                 value={data.service_charge}
                                                 onChange={(e) => setData('service_charge', Number(e.target.value))}
-                                                className="w-full rounded border border-slate-300 bg-white pl-8 pr-3 py-1.5 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+                                                className="w-full rounded border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
                                             />
                                         </div>
                                         <span className="text-[10px] text-slate-400">Standard residential: ৳3,500</span>
                                     </div>
 
                                     {/* 3. Water Bill */}
-                                    <div className="rounded border border-slate-200 p-3 bg-white dark:border-slate-700 dark:bg-slate-800/50">
+                                    <div className="rounded border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/50">
                                         <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-200">
                                             3. Water Bill (পানি বিল)
                                         </label>
                                         <div className="relative">
-                                            <span className="absolute top-2 left-3 text-xs text-slate-400 font-bold">৳</span>
+                                            <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                             <input
                                                 type="number"
                                                 step="0.01"
                                                 min="0"
                                                 value={data.water_bill}
                                                 onChange={(e) => setData('water_bill', Number(e.target.value))}
-                                                className="w-full rounded border border-slate-300 bg-white pl-8 pr-3 py-1.5 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+                                                className="w-full rounded border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
                                             />
                                         </div>
                                         <span className="text-[10px] text-slate-400">Individual unit water usage (৳1,000 - ৳1,600)</span>
                                     </div>
 
                                     {/* 4. GAS Bill & Type */}
-                                    <div className="rounded border border-slate-200 p-3 bg-white dark:border-slate-700 dark:bg-slate-800/50">
-                                        <div className="flex items-center justify-between mb-1">
-                                            <label className="text-xs font-bold text-slate-700 dark:text-slate-200">
-                                                4. GAS Bill (গ্যাস বিল)
-                                            </label>
-                                            <label className="flex items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-300 cursor-pointer">
+                                    <div className="rounded border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/50">
+                                        <div className="mb-1 flex items-center justify-between">
+                                            <label className="text-xs font-bold text-slate-700 dark:text-slate-200">4. GAS Bill (গ্যাস বিল)</label>
+                                            <label className="flex cursor-pointer items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-300">
                                                 <input
                                                     type="checkbox"
                                                     checked={data.gas_type === 'prepaid'}
@@ -261,7 +269,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                             </label>
                                         </div>
                                         <div className="relative">
-                                            <span className="absolute top-2 left-3 text-xs text-slate-400 font-bold">৳</span>
+                                            <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                             <input
                                                 type="number"
                                                 step="0.01"
@@ -270,18 +278,18 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                                 value={data.gas_bill}
                                                 onChange={(e) => setData('gas_bill', Number(e.target.value))}
                                                 placeholder={data.gas_type === 'prepaid' ? 'Prepaid (0.00)' : 'Amount'}
-                                                className="w-full rounded border border-slate-300 bg-white pl-8 pr-3 py-1.5 text-xs font-semibold text-slate-800 disabled:bg-slate-100 disabled:text-slate-400 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:disabled:bg-slate-900"
+                                                className="w-full rounded border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none disabled:bg-slate-100 disabled:text-slate-400 dark:border-slate-600 dark:bg-slate-800 dark:disabled:bg-slate-900"
                                             />
                                         </div>
                                     </div>
 
                                     {/* 5. Electric Bill & Type */}
-                                    <div className="rounded border border-slate-200 p-3 bg-white dark:border-slate-700 dark:bg-slate-800/50">
-                                        <div className="flex items-center justify-between mb-1">
+                                    <div className="rounded border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/50">
+                                        <div className="mb-1 flex items-center justify-between">
                                             <label className="text-xs font-bold text-slate-700 dark:text-slate-200">
                                                 5. Electric Bill (বিদ্যুৎ বিল)
                                             </label>
-                                            <label className="flex items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-300 cursor-pointer">
+                                            <label className="flex cursor-pointer items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-300">
                                                 <input
                                                     type="checkbox"
                                                     checked={data.electricity_type === 'prepaid'}
@@ -292,7 +300,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                             </label>
                                         </div>
                                         <div className="relative">
-                                            <span className="absolute top-2 left-3 text-xs text-slate-400 font-bold">৳</span>
+                                            <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                             <input
                                                 type="number"
                                                 step="0.01"
@@ -301,19 +309,19 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                                 value={data.electricity_bill}
                                                 onChange={(e) => setData('electricity_bill', Number(e.target.value))}
                                                 placeholder={data.electricity_type === 'prepaid' ? 'Prepaid (0.00)' : 'Amount'}
-                                                className="w-full rounded border border-slate-300 bg-white pl-8 pr-3 py-1.5 text-xs font-semibold text-slate-800 disabled:bg-slate-100 disabled:text-slate-400 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:disabled:bg-slate-900"
+                                                className="w-full rounded border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none disabled:bg-slate-100 disabled:text-slate-400 dark:border-slate-600 dark:bg-slate-800 dark:disabled:bg-slate-900"
                                             />
                                         </div>
                                     </div>
 
                                     {/* 6. Others / Shop rent / Adjustments */}
-                                    <div className="rounded border border-slate-200 p-3 bg-white dark:border-slate-700 dark:bg-slate-800/50">
+                                    <div className="rounded border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/50">
                                         <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-200">
                                             6. Others / Commercial Rent (অন্যান্য / বকেয়া / দোকান ভাড়া)
                                         </label>
                                         <div className="grid grid-cols-2 gap-2">
                                             <div className="relative">
-                                                <span className="absolute top-2 left-3 text-xs text-slate-400 font-bold">৳</span>
+                                                <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                                 <input
                                                     type="number"
                                                     step="0.01"
@@ -321,7 +329,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                                     value={data.other_charges}
                                                     onChange={(e) => setData('other_charges', Number(e.target.value))}
                                                     placeholder="0.00"
-                                                    className="w-full rounded border border-slate-300 bg-white pl-8 pr-3 py-1.5 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+                                                    className="w-full rounded border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
                                                 />
                                             </div>
                                             <input
@@ -335,12 +343,12 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     </div>
 
                                     {/* 7. Advance Adjustment */}
-                                    <div className="rounded border border-slate-200 p-3 bg-white dark:border-slate-700 dark:bg-slate-800/50">
+                                    <div className="rounded border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/50">
                                         <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-200">
                                             7. Advance Adjustment (এডভান্স কর্তন / ছাড়)
                                         </label>
                                         <div className="relative">
-                                            <span className="absolute top-2 left-3 text-xs text-slate-400 font-bold">৳</span>
+                                            <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                             <input
                                                 type="number"
                                                 step="0.01"
@@ -348,19 +356,19 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                                 value={data.advance_adjustment}
                                                 onChange={(e) => setData('advance_adjustment', Number(e.target.value))}
                                                 placeholder="0.00"
-                                                className="w-full rounded border border-slate-300 bg-white pl-8 pr-3 py-1.5 text-xs font-semibold text-rose-600 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-rose-400"
+                                                className="w-full rounded border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs font-semibold text-rose-600 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-rose-400"
                                             />
                                         </div>
                                         <span className="text-[10px] text-slate-400">Deducted directly from total bill</span>
                                     </div>
 
                                     {/* 8. Discount Waiver */}
-                                    <div className="rounded border border-slate-200 p-3 bg-white dark:border-slate-700 dark:bg-slate-800/50">
+                                    <div className="rounded border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/50">
                                         <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-200">
                                             8. Special Waiver / Discount
                                         </label>
                                         <div className="relative">
-                                            <span className="absolute top-2 left-3 text-xs text-slate-400 font-bold">৳</span>
+                                            <span className="absolute top-2 left-3 text-xs font-bold text-slate-400">৳</span>
                                             <input
                                                 type="number"
                                                 step="0.01"
@@ -368,7 +376,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                                 value={data.discount}
                                                 onChange={(e) => setData('discount', Number(e.target.value))}
                                                 placeholder="0.00"
-                                                className="w-full rounded border border-slate-300 bg-white pl-8 pr-3 py-1.5 text-xs font-semibold text-emerald-600 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-emerald-400"
+                                                className="w-full rounded border border-slate-300 bg-white py-1.5 pr-3 pl-8 text-xs font-semibold text-emerald-600 focus:border-blue-500 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-emerald-400"
                                             />
                                         </div>
                                     </div>
@@ -381,7 +389,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     <div className="text-xs font-bold tracking-wider text-blue-700 uppercase dark:text-blue-300">
                                         Total Payable Amount (মোট টাকা)
                                     </div>
-                                    <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                                    <div className="mt-0.5 text-xs text-slate-600 dark:text-slate-400">
                                         Rent (৳{Number(data.rent_amount).toLocaleString()}) + Utilities & Services (৳{totalUtility.toLocaleString()})
                                         {Number(data.other_charges) > 0 && ` + Others (৳${Number(data.other_charges).toLocaleString()})`}
                                         {Number(data.advance_adjustment) > 0 && ` - Advance (৳${Number(data.advance_adjustment).toLocaleString()})`}
@@ -389,13 +397,11 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                     </div>
                                 </div>
 
-                                <div className="mt-3 sm:mt-0 text-left sm:text-right">
+                                <div className="mt-3 text-left sm:mt-0 sm:text-right">
                                     <div className="text-2xl font-black text-blue-700 dark:text-blue-300">
                                         ৳{calculatedTotal.toLocaleString()} BDT
                                     </div>
-                                    <div className="text-[11px] text-slate-500 font-medium">
-                                        Requested to pay bill by 7th of each month
-                                    </div>
+                                    <div className="text-[11px] font-medium text-slate-500">Requested to pay bill by 7th of each month</div>
                                 </div>
                             </div>
 
@@ -410,7 +416,7 @@ export default function InvoiceCreate({ activeLeases, defaultBillingMonth, defau
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="inline-flex items-center gap-1.5 rounded bg-blue-600 px-5 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:opacity-60 cursor-pointer"
+                                    className="inline-flex cursor-pointer items-center gap-1.5 rounded bg-blue-600 px-5 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:opacity-60"
                                 >
                                     <Save size={14} />
                                     <span>{processing ? 'Generating Bill...' : 'Create & Issue Bill'}</span>

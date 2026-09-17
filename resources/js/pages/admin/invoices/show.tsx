@@ -1,8 +1,8 @@
 import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, CheckCircle2, Copy, CreditCard, FileSpreadsheet, FileText, Printer, ShieldCheck } from 'lucide-react';
-import React, { useState } from 'react';
+import { ArrowLeft, CreditCard, FileSpreadsheet, FileText, Printer } from 'lucide-react';
+import { useState } from 'react';
 
 interface PaymentRecord {
     id: number;
@@ -96,26 +96,20 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
 
     // Render single slip component for Client Bill Slip
     const renderBillSlip = (copyType: 'TENANT COPY' | 'OFFICE COPY') => (
-        <div className="flex-1 bg-white p-3.5 sm:p-5 border border-slate-300 print:border-black text-[12px] leading-snug font-sans text-black select-none">
+        <div className="flex-1 border border-slate-300 bg-white p-3.5 font-sans text-[12px] leading-snug text-black select-none sm:p-5 print:border-black">
             {/* Slip Header */}
-            <div className="text-center pb-2 border-b border-black">
-                <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 print:text-black uppercase">
+            <div className="border-b border-black pb-2 text-center">
+                <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase print:text-black">
                     <span>{copyType}</span>
                     <span className="font-mono">Bill #{invoice.invoice_no.replace('BILL-202609-', '')}</span>
                 </div>
-                <h3 className="text-base font-black tracking-wide text-black uppercase mt-1">
-                    HOUSE RENT BILL
-                </h3>
-                <p className="text-[11px] font-bold text-slate-800 print:text-black leading-tight">
-                    PLOT NO.54, ROAD NO. 10, SECTOR NO. 10
-                </p>
-                <p className="text-[10px] font-semibold text-slate-700 print:text-black leading-tight">
-                    UTTARA, MODEL TOWN, DHAKA-1230
-                </p>
+                <h3 className="mt-1 text-base font-black tracking-wide text-black uppercase">HOUSE RENT BILL</h3>
+                <p className="text-[11px] leading-tight font-bold text-slate-800 print:text-black">PLOT NO.54, ROAD NO. 10, SECTOR NO. 10</p>
+                <p className="text-[10px] leading-tight font-semibold text-slate-700 print:text-black">UTTARA, MODEL TOWN, DHAKA-1230</p>
             </div>
 
             {/* Metadata Info Row */}
-            <div className="py-2.5 border-b border-black space-y-1 text-[11px]">
+            <div className="space-y-1 border-b border-black py-2.5 text-[11px]">
                 <div className="flex justify-between">
                     <div>
                         <span className="font-bold">Serial No: </span>
@@ -130,7 +124,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                 <div className="flex justify-between">
                     <div>
                         <span className="font-bold">Flat No: </span>
-                        <span className="font-bold font-mono text-[12px]">{invoice.lease?.flat?.flat_number || 'N/A'}</span>
+                        <span className="font-mono text-[12px] font-bold">{invoice.lease?.flat?.flat_number || 'N/A'}</span>
                     </div>
                     <div className="text-right">
                         <span className="font-bold uppercase">{invoice.tenant?.name || 'RESIDENT'}</span>
@@ -151,7 +145,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
 
             {/* Financial Line Items Table */}
             <div className="py-2">
-                <table className="w-full text-left text-[11.5px] border-collapse">
+                <table className="w-full border-collapse text-left text-[11.5px]">
                     <thead>
                         <tr className="border-b border-black text-[11px] font-bold">
                             <th className="py-1">Items Description</th>
@@ -167,13 +161,15 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                         </tr>
                         <tr>
                             <td className="py-1">GAS Bill</td>
-                            <td className="py-1 text-center font-semibold text-[10px]">{gasType === 'prepaid' ? 'Prepaid' : 'Billed'}</td>
+                            <td className="py-1 text-center text-[10px] font-semibold">{gasType === 'prepaid' ? 'Prepaid' : 'Billed'}</td>
                             <td className="py-1 text-right font-mono font-bold">{gasBill > 0 ? `৳${gasBill.toLocaleString()}` : '-'}</td>
                         </tr>
                         <tr>
                             <td className="py-1">Electric Bill</td>
-                            <td className="py-1 text-center font-semibold text-[10px]">{electricityType === 'prepaid' ? 'Prepaid' : 'Billed'}</td>
-                            <td className="py-1 text-right font-mono font-bold">{electricityBill > 0 ? `৳${electricityBill.toLocaleString()}` : '-'}</td>
+                            <td className="py-1 text-center text-[10px] font-semibold">{electricityType === 'prepaid' ? 'Prepaid' : 'Billed'}</td>
+                            <td className="py-1 text-right font-mono font-bold">
+                                {electricityBill > 0 ? `৳${electricityBill.toLocaleString()}` : '-'}
+                            </td>
                         </tr>
                         <tr>
                             <td className="py-1">Water Bill</td>
@@ -211,7 +207,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
             </div>
 
             {/* Total Payable Box */}
-            <div className="py-2 border-t-2 border-black space-y-1">
+            <div className="space-y-1 border-t-2 border-black py-2">
                 <div className="flex justify-between text-[12px] font-black">
                     <span>Total Rent Payable:</span>
                     <span className="font-mono">৳{totalPayable.toLocaleString()} BDT</span>
@@ -228,23 +224,21 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                         <span className="font-mono">৳{Number(invoice.due_amount).toLocaleString()} BDT</span>
                     </div>
                 )}
-                <div className="text-[10px] text-slate-600 print:text-black pt-1 italic">
+                <div className="pt-1 text-[10px] text-slate-600 italic print:text-black">
                     <strong>In Words: </strong>
                     {invoice.total_in_words || 'N/A'}
                 </div>
             </div>
 
             {/* Policy & Signature Line */}
-            <div className="pt-3 border-t border-black flex justify-between items-end text-[10px]">
-                <div className="space-y-0.5 max-w-[65%]">
-                    <p className="font-bold uppercase text-[9.5px]">Policy Note:</p>
-                    <p className="leading-tight text-slate-700 print:text-black">
-                        Requested to pay bill by 7th of each month.
-                    </p>
+            <div className="flex items-end justify-between border-t border-black pt-3 text-[10px]">
+                <div className="max-w-[65%] space-y-0.5">
+                    <p className="text-[9.5px] font-bold uppercase">Policy Note:</p>
+                    <p className="leading-tight text-slate-700 print:text-black">Requested to pay bill by 7th of each month.</p>
                 </div>
                 <div className="text-center">
-                    <div className="w-24 border-b border-black mb-1"></div>
-                    <span className="font-bold text-[9px] uppercase tracking-wider">Manager / Landlord</span>
+                    <div className="mb-1 w-24 border-b border-black"></div>
+                    <span className="text-[9px] font-bold tracking-wider uppercase">Manager / Landlord</span>
                 </div>
             </div>
         </div>
@@ -282,10 +276,10 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
             />
 
             {/* Action Bar (Hidden in Print) */}
-            <div className="mb-4 sm:mb-6 flex flex-col gap-3 print:hidden sm:flex-row sm:items-center sm:justify-between">
+            <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between print:hidden">
                 <Link
                     href="/admin/invoices"
-                    className="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 self-start"
+                    className="inline-flex items-center gap-1.5 self-start rounded border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
                     <ArrowLeft size={14} />
                     <span>Back to Invoices</span>
@@ -293,23 +287,25 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
 
                 <div className="flex flex-wrap items-center gap-2">
                     {/* View Switcher Toggle */}
-                    <div className="inline-flex w-full sm:w-auto rounded-lg border border-slate-200 bg-slate-100 p-0.5 dark:border-slate-700 dark:bg-slate-800">
+                    <div className="inline-flex w-full rounded-lg border border-slate-200 bg-slate-100 p-0.5 sm:w-auto dark:border-slate-700 dark:bg-slate-800">
                         <button
                             type="button"
                             onClick={() => setViewMode('dual_slip')}
-                            className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+                            className={`flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-bold transition sm:flex-none sm:px-3 ${
                                 viewMode === 'dual_slip'
                                     ? 'bg-white text-blue-700 shadow-sm dark:bg-slate-900 dark:text-blue-300'
                                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
                             }`}
                         >
                             <FileSpreadsheet size={14} />
-                            <span>Dual Slip <span className="hidden sm:inline">(Excel Format)</span></span>
+                            <span>
+                                Dual Slip <span className="hidden sm:inline">(Excel Format)</span>
+                            </span>
                         </button>
                         <button
                             type="button"
                             onClick={() => setViewMode('formal_invoice')}
-                            className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+                            className={`flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-bold transition sm:flex-none sm:px-3 ${
                                 viewMode === 'formal_invoice'
                                     ? 'bg-white text-blue-700 shadow-sm dark:bg-slate-900 dark:text-blue-300'
                                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
@@ -323,7 +319,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                     {invoice.status !== 'paid' && (
                         <Link
                             href={`/admin/payments/create?invoice_id=${invoice.id}`}
-                            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-700"
+                            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-700 sm:flex-none"
                         >
                             <CreditCard size={15} />
                             <span>Record Payment</span>
@@ -332,7 +328,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
 
                     <button
                         onClick={handlePrint}
-                        className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700 cursor-pointer"
+                        className="inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-700 sm:flex-none"
                     >
                         <Printer size={15} />
                         <span>Print / Save PDF</span>
@@ -342,21 +338,19 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
 
             {/* View Mode 1: Client Rent Bill Slip (Exact Replica of Client's Excel Sheet with Side-by-Side Dual Copies) */}
             {viewMode === 'dual_slip' ? (
-                <div className="print-area mx-auto max-w-5xl rounded-lg border border-slate-200 bg-slate-100 p-3 sm:p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950 print:bg-white print:p-0 print:border-none">
+                <div className="print-area mx-auto max-w-5xl rounded-lg border border-slate-200 bg-slate-100 p-3 shadow-sm sm:p-6 dark:border-slate-800 dark:bg-slate-950 print:border-none print:bg-white print:p-0">
                     <div className="mb-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 print:hidden">
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                            • Client Format: Dual Slip (Tenant Copy + Office Copy)
-                        </span>
-                        <span className="text-[11px] hidden sm:inline">Ready for printing / PDF</span>
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">• Client Format: Dual Slip (Tenant Copy + Office Copy)</span>
+                        <span className="hidden text-[11px] sm:inline">Ready for printing / PDF</span>
                     </div>
 
-                    <div className="flex flex-col md:flex-row gap-4 print:flex-row print:gap-3">
+                    <div className="flex flex-col gap-4 md:flex-row print:flex-row print:gap-3">
                         {renderBillSlip('TENANT COPY')}
 
                         {/* Dashed Cut Line */}
-                        <div className="hidden md:flex flex-col items-center justify-center px-1 text-slate-400 print:flex">
+                        <div className="hidden flex-col items-center justify-center px-1 text-slate-400 md:flex print:flex">
                             <div className="h-full border-r-2 border-dashed border-slate-300 print:border-black"></div>
-                            <span className="my-2 text-[9px] font-mono uppercase tracking-widest rotate-90 text-slate-400 print:text-black">
+                            <span className="my-2 rotate-90 font-mono text-[9px] tracking-widest text-slate-400 uppercase print:text-black">
                                 ✂ CUT HERE
                             </span>
                             <div className="h-full border-r-2 border-dashed border-slate-300 print:border-black"></div>
@@ -367,7 +361,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                 </div>
             ) : (
                 /* View Mode 2: Executive Full Invoice */
-                <div className="print-area mx-auto max-w-4xl overflow-hidden rounded-md border border-slate-200 bg-white p-4 sm:p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 print:w-full print:max-w-none print:overflow-visible print:border-none print:bg-white print:p-0 print:text-slate-900 print:shadow-none">
+                <div className="print-area mx-auto max-w-4xl overflow-hidden rounded-md border border-slate-200 bg-white p-4 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900 print:w-full print:max-w-none print:overflow-visible print:border-none print:bg-white print:p-0 print:text-slate-900 print:shadow-none">
                     {/* Header Row */}
                     <div className="flex flex-col items-start justify-between border-b border-slate-200 pb-6 sm:flex-row sm:items-center dark:border-slate-800 print:flex-row print:items-center print:border-slate-300 print:pb-2.5">
                         <div className="flex items-center gap-3 print:gap-2.5">
@@ -405,7 +399,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                     {/* 3-Column Info Row */}
                     <div className="grid grid-cols-1 gap-6 border-b border-slate-200 py-6 text-xs sm:grid-cols-3 dark:border-slate-800 print:grid-cols-3 print:gap-4 print:border-slate-300 print:py-2.5 print:text-[10.5px]">
                         <div>
-                            <span className="mb-1 block font-semibold tracking-wider text-slate-400 uppercase print:text-slate-500 print:font-bold">
+                            <span className="mb-1 block font-semibold tracking-wider text-slate-400 uppercase print:font-bold print:text-slate-500">
                                 Property Information:
                             </span>
                             <address className="space-y-1 text-slate-700 not-italic dark:text-slate-300 print:space-y-0.5 print:text-slate-800">
@@ -419,7 +413,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                         </div>
 
                         <div>
-                            <span className="mb-1 block font-semibold tracking-wider text-slate-400 uppercase print:text-slate-500 print:font-bold">
+                            <span className="mb-1 block font-semibold tracking-wider text-slate-400 uppercase print:font-bold print:text-slate-500">
                                 Resident Information:
                             </span>
                             <address className="space-y-1 text-slate-700 not-italic dark:text-slate-300 print:space-y-0.5 print:text-slate-800">
@@ -435,11 +429,14 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                         </div>
 
                         <div className="space-y-1 text-slate-700 dark:text-slate-300 print:space-y-0.5 print:text-slate-800">
-                            <span className="mb-1 block font-semibold tracking-wider text-slate-400 uppercase print:text-slate-500 print:font-bold">
+                            <span className="mb-1 block font-semibold tracking-wider text-slate-400 uppercase print:font-bold print:text-slate-500">
                                 Invoice Details:
                             </span>
                             <div>
-                                <b>Invoice #:</b> <span className="font-mono font-bold text-blue-600 dark:text-blue-400 print:text-slate-900">{invoice.invoice_no}</span>
+                                <b>Invoice #:</b>{' '}
+                                <span className="font-mono font-bold text-blue-600 dark:text-blue-400 print:text-slate-900">
+                                    {invoice.invoice_no}
+                                </span>
                             </div>
                             <div>
                                 <b>Billing Month:</b> {invoice.billing_month}
@@ -456,7 +453,7 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                     {/* Line Items Table */}
                     <div className="border-b border-slate-200 py-6 dark:border-slate-800 print:border-slate-300 print:py-2">
                         <table className="w-full text-left text-xs print:text-[11px]">
-                            <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60 print:bg-slate-100 print:text-slate-700 print:text-[10px]">
+                            <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60 print:bg-slate-100 print:text-[10px] print:text-slate-700">
                                 <tr>
                                     <th className="px-4 py-2.5 print:px-2.5 print:py-1">Item #</th>
                                     <th className="px-4 py-2.5 print:px-2.5 print:py-1">Description</th>
@@ -468,7 +465,9 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                                 <tr>
                                     <td className="px-4 py-3 font-mono print:px-2.5 print:py-1.5">1</td>
                                     <td className="px-4 py-3 print:px-2.5 print:py-1.5">
-                                        <span className="block font-bold text-slate-900 dark:text-white print:text-slate-900">Monthly Apartment Rent</span>
+                                        <span className="block font-bold text-slate-900 dark:text-white print:text-slate-900">
+                                            Monthly Apartment Rent
+                                        </span>
                                         <span className="text-[11px] text-slate-500 print:text-[9.5px]">Flat {invoice.lease?.flat?.flat_number}</span>
                                     </td>
                                     <td className="px-4 py-3 text-center text-slate-400">—</td>
@@ -479,16 +478,24 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                                     <td className="px-4 py-3 print:px-2.5 print:py-1.5">
                                         <span className="block font-bold text-slate-900 dark:text-white print:text-slate-900">GAS Bill</span>
                                     </td>
-                                    <td className="px-4 py-3 text-center text-slate-600 dark:text-slate-300 font-semibold">{gasType === 'prepaid' ? 'Prepaid' : 'Billed'}</td>
-                                    <td className="px-4 py-3 text-right font-semibold print:px-2.5 print:py-1.5">{gasBill > 0 ? `৳${gasBill.toLocaleString()}` : ' - '}</td>
+                                    <td className="px-4 py-3 text-center font-semibold text-slate-600 dark:text-slate-300">
+                                        {gasType === 'prepaid' ? 'Prepaid' : 'Billed'}
+                                    </td>
+                                    <td className="px-4 py-3 text-right font-semibold print:px-2.5 print:py-1.5">
+                                        {gasBill > 0 ? `৳${gasBill.toLocaleString()}` : ' - '}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-3 font-mono print:px-2.5 print:py-1.5">3</td>
                                     <td className="px-4 py-3 print:px-2.5 print:py-1.5">
                                         <span className="block font-bold text-slate-900 dark:text-white print:text-slate-900">Electric Bill</span>
                                     </td>
-                                    <td className="px-4 py-3 text-center text-slate-600 dark:text-slate-300 font-semibold">{electricityType === 'prepaid' ? 'Prepaid' : 'Billed'}</td>
-                                    <td className="px-4 py-3 text-right font-semibold print:px-2.5 print:py-1.5">{electricityBill > 0 ? `৳${electricityBill.toLocaleString()}` : ' - '}</td>
+                                    <td className="px-4 py-3 text-center font-semibold text-slate-600 dark:text-slate-300">
+                                        {electricityType === 'prepaid' ? 'Prepaid' : 'Billed'}
+                                    </td>
+                                    <td className="px-4 py-3 text-right font-semibold print:px-2.5 print:py-1.5">
+                                        {electricityBill > 0 ? `৳${electricityBill.toLocaleString()}` : ' - '}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="px-4 py-3 font-mono print:px-2.5 print:py-1.5">4</td>
@@ -504,7 +511,9 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                                         <span className="block font-bold text-slate-900 dark:text-white print:text-slate-900">Service Charge</span>
                                     </td>
                                     <td className="px-4 py-3 text-center text-slate-400">—</td>
-                                    <td className="px-4 py-3 text-right font-semibold print:px-2.5 print:py-1.5">৳{serviceCharge.toLocaleString()}</td>
+                                    <td className="px-4 py-3 text-right font-semibold print:px-2.5 print:py-1.5">
+                                        ৳{serviceCharge.toLocaleString()}
+                                    </td>
                                 </tr>
                                 {otherCharges > 0 && (
                                     <tr>
@@ -515,7 +524,9 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                                             </span>
                                         </td>
                                         <td className="px-4 py-3 text-center text-slate-400">—</td>
-                                        <td className="px-4 py-3 text-right font-semibold print:px-2.5 print:py-1.5">৳{otherCharges.toLocaleString()}</td>
+                                        <td className="px-4 py-3 text-right font-semibold print:px-2.5 print:py-1.5">
+                                            ৳{otherCharges.toLocaleString()}
+                                        </td>
                                     </tr>
                                 )}
                                 {advanceAdjustment > 0 && (
@@ -523,7 +534,9 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                                         <td className="px-4 py-3 font-mono print:px-2.5 print:py-1.5">7</td>
                                         <td className="px-4 py-3 font-semibold print:px-2.5 print:py-1.5">Advance Adjustment</td>
                                         <td className="px-4 py-3 text-center text-xs">Deduction</td>
-                                        <td className="px-4 py-3 text-right font-bold print:px-2.5 print:py-1.5">- ৳{advanceAdjustment.toLocaleString()}</td>
+                                        <td className="px-4 py-3 text-right font-bold print:px-2.5 print:py-1.5">
+                                            - ৳{advanceAdjustment.toLocaleString()}
+                                        </td>
                                     </tr>
                                 )}
                                 {discount > 0 && (
@@ -541,14 +554,14 @@ export default function InvoiceShow({ invoice }: InvoiceDetailProps) {
                     {/* Bottom Calculation & In Words */}
                     <div className="grid grid-cols-1 gap-6 pt-6 text-xs sm:grid-cols-2 print:grid-cols-2 print:gap-4 print:pt-2 print:text-[10.5px]">
                         <div className="space-y-2 text-slate-600 dark:text-slate-400 print:space-y-1 print:text-slate-700">
-                            <p className="font-bold tracking-wide text-slate-800 uppercase dark:text-slate-200 print:text-slate-900 print:text-[10px]">
+                            <p className="font-bold tracking-wide text-slate-800 uppercase dark:text-slate-200 print:text-[10px] print:text-slate-900">
                                 Payment Policy:
                             </p>
-                            <p className="font-semibold text-rose-600 dark:text-rose-400">
-                                Requested to pay bill by 7th of each month.
-                            </p>
+                            <p className="font-semibold text-rose-600 dark:text-rose-400">Requested to pay bill by 7th of each month.</p>
                             <div className="rounded bg-slate-50 p-3 text-[11px] dark:bg-slate-800/40 print:rounded print:border print:border-slate-200 print:p-2">
-                                <div><strong>Total In Words:</strong> <em>{invoice.total_in_words || 'N/A'}</em></div>
+                                <div>
+                                    <strong>Total In Words:</strong> <em>{invoice.total_in_words || 'N/A'}</em>
+                                </div>
                             </div>
                         </div>
 

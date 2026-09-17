@@ -249,12 +249,10 @@ export default function InvoicesIndex({ invoices, filters, stats, billingMonths,
                 {/* Mobile Card View (md:hidden) */}
                 <div className="divide-y divide-slate-100 md:hidden dark:divide-slate-800">
                     {invoices.data.length === 0 ? (
-                        <div className="p-6 text-center text-xs text-slate-400">
-                            No invoices matching the selected criteria.
-                        </div>
+                        <div className="p-6 text-center text-xs text-slate-400">No invoices matching the selected criteria.</div>
                     ) : (
                         invoices.data.map((inv) => (
-                            <div key={inv.id} className="p-4 space-y-3">
+                            <div key={inv.id} className="space-y-3 p-4">
                                 {/* Header: Invoice # + Status Badge */}
                                 <div className="flex items-start justify-between">
                                     <div>
@@ -281,9 +279,7 @@ export default function InvoicesIndex({ invoices, filters, stats, billingMonths,
 
                                 {/* Resident & Flat */}
                                 <div className="text-xs">
-                                    <span className="font-semibold text-slate-900 dark:text-white">
-                                        {inv.tenant?.name || 'Unassigned'}
-                                    </span>
+                                    <span className="font-semibold text-slate-900 dark:text-white">{inv.tenant?.name || 'Unassigned'}</span>
                                     <span className="block text-[11px] text-slate-500 dark:text-slate-400">
                                         Flat {inv.lease?.flat?.flat_number} ({inv.lease?.flat?.floor})
                                     </span>
@@ -293,11 +289,15 @@ export default function InvoicesIndex({ invoices, filters, stats, billingMonths,
                                 <div className="grid grid-cols-3 gap-2 rounded-md bg-slate-50 p-2 text-center text-xs dark:bg-slate-800/60">
                                     <div>
                                         <span className="block text-[10px] font-medium text-slate-400 uppercase">Total</span>
-                                        <span className="font-bold text-slate-900 dark:text-white">৳{Number(inv.total_payable).toLocaleString()}</span>
+                                        <span className="font-bold text-slate-900 dark:text-white">
+                                            ৳{Number(inv.total_payable).toLocaleString()}
+                                        </span>
                                     </div>
                                     <div>
                                         <span className="block text-[10px] font-medium text-emerald-600 uppercase">Paid</span>
-                                        <span className="font-bold text-emerald-600 dark:text-emerald-400">৳{Number(inv.paid_amount).toLocaleString()}</span>
+                                        <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                                            ৳{Number(inv.paid_amount).toLocaleString()}
+                                        </span>
                                     </div>
                                     <div>
                                         <span className="block text-[10px] font-medium text-rose-600 uppercase">Due</span>
@@ -309,7 +309,7 @@ export default function InvoicesIndex({ invoices, filters, stats, billingMonths,
                                 <div className="flex items-center gap-2 pt-1">
                                     <Link
                                         href={`/admin/invoices/${inv.id}`}
-                                        className="flex-1 inline-flex items-center justify-center gap-1.5 rounded bg-slate-100 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200"
+                                        className="inline-flex flex-1 items-center justify-center gap-1.5 rounded bg-slate-100 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200"
                                     >
                                         <ExternalLink size={14} />
                                         <span>View / PDF</span>
@@ -317,7 +317,7 @@ export default function InvoicesIndex({ invoices, filters, stats, billingMonths,
                                     {inv.status !== 'paid' && (
                                         <Link
                                             href={`/admin/payments/create?invoice_id=${inv.id}`}
-                                            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded bg-emerald-600 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
+                                            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded bg-emerald-600 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
                                         >
                                             <CreditCard size={14} />
                                             <span>Collect</span>
@@ -339,7 +339,7 @@ export default function InvoicesIndex({ invoices, filters, stats, billingMonths,
                 </div>
 
                 {/* Desktop Table View (hidden md:block) */}
-                <div className="hidden md:block overflow-x-auto">
+                <div className="hidden overflow-x-auto md:block">
                     <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
                         <thead className="border-b border-slate-200 bg-slate-50/75 text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:border-slate-800 dark:bg-slate-800/60">
                             <tr>

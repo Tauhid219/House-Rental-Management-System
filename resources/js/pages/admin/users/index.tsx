@@ -2,22 +2,7 @@ import AdminCard from '@/components/admin/admin-card';
 import AdminLayout from '@/layouts/admin-layout';
 import { BreadcrumbItem, SharedData } from '@/types';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
-import {
-    CheckCircle2,
-    Eye,
-    EyeOff,
-    Filter,
-    Loader2,
-    Search,
-    Shield,
-    ShieldCheck,
-    Trash2,
-    UserCheck,
-    UserPlus,
-    Users,
-    X,
-    XCircle,
-} from 'lucide-react';
+import { CheckCircle2, Eye, EyeOff, Filter, Loader2, Search, Shield, ShieldCheck, Trash2, UserCheck, UserPlus, X, XCircle } from 'lucide-react';
 import React, { useState } from 'react';
 
 interface RoleOption {
@@ -78,11 +63,7 @@ export default function UsersIndex({ users, roles, filters }: Props) {
 
     const handleFilter = (e?: React.FormEvent) => {
         if (e) e.preventDefault();
-        router.get(
-            '/admin/users',
-            { search, role: roleFilter },
-            { preserveState: true, replace: true }
-        );
+        router.get('/admin/users', { search, role: roleFilter }, { preserveState: true, replace: true });
     };
 
     const handleRoleChange = (user: UserItem, newRole: string) => {
@@ -161,7 +142,7 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                         <button
                             type="button"
                             onClick={openCreateModal}
-                            className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                            className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:outline-none"
                         >
                             <UserPlus size={14} />
                             <span>Add New User</span>
@@ -183,13 +164,13 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                         <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
                             {/* Search Input */}
                             <div className="relative flex-1">
-                                <Search size={14} className="absolute left-3 top-2.5 text-slate-400" />
+                                <Search size={14} className="absolute top-2.5 left-3 text-slate-400" />
                                 <input
                                     type="text"
                                     placeholder="Search by name, email, or phone..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
-                                    className="w-full rounded-md border border-slate-300 bg-white py-1.5 pl-9 pr-3 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                    className="w-full rounded-md border border-slate-300 bg-white py-1.5 pr-3 pl-9 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                                 />
                             </div>
 
@@ -199,11 +180,7 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                     value={roleFilter}
                                     onChange={(e) => {
                                         setRoleFilter(e.target.value);
-                                        router.get(
-                                            '/admin/users',
-                                            { search, role: e.target.value },
-                                            { preserveState: true, replace: true }
-                                        );
+                                        router.get('/admin/users', { search, role: e.target.value }, { preserveState: true, replace: true });
                                     }}
                                     className="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                                 >
@@ -278,11 +255,9 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                                         </div>
                                                         <div>
                                                             <div className="flex items-center gap-1.5">
-                                                                <span className="font-bold text-slate-900 dark:text-slate-100">
-                                                                    {user.name}
-                                                                </span>
+                                                                <span className="font-bold text-slate-900 dark:text-slate-100">{user.name}</span>
                                                                 {isCurrentUser && (
-                                                                    <span className="rounded bg-blue-100 px-1.5 py-0.2 text-[9px] font-bold text-blue-800 dark:bg-blue-900/60 dark:text-blue-200">
+                                                                    <span className="py-0.2 rounded bg-blue-100 px-1.5 text-[9px] font-bold text-blue-800 dark:bg-blue-900/60 dark:text-blue-200">
                                                                         YOU
                                                                     </span>
                                                                 )}
@@ -305,8 +280,8 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                                             currentRoleName === 'admin'
                                                                 ? 'bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300'
                                                                 : currentRoleName === 'manager'
-                                                                ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300'
-                                                                : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                                                  ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300'
+                                                                  : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                                                         }`}
                                                     >
                                                         <Shield size={11} />
@@ -390,8 +365,8 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                             link.active
                                                 ? 'bg-blue-600 text-white'
                                                 : link.url
-                                                ? 'border border-slate-200 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'
-                                                : 'cursor-not-allowed text-slate-300 dark:text-slate-600'
+                                                  ? 'border border-slate-200 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'
+                                                  : 'cursor-not-allowed text-slate-300 dark:text-slate-600'
                                         }`}
                                     />
                                 ))}
@@ -412,9 +387,7 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                     <UserPlus size={18} />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                                        Create New User / Staff
-                                    </h3>
+                                    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Create New User / Staff</h3>
                                     <p className="text-[11px] text-slate-500 dark:text-slate-400">
                                         Add a new user directly to the system with their role and access.
                                     </p>
@@ -443,9 +416,7 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                     onChange={(e) => setData('name', e.target.value)}
                                     className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                                 />
-                                {errors.name && (
-                                    <p className="mt-1 text-[11px] text-rose-500">{errors.name}</p>
-                                )}
+                                {errors.name && <p className="mt-1 text-[11px] text-rose-500">{errors.name}</p>}
                             </div>
 
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -461,15 +432,11 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                         onChange={(e) => setData('email', e.target.value)}
                                         className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                                     />
-                                    {errors.email && (
-                                        <p className="mt-1 text-[11px] text-rose-500">{errors.email}</p>
-                                    )}
+                                    {errors.email && <p className="mt-1 text-[11px] text-rose-500">{errors.email}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                        Phone Number (Optional)
-                                    </label>
+                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">Phone Number (Optional)</label>
                                     <input
                                         type="text"
                                         placeholder="+880 1700-000000"
@@ -477,9 +444,7 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                         onChange={(e) => setData('phone', e.target.value)}
                                         className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                                     />
-                                    {errors.phone && (
-                                        <p className="mt-1 text-[11px] text-rose-500">{errors.phone}</p>
-                                    )}
+                                    {errors.phone && <p className="mt-1 text-[11px] text-rose-500">{errors.phone}</p>}
                                 </div>
                             </div>
 
@@ -499,9 +464,7 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                             </option>
                                         ))}
                                     </select>
-                                    {errors.role && (
-                                        <p className="mt-1 text-[11px] text-rose-500">{errors.role}</p>
-                                    )}
+                                    {errors.role && <p className="mt-1 text-[11px] text-rose-500">{errors.role}</p>}
                                 </div>
 
                                 <div>
@@ -516,9 +479,7 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                         <option value="active">Active</option>
                                         <option value="inactive">Inactive</option>
                                     </select>
-                                    {errors.status && (
-                                        <p className="mt-1 text-[11px] text-rose-500">{errors.status}</p>
-                                    )}
+                                    {errors.status && <p className="mt-1 text-[11px] text-rose-500">{errors.status}</p>}
                                 </div>
                             </div>
 
@@ -534,19 +495,17 @@ export default function UsersIndex({ users, roles, filters }: Props) {
                                         placeholder="••••••••"
                                         value={data.password}
                                         onChange={(e) => setData('password', e.target.value)}
-                                        className="w-full rounded-md border border-slate-300 bg-white py-2 pl-3 pr-9 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                        className="w-full rounded-md border border-slate-300 bg-white py-2 pr-9 pl-3 text-xs text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                                        className="absolute top-2.5 right-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                                     >
                                         {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                                     </button>
                                 </div>
-                                {errors.password && (
-                                    <p className="mt-1 text-[11px] text-rose-500">{errors.password}</p>
-                                )}
+                                {errors.password && <p className="mt-1 text-[11px] text-rose-500">{errors.password}</p>}
                             </div>
 
                             {/* Modal Footer */}

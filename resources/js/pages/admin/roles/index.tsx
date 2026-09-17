@@ -2,8 +2,7 @@ import AdminCard from '@/components/admin/admin-card';
 import AdminLayout from '@/layouts/admin-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { CheckCircle2, Lock, Plus, Shield, ShieldAlert, ShieldCheck, Trash2, Users } from 'lucide-react';
-import React from 'react';
+import { CheckCircle2, Lock, Plus, Shield, ShieldCheck, Trash2, Users } from 'lucide-react';
 
 interface PermissionItem {
     id: number;
@@ -83,7 +82,11 @@ export default function RolesIndex({ roles, protectedRoles, totalPermissions }: 
                 <div className="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50/70 p-4 text-xs text-blue-900 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-200">
                     <Shield className="mt-0.5 size-4 shrink-0 text-blue-600 dark:text-blue-400" />
                     <div>
-                        <span className="font-bold">Security Boundary Notice:</span> System roles (<code className="rounded bg-blue-100 px-1 py-0.5 dark:bg-blue-900/60">admin</code>, <code className="rounded bg-blue-100 px-1 py-0.5 dark:bg-blue-900/60">manager</code>, <code className="rounded bg-blue-100 px-1 py-0.5 dark:bg-blue-900/60">tenant</code>) are vital system anchors. You can modify permission allocations for any role, while core admin safeguards guarantee you never lock out administrative capabilities.
+                        <span className="font-bold">Security Boundary Notice:</span> System roles (
+                        <code className="rounded bg-blue-100 px-1 py-0.5 dark:bg-blue-900/60">admin</code>,{' '}
+                        <code className="rounded bg-blue-100 px-1 py-0.5 dark:bg-blue-900/60">manager</code>,{' '}
+                        <code className="rounded bg-blue-100 px-1 py-0.5 dark:bg-blue-900/60">tenant</code>) are vital system anchors. You can modify
+                        permission allocations for any role, while core admin safeguards guarantee you never lock out administrative capabilities.
                     </div>
                 </div>
 
@@ -122,7 +125,7 @@ export default function RolesIndex({ roles, protectedRoles, totalPermissions }: 
                                                                 </span>
                                                             )}
                                                         </div>
-                                                        <span className="text-[10px] text-slate-400 font-mono">guard: {role.guard_name}</span>
+                                                        <span className="font-mono text-[10px] text-slate-400">guard: {role.guard_name}</span>
                                                     </div>
                                                 </div>
                                             </td>
@@ -141,7 +144,9 @@ export default function RolesIndex({ roles, protectedRoles, totalPermissions }: 
                                                 {hasAllPerms ? (
                                                     <div className="flex items-center gap-1.5 font-medium text-emerald-600 dark:text-emerald-400">
                                                         <CheckCircle2 size={15} />
-                                                        <span>Full System Access ({role.permissions.length} / {totalPermissions} permissions)</span>
+                                                        <span>
+                                                            Full System Access ({role.permissions.length} / {totalPermissions} permissions)
+                                                        </span>
                                                     </div>
                                                 ) : (
                                                     <div className="space-y-1.5">
@@ -180,7 +185,7 @@ export default function RolesIndex({ roles, protectedRoles, totalPermissions }: 
                                                         <button
                                                             onClick={() => handleDeleteRole(role)}
                                                             disabled={role.users_count > 0}
-                                                            title={role.users_count > 0 ? "Cannot delete role assigned to users" : "Delete role"}
+                                                            title={role.users_count > 0 ? 'Cannot delete role assigned to users' : 'Delete role'}
                                                             className="rounded border border-slate-200 bg-white p-1 text-slate-400 shadow-sm hover:border-rose-300 hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-rose-900 dark:hover:text-rose-400"
                                                         >
                                                             <Trash2 size={14} />

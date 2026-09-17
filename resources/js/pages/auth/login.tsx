@@ -1,21 +1,11 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import {
-    AlertCircle,
-    ArrowLeft,
-    CheckCircle2,
-    Eye,
-    EyeOff,
-    LoaderCircle,
-    Lock,
-    Mail,
-} from 'lucide-react';
+import { AlertCircle, ArrowLeft, CheckCircle2, Eye, EyeOff, LoaderCircle, Mail } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
 interface LoginForm {
     email: string;
     password: string;
     remember: boolean;
-    [key: string]: any;
 }
 
 interface LoginProps {
@@ -46,7 +36,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             {/* AdminLTE 3 Login Box */}
             <div className="w-full max-w-[400px]">
                 {/* AdminLTE 3 Card with Primary Outline */}
-                <div className="overflow-hidden rounded-[4px] border border-[#dee2e6] border-t-[3px] border-t-[#007bff] bg-white shadow-[0_0_1px_rgba(0,0,0,0.125),0_1px_3px_rgba(0,0,0,0.2)] dark:border-slate-700 dark:bg-[#343a40]">
+                <div className="overflow-hidden rounded-[4px] border border-t-[3px] border-[#dee2e6] border-t-[#007bff] bg-white shadow-[0_0_1px_rgba(0,0,0,0.125),0_1px_3px_rgba(0,0,0,0.2)] dark:border-slate-700 dark:bg-[#343a40]">
                     {/* Card Header with Brand / Logo */}
                     <div className="border-b border-[#dee2e6]/80 bg-white px-6 pt-5 pb-4 text-center dark:border-slate-700/80 dark:bg-[#343a40]">
                         <Link href="/" className="inline-flex items-center justify-center gap-2.5 transition-opacity hover:opacity-95">
@@ -66,9 +56,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
                     {/* Card Body */}
                     <div className="p-6 sm:p-7">
-                        <p className="mb-5 text-center text-sm font-normal text-slate-600 dark:text-slate-300">
-                            Sign in to start your session
-                        </p>
+                        <p className="mb-5 text-center text-sm font-normal text-slate-600 dark:text-slate-300">Sign in to start your session</p>
 
                         {/* Status alert message */}
                         {status && (
@@ -100,7 +88,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                         value={data.email}
                                         onChange={(e) => setData('email', e.target.value)}
                                         placeholder="Email"
-                                        className={`flex-1 min-w-0 rounded-l-[4px] border border-r-0 bg-white px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:z-10 focus:border-[#80bdff] focus:ring-0 focus:outline-none dark:bg-[#3b434a] dark:text-white dark:placeholder:text-slate-400 ${
+                                        className={`min-w-0 flex-1 rounded-l-[4px] border border-r-0 bg-white px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:z-10 focus:border-[#80bdff] focus:ring-0 focus:outline-none dark:bg-[#3b434a] dark:text-white dark:placeholder:text-slate-400 ${
                                             errors.email ? 'border-[#dc3545]' : 'border-[#ced4da] dark:border-slate-600'
                                         }`}
                                     />
@@ -131,7 +119,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                         value={data.password}
                                         onChange={(e) => setData('password', e.target.value)}
                                         placeholder="Password"
-                                        className={`flex-1 min-w-0 rounded-l-[4px] border border-r-0 bg-white px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:z-10 focus:border-[#80bdff] focus:ring-0 focus:outline-none dark:bg-[#3b434a] dark:text-white dark:placeholder:text-slate-400 ${
+                                        className={`min-w-0 flex-1 rounded-l-[4px] border border-r-0 bg-white px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:z-10 focus:border-[#80bdff] focus:ring-0 focus:outline-none dark:bg-[#3b434a] dark:text-white dark:placeholder:text-slate-400 ${
                                             errors.password ? 'border-[#dc3545]' : 'border-[#ced4da] dark:border-slate-600'
                                         }`}
                                     />
@@ -156,7 +144,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
                             {/* Remember Me & Sign In Button (Classic AdminLTE Row) */}
                             <div className="flex items-center justify-between gap-3 pt-1">
-                                <label className="flex cursor-pointer select-none items-center gap-2">
+                                <label className="flex cursor-pointer items-center gap-2 select-none">
                                     <input
                                         type="checkbox"
                                         id="remember"
@@ -166,9 +154,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                         onChange={(e) => setData('remember', e.target.checked)}
                                         className="size-4 cursor-pointer rounded-[2px] border-[#ced4da] text-[#007bff] focus:ring-2 focus:ring-[#007bff]/30"
                                     />
-                                    <span className="text-sm font-normal text-slate-700 dark:text-slate-300">
-                                        Remember Me
-                                    </span>
+                                    <span className="text-sm font-normal text-slate-700 dark:text-slate-300">Remember Me</span>
                                 </label>
 
                                 <button

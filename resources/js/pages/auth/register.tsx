@@ -14,7 +14,6 @@ interface RegisterForm {
     email: string;
     password: string;
     password_confirmation: string;
-    [key: string]: any;
 }
 
 export default function Register() {

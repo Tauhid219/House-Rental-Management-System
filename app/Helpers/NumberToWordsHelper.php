@@ -20,20 +20,20 @@ class NumberToWordsHelper
         }
 
         $words = self::convertNumberToWords($integerPart);
-        $result = $words ? trim($words) . " {$currency}" : '';
+        $result = $words ? trim($words)." {$currency}" : '';
 
         if ($fractionPart > 0) {
             $paisaWords = self::convertNumberToWords($fractionPart);
-            $result .= ($result ? " and " : "") . trim($paisaWords) . " Paisa";
+            $result .= ($result ? ' and ' : '').trim($paisaWords).' Paisa';
         }
 
-        return ucwords(strtolower(trim($result))) . " Only";
+        return ucwords(strtolower(trim($result))).' Only';
     }
 
     private static function convertNumberToWords(int $num): string
     {
         if ($num < 0) {
-            return 'Minus ' . self::convertNumberToWords(abs($num));
+            return 'Minus '.self::convertNumberToWords(abs($num));
         }
 
         if ($num === 0) {
@@ -69,30 +69,30 @@ class NumberToWordsHelper
         $output = '';
 
         if ($crore > 0) {
-            $output .= self::convertNumberToWords((int) $crore) . ' Crore ';
+            $output .= self::convertNumberToWords((int) $crore).' Crore ';
         }
 
         if ($lakh > 0) {
-            $output .= self::convertNumberToWords((int) $lakh) . ' Lakh ';
+            $output .= self::convertNumberToWords((int) $lakh).' Lakh ';
         }
 
         if ($thousand > 0) {
-            $output .= self::convertNumberToWords((int) $thousand) . ' Thousand ';
+            $output .= self::convertNumberToWords((int) $thousand).' Thousand ';
         }
 
         if ($hundred > 0) {
-            $output .= self::convertNumberToWords((int) $hundred) . ' Hundred ';
+            $output .= self::convertNumberToWords((int) $hundred).' Hundred ';
         }
 
         if ($remainder > 0) {
             if ($remainder < 20) {
-                $output .= $ones[$remainder] . ' ';
+                $output .= $ones[$remainder].' ';
             } else {
                 $tenVal = (int) floor($remainder / 10);
                 $unitVal = $remainder % 10;
-                $output .= $tens[$tenVal] . ' ';
+                $output .= $tens[$tenVal].' ';
                 if ($unitVal > 0) {
-                    $output .= $ones[$unitVal] . ' ';
+                    $output .= $ones[$unitVal].' ';
                 }
             }
         }
