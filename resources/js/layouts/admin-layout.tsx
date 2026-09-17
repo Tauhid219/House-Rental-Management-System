@@ -476,7 +476,7 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                     </div>
 
                     {/* Sidebar Footer */}
-                    <div className={`border-t border-[#4b545c] p-3 text-center text-[10px] text-slate-400 ${!isSidebarOpen && 'lg:hidden'}`}>
+                    <div className={`border-t border-[#4b545c] p-3 pb-16 lg:pb-3 text-center text-[10px] text-slate-400 ${!isSidebarOpen && 'lg:hidden'}`}>
                         <span>Skyline Heights v3.1</span>
                     </div>
                 </aside>
@@ -556,7 +556,7 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
             </div>
 
             {/* Mobile Bottom Navigation Bar (App-like Navigation Dock) */}
-            <nav className="fixed right-0 bottom-0 left-0 z-30 flex h-14 items-center justify-around border-t border-slate-200 bg-white/95 px-2 py-1 shadow-lg backdrop-blur-md lg:hidden dark:border-slate-800 dark:bg-slate-900/95 print:hidden">
+            <nav className="fixed right-0 bottom-0 left-0 z-50 flex h-14 items-center justify-around border-t border-slate-200 bg-white/95 px-2 py-1 shadow-lg backdrop-blur-md lg:hidden dark:border-slate-800 dark:bg-slate-900/95 print:hidden">
                 <Link
                     href="/dashboard"
                     className={`flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold transition-colors ${
@@ -606,8 +606,14 @@ export default function AdminLayout({ children, title, breadcrumbs = [] }: Admin
                 </Link>
 
                 <button
-                    onClick={() => setIsMobileMenuOpen(true)}
-                    className="flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+                    onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                    className={`flex flex-col items-center justify-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold transition-colors ${
+                        isMobileMenuOpen
+                            ? 'text-blue-600 dark:text-blue-400'
+                            : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                    }`}
+                    title="Toggle Menu"
+                    aria-label="Toggle navigation menu"
                 >
                     <Menu size={18} />
                     <span>Menu</span>
